@@ -7,7 +7,6 @@
 */
 .Select {
   position: relative;
-  background-color: red;
 }
 .Select input::-webkit-contacts-auto-fill-button,
 .Select input::-webkit-credentials-auto-fill-button {

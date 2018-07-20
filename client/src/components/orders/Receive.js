@@ -86,20 +86,25 @@ class Receive extends Component {
     return (
       <Tux>
         <Modal show={this.props.orderReceive.committing} />
-        <ClotheOptionsDropdown
-          updateValue={this.updateValue}
-          type={this.state.clothetype}
-        />
-        <ClotheOptionsDropdown
-          updateValue={this.updateValue}
-          type={this.state.clothequality}
-        />
+
         <div className="container">
           <div className="row">
             <h1 style={{ textAlign: "center" }}>Add new order</h1>
             <div style={{ width: "30%", margin: "35px auto" }}>
               <form noValidate onSubmit={this.onSubmit}>
                 <div className="form-group">
+                  <ClotheOptionsDropdown
+                    updateValue={this.updateValue}
+                    type={this.state.clothetype}
+                  />
+                </div>
+                <div className="form-group">
+                  <ClotheOptionsDropdown
+                    updateValue={this.updateValue}
+                    type={this.state.clothequality}
+                  />
+                </div>
+                {/* <div className="form-group">
                   <input
                     className={classnames("form-control", {
                       "is-invalid": errors.clothname
@@ -130,7 +135,7 @@ class Receive extends Component {
                       {errors.description}{" "}
                     </div>
                   )}
-                </div>
+                </div> */}
                 <div className="form-group">
                   <input
                     className={classnames("form-control", {
