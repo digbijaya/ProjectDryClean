@@ -51,7 +51,6 @@ export default class ClotheOptionsDropdown extends Component {
     var options = CLOTHECATEGORIES[this.props.type.toLowerCase()];
     return (
       <div className="section">
-        <h3 className="section-heading">{this.props.type}</h3>
         <Select
           placeholder={this.props.type + "..."}
           id="clothetype-select"
