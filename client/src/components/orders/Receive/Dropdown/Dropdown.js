@@ -8,13 +8,12 @@ export default class ClotheOptionsDropdown extends Component {
   constructor() {
     super();
     this.state = {
-      clotheType: "clothetype",
       // selectValue: "Saree",
       clearable: true,
-      searchable: true,
-      disabled: false
+      searchable: true
     };
     this.setNewValue = this.setNewValue.bind(this);
+    this.clearValue = this.clearValue.bind(this);
   }
 
   // getDefaultProps() {
@@ -45,7 +44,13 @@ export default class ClotheOptionsDropdown extends Component {
   // }
 
   setNewValue(event) {
-    this.setState({ selectValue: event.value });
+    if (event) {
+      this.setState({ selectValue: event.value });
+      this.props.updateValue(event);
+    } else {
+      this.setState({ selectValue: "" });
+      this.props.cleared();
+    }
   }
   render() {
     var options = CLOTHECATEGORIES[this.props.type.toLowerCase()];
@@ -56,11 +61,11 @@ export default class ClotheOptionsDropdown extends Component {
           id="clothetype-select"
           options={options}
           clearable={this.state.clearable}
+          disabled={this.props.disabled}
           name="selectValue"
           value={this.state.selectValue}
           onChange={event => {
             this.setNewValue(event);
-            this.props.updateValue(event);
           }}
           searchable={this.state.searchable}
         />
@@ -70,6 +75,5 @@ export default class ClotheOptionsDropdown extends Component {
 }
 
 ClotheOptionsDropdown.propTypes = {
-  label: PropTypes.string,
   searchable: PropTypes.bool
 };

@@ -2,13 +2,12 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import classnames from "classnames";
 import { connect } from "react-redux";
+import classnames from "classnames";
 import { receiveorder, commitToDb } from "../../actions/receiveActions";
 import Tux from "../hoc/Tux";
 import Modal from "../ui/Modal/Modal";
-import Clothlist from "./Receive/ClotheList";
-import ClotheOptionsDropdown from "./Receive/Dropdown/Dropdown";
+import Orderrow from "./Receive/OrderRow/OrderRowNew";
 
 class Receive extends Component {
   constructor() {
@@ -18,15 +17,15 @@ class Receive extends Component {
       user: { username: "", mobilenumber: "" },
       cloth: { clothetype: "", clothequality: "" },
       order: [],
-      errors: {},
-      clothetype: "Clothetype",
-      clothequality: "Clothequality"
+      errors: {}
+      // orderrows: [{ id: 1 }]
     };
     this.onChange = this.onChange.bind(this);
     this.onUserChange = this.onUserChange.bind(this);
-    this.onClothChange = this.onClothChange.bind(this);
+    // this.addOrderRow = this.addOrderRow.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.addClothToOrder = this.addClothToOrder.bind(this);
+    this.removeClothFromOrder = this.removeClothFromOrder.bind(this);
     this.updateValue = this.updateValue.bind(this);
   }
 
@@ -46,16 +45,22 @@ class Receive extends Component {
     this.setState({ user });
   }
 
-  onClothChange(event) {
-    let cloth = this.state.cloth;
-    cloth[event.target.name] = event.target.value;
-    this.setState({ cloth });
-  }
   updateValue(event) {
     let cloth = this.state.cloth;
     cloth[event.category] = event.value;
     this.setState({ cloth });
   }
+
+  /* addOrderRow() {
+    console.log("CALLED");
+    let prevId = this.state.orderrows.length;
+    console.log("previd", prevId);
+    const orderrows = this.state.orderrows.slice(0);
+    orderrows.push({
+      id: prevId + 1
+    });
+    this.setState({ orderrows });
+  } */
 
   addClothToOrder(event) {
     event.preventDefault();
@@ -68,6 +73,8 @@ class Receive extends Component {
     this.setState({ order });
     console.log("ORDER", JSON.stringify(order));
   }
+
+  removeClothFromOrder(event) {}
 
   onSubmit(event) {
     event.preventDefault();
@@ -88,106 +95,51 @@ class Receive extends Component {
         <Modal show={this.props.orderReceive.committing} />
 
         <div className="container">
+          <input
+            className={classnames("form-control", {
+              "is-invalid": errors.mobilenumber
+            })}
+            type="text"
+            name="mobilenumber"
+            value={this.state.user["mobilenumber"]}
+            onChange={this.onUserChange}
+            placeholder="Customer mbole no."
+          />
+          {errors.mobilenumber && (
+            <div className="invalid-feedback">{errors.mobilenumber} </div>
+          )}
+          <input
+            className={classnames("form-control", {
+              "is-invalid": errors.username
+            })}
+            type="text"
+            name="username"
+            value={this.state.user["username"]}
+            onChange={this.onUserChange}
+            placeholder="Customer Name"
+          />
+          {errors.username && (
+            <div className="invalid-feedback">{errors.username} </div>
+          )}
           <div className="row">
             <h1 style={{ textAlign: "center" }}>Add new order</h1>
             <div style={{ width: "30%", margin: "35px auto" }}>
-              <form noValidate onSubmit={this.onSubmit}>
-                <div className="form-group">
-                  <ClotheOptionsDropdown
-                    updateValue={this.updateValue}
-                    type={this.state.clothetype}
-                  />
-                </div>
-                <div className="form-group">
-                  <ClotheOptionsDropdown
-                    updateValue={this.updateValue}
-                    type={this.state.clothequality}
-                  />
-                </div>
-                {/* <div className="form-group">
-                  <input
-                    className={classnames("form-control", {
-                      "is-invalid": errors.clothname
-                    })}
-                    type="text"
-                    name="clothname"
-                    value={this.state.cloth["clothname"]}
-                    onChange={this.onClothChange}
-                    placeholder="CLoth Type"
-                  />
-                  {errors.clothname && (
-                    <div className="invalid-feedback">{errors.clothname} </div>
-                  )}
-                </div>
-                <div className="form-group">
-                  <input
-                    className={classnames("form-control", {
-                      "is-invalid": errors.description
-                    })}
-                    type="text"
-                    name="description"
-                    value={this.state.cloth["description"]}
-                    onChange={this.onClothChange}
-                    placeholder="description"
-                  />
-                  {errors.description && (
-                    <div className="invalid-feedback">
-                      {errors.description}{" "}
-                    </div>
-                  )}
-                </div> */}
-                <div className="form-group">
-                  <input
-                    className={classnames("form-control", {
-                      "is-invalid": errors.username
-                    })}
-                    type="text"
-                    name="username"
-                    value={this.state.user["username"]}
-                    onChange={this.onUserChange}
-                    placeholder="Customer Name"
-                  />
-                  {errors.username && (
-                    <div className="invalid-feedback">{errors.username} </div>
-                  )}
-                </div>
-                <div className="form-group">
-                  <input
-                    className={classnames("form-control", {
-                      "is-invalid": errors.mobilenumber
-                    })}
-                    type="text"
-                    name="mobilenumber"
-                    value={this.state.user["mobilenumber"]}
-                    onChange={this.onUserChange}
-                    placeholder="Customer mbole no."
-                  />
-                  {errors.mobilenumber && (
-                    <div className="invalid-feedback">
-                      {errors.mobilenumber}{" "}
-                    </div>
-                  )}
-                </div>
-                <div className="form-group">
-                  <button className="btn btn-primary btn-lg btn-default btn-lock">
-                    Submit
-                  </button>
-                </div>
-              </form>
-              <button
-                className="btn btn-primary btn-lg btn-default btn-lock"
-                onClick={this.addClothToOrder}
-              >
-                Add
-              </button>
+              {/* {this.state.orderrows.map(item => ( */}
+              <Orderrow
+                updateValue={this.updateValue}
+                addItem={event => {
+                  // this.addOrderRow();
+                  this.addClothToOrder(event);
+                }}
+                removeItem={event => {
+                  this.removeClothFromOrder(event);
+                }}
+              />
+              {/* ))} */}
               <Link to="/initial">Back</Link>
             </div>
           </div>
         </div>
-        <Clothlist
-          clothes={this.state.order}
-          orderid={this.props.orderReceive.order}
-        />
       </Tux>
     );
   }
