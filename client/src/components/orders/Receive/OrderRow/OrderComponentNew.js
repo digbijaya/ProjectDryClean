@@ -49,7 +49,7 @@ class OrderComponentNew extends Component {
   render() {
     return (
       <Tux>
-        <div>Item no.- {this.props.orderkey}</div>
+        <div>Item no.- {this.props.orderkey + 1}</div>
         <span>
           <ClotheOptionsDropdown
             updateValue={event => {

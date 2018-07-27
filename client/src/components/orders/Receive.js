@@ -66,22 +66,26 @@ class Receive extends Component {
     console.log("ORDERROWS", orderRows);
     const order = this.state.order.slice(0);
 
-    order.push({
-      clothname: this.state.cloth["clothetype"],
-      description: this.state.cloth["clothequality"]
+    orderRows.forEach(orders => {
+      order.push({
+        clothname: orders.clothetype,
+        description: orders.clothequality
+      });
     });
-    this.setState({ order });
     console.log("ORDER", JSON.stringify(order));
+    this.setState({ order }, () => {
+      this.onSubmit();
+    });
   }
 
   removeClothFromOrder(event) {}
 
-  onSubmit(event) {
-    event.preventDefault();
+  onSubmit() {
     const newEntry = {
       user: this.state.user,
       order: this.state.order
     };
+    console.log("NEW ENTRY", newEntry);
     this.props.commitToDb();
     console.log("COMMITTING SATTE", this.props.orderReceive.committing);
     this.props.receiveorder(newEntry, this.props.history);

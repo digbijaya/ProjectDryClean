@@ -1,40 +1,40 @@
 exports.clothetype = [
   {
-    value: "A",
-    label: "A",
+    value: "Saree",
+    label: "Saree",
     category: "clothetype",
     className: "clothetype-Saree"
   },
   {
-    value: "B",
-    label: "B",
+    value: "Pant",
+    label: "Pant",
     category: "clothetype",
     className: "clothetype-Pant"
   },
   {
-    value: "C",
-    label: "C",
+    value: "Shirt",
+    label: "Shirt",
     category: "clothetype",
-    className: "clothetype-Pant"
+    className: "clothetype-Shirt"
   }
 ];
 exports.clothequality = [
   {
-    value: "a",
-    label: "a",
+    value: "Nylon",
+    label: "Nylon",
     category: "clothequality",
     className: "clothequality-Nylon"
   },
   {
-    value: "b",
-    label: "b",
+    value: "Cotton",
+    label: "Cotton",
     category: "clothequality",
     className: "clothequality-Cotton"
   },
   {
-    value: "c",
-    label: "c",
+    value: "Woolen",
+    label: "Woolen",
     category: "clothequality",
-    className: "clothequality-Cotton"
+    className: "clothequality-Woolen"
   }
 ];

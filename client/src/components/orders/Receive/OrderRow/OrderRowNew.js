@@ -78,7 +78,7 @@ class OrderRowNew extends Component {
         >
           Add New
         </button>
-        <button onClick={this.props.addItem(this.state.orderrows)}>
+        <button onClick={() => this.props.addItem(this.state.orderrows)}>
           Submit
         </button>
       </Tux>
