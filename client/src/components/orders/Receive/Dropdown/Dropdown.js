@@ -16,6 +16,15 @@ export default class ClotheOptionsDropdown extends Component {
     this.clearValue = this.clearValue.bind(this);
   }
 
+  /* componentDidMount() {
+    console.log("PROPS", this.props.value);
+    this.setState({ selectValue: this.props.value });
+  } */
+
+  // updateAfterRemove(clotheparam) {
+  //   this.setState({ selectValue: clotheparam });
+  //   console.log("CLOTHEPARAM", clotheparam);
+  // }
   // getDefaultProps() {
   //   return {
   //     label: "ClotheType:",
@@ -54,6 +63,9 @@ export default class ClotheOptionsDropdown extends Component {
   }
   render() {
     var options = CLOTHECATEGORIES[this.props.type.toLowerCase()];
+    // if (this.props.value) {
+    //   this.setState({ selectValue: this.props.value });
+    // }
     return (
       <div className="section">
         <Select

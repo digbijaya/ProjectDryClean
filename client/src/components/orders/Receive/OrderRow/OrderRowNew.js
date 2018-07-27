@@ -33,8 +33,10 @@ class OrderRowNew extends Component {
     let orderAtIndex = orderrows[index];
     if (orderAtIndex.hasOwnProperty(event.category)) {
       orderAtIndex[clothParam] = event.value;
+      orderAtIndex["orderId"] = index * 17;
     } else {
       orderAtIndex[clothParam] = event.value;
+      orderAtIndex["orderId"] = index * 17;
     }
     this.setState({ orderrows });
   }
@@ -54,7 +56,7 @@ class OrderRowNew extends Component {
       console.log("ORDER", neworderrows[order]);
     });
     this.setState({ orderrows: neworderrows });
-    this.child.current.updateAfterRemove();
+    // this.child.current.updateAfterRemove();
   }
 
   allFieldsPopulated(allFilled) {

@@ -17,6 +17,20 @@ class OrderComponentNew extends Component {
     this.isQualityFilled = this.isQualityFilled.bind(this);
   }
 
+  // componentDidMount() {
+  //   console.log("PROPS", this.props.type);
+  //   this.childtype.current.updateAfterRemove(this.props.type);
+  //   // this.setState({ selectValue: this.props.value });
+  // }
+
+  // updateAfterRemove() {
+  //   console.log("IN ORDERCOMPONENTNEW");
+  //   console.log("TYPE", this.props.type);
+  //   console.log("QUALITY", this.props.quality);
+  //   this.childtype.current.updateAfterRemove(this.props.type);
+  //   // this.childquality.current.updateAfterRemove(this.props.quality);
+  // }
+
   typeCleared() {
     this.setState({ clothetypeSelected: false }, () => {
       this.props.allFieldsPopulated(
@@ -64,6 +78,7 @@ class OrderComponentNew extends Component {
             type={this.props.clothetype}
             cleared={this.typeCleared}
             ref={this.childtype}
+            value={this.props.type}
           />
         </span>
         <span>
@@ -76,6 +91,7 @@ class OrderComponentNew extends Component {
             type={this.props.clothequality}
             cleared={this.qualityCleared}
             ref={this.childquality}
+            value={this.props.quality}
           />
         </span>
 

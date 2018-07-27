@@ -6,7 +6,9 @@ export default class Orderlist extends Component {
     super();
     this.child = React.createRef();
   }
+
   updateAfterRemove() {
+    console.log("IN ORDERLIST");
     this.child.current.updateAfterRemove();
   }
   render() {
@@ -39,7 +41,7 @@ export default class Orderlist extends Component {
               allFieldsPopulated={allFieldsPopulated}
               updateValue={this.props.updateValue}
               addToOrderArray={this.props.addToOrderArray}
-              key={orderKey}
+              key={orders[orderKey].orderId}
               orderkey={orderKey}
               type={orders[orderKey].clothetype}
               quality={orders[orderKey].clothequality}
