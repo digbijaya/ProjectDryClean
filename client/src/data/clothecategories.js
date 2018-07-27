@@ -10,6 +10,12 @@ exports.clothetype = [
     label: "Pant",
     category: "clothetype",
     className: "clothetype-Pant"
+  },
+  {
+    value: "Shirt",
+    label: "Shirt",
+    category: "clothetype",
+    className: "clothetype-Shirt"
   }
 ];
 exports.clothequality = [
@@ -24,5 +30,11 @@ exports.clothequality = [
     label: "Cotton",
     category: "clothequality",
     className: "clothequality-Cotton"
+  },
+  {
+    value: "Woolen",
+    label: "Woolen",
+    category: "clothequality",
+    className: "clothequality-Woolen"
   }
 ];

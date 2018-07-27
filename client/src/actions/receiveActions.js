@@ -10,7 +10,7 @@ export const receiveorder = (orderData, history) => dispatch => {
         type: POST_ORDERS,
         payload: res.data
       });
-      sleep(50000);
+      sleep(5000);
       dispatch(commitToDbComplete());
     })
     .catch(err =>
