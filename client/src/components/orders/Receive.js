@@ -62,8 +62,8 @@ class Receive extends Component {
     this.setState({ orderrows });
   } */
 
-  addClothToOrder(event) {
-    event.preventDefault();
+  addClothToOrder(orderRows) {
+    console.log("ORDERROWS", orderRows);
     const order = this.state.order.slice(0);
 
     order.push({
@@ -124,18 +124,13 @@ class Receive extends Component {
           <div className="row">
             <h1 style={{ textAlign: "center" }}>Add new order</h1>
             <div style={{ width: "30%", margin: "35px auto" }}>
-              {/* {this.state.orderrows.map(item => ( */}
               <Orderrow
                 updateValue={this.updateValue}
-                addItem={event => {
-                  // this.addOrderRow();
-                  this.addClothToOrder(event);
-                }}
+                addItem={this.addClothToOrder}
                 removeItem={event => {
                   this.removeClothFromOrder(event);
                 }}
               />
-              {/* ))} */}
               <Link to="/initial">Back</Link>
             </div>
           </div>

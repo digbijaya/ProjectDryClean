@@ -2,15 +2,6 @@ import React, { Component } from "react";
 import OrderComponentNew from "./OrderComponentNew";
 
 export default class Orderlist extends Component {
-  constructor() {
-    super();
-    this.child = React.createRef();
-  }
-
-  updateAfterRemove() {
-    console.log("IN ORDERLIST");
-    this.child.current.updateAfterRemove();
-  }
   render() {
     var orders = this.props.orders;
     var remove = this.props.remove;
@@ -18,21 +9,7 @@ export default class Orderlist extends Component {
 
     return (
       <div>
-        {/* orders.map(order => {
-          return (
-            <OrderComponentNew
-              clothetype={"Clothetype"}
-              clothequality={"Clothequality"}
-              remove={remove}
-              allFieldsPopulated={allFieldsPopulated}
-              updateValue={this.props.updateValue}
-              key={order.index}
-              orderkey={orderComp}
-            />
-          );
-        }) */}
         {Object.keys(orders).map(orderKey => {
-          console.log(orders[orderKey].clothetype);
           return (
             <OrderComponentNew
               clothetype={"Clothetype"}
@@ -45,7 +22,6 @@ export default class Orderlist extends Component {
               orderkey={orderKey}
               type={orders[orderKey].clothetype}
               quality={orders[orderKey].clothequality}
-              ref={this.child}
             />
           );
         })}

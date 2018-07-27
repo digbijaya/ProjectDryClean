@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
 import Tux from "../../../hoc/Tux";
 import OrderComponent from "./OrderComponent";
 import Orderlist from "./Orderlist";
@@ -22,7 +21,7 @@ class OrderRowNew extends Component {
 
   addOrderRow() {
     const neworderrows = this.state.orderrows.slice(0);
-    var order = {};
+    var order = { orderId: new Date().getTime() };
     neworderrows.push(order);
     this.setState({ orderrows: neworderrows, allInputFilled: false });
   }
@@ -31,33 +30,33 @@ class OrderRowNew extends Component {
     let orderrows = this.state.orderrows.slice(0);
     let clothParam = event.category;
     let orderAtIndex = orderrows[index];
+    let orderIndex = orderAtIndex["orderId"];
     if (orderAtIndex.hasOwnProperty(event.category)) {
       orderAtIndex[clothParam] = event.value;
-      orderAtIndex["orderId"] = index * 17;
+      orderAtIndex["orderId"] = orderIndex;
     } else {
       orderAtIndex[clothParam] = event.value;
-      orderAtIndex["orderId"] = index * 17;
+      orderAtIndex["orderId"] = orderIndex;
     }
     this.setState({ orderrows });
   }
 
   removeOrderRow(index) {
-    console.log("INCOMING", index);
-
     let neworderrows = this.state.orderrows.slice(0);
     neworderrows.forEach((val, ind) => {
-      console.log("BROWSED", val);
       if (ind == index) {
-        console.log("FOUND");
         neworderrows.splice(index, 1);
       }
     });
-    Object.keys(neworderrows).map(order => {
-      console.log("ORDER", neworderrows[order]);
-    });
     this.setState({ orderrows: neworderrows });
-    // this.child.current.updateAfterRemove();
   }
+
+  submitToHigher = () => {
+    const orders = this.state.orderrows;
+    Object.keys(orders).map(orderKey => {
+      console.log(orders[orderKey]);
+    });
+  };
 
   allFieldsPopulated(allFilled) {
     this.setState({ allInputFilled: allFilled });
@@ -66,14 +65,12 @@ class OrderRowNew extends Component {
   render() {
     return (
       <Tux>
-        {/* {this.state.orderrows.map(item => <div>{item.component}</div>)} */}
         <Orderlist
           orders={this.state.orderrows}
           remove={this.removeOrderRow}
           allFieldsPopulated={this.allFieldsPopulated}
           updateValue={this.props.updateValue}
           addToOrderArray={this.addToOrderArray}
-          ref={this.child}
         />
         <button
           disabled={!this.state.allInputFilled}
@@ -81,9 +78,12 @@ class OrderRowNew extends Component {
         >
           Add New
         </button>
+        <button onClick={this.props.addItem(this.state.orderrows)}>
+          Submit
+        </button>
       </Tux>
     );
   }
 }
 
-export default withRouter(OrderRowNew);
+export default OrderRowNew;
