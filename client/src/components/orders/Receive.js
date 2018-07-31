@@ -17,6 +17,7 @@ class Receive extends Component {
       user: { username: "", mobilenumber: "" },
       cloth: { clothetype: "", clothequality: "" },
       order: [],
+      orderstatus: "open",
       errors: {}
       // orderrows: [{ id: 1 }]
     };
@@ -83,7 +84,8 @@ class Receive extends Component {
   onSubmit() {
     const newEntry = {
       user: this.state.user,
-      order: this.state.order
+      order: this.state.order,
+      orderstatus: this.state.orderstatus
     };
     console.log("NEW ENTRY", newEntry);
     this.props.commitToDb();

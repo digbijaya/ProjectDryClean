@@ -22,6 +22,7 @@ router.post("/orderreceive", (req, res) => {
   // var newClothDescription = req.body.description;
   var order = req.body.order;
   var user = req.body.user;
+  var orderstatus = req.body.orderstatus;
 
   User.findOne({ mobilenumber: req.body.user.mobilenumber }, function(
     err,
@@ -48,7 +49,9 @@ router.post("/orderreceive", (req, res) => {
                     else {
                       Orderid.update(
                         { _id: newOrderid._id },
-                        { $push: { clothes: newCloth } },
+                        {
+                          $push: { clothes: newCloth, orderstatus: orderstatus }
+                        },
                         function(err, succ) {
                           if (err) console.log(err);
                           else console.log(succ);
@@ -82,7 +85,7 @@ router.post("/orderreceive", (req, res) => {
                 else {
                   Orderid.update(
                     { _id: newOrderid._id },
-                    { $push: { clothes: newCloth } },
+                    { $push: { clothes: newCloth, orderstatus: orderstatus } },
                     function(err, succ) {
                       if (err) console.log(err);
                       else console.log(succ);
