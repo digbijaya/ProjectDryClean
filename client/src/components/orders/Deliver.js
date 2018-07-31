@@ -72,35 +72,6 @@ class Deliver extends Component {
     </div>
   );
 
-  /*  renderList = orders => {
-    if (orders.orders) {
-      return orders.orders.clothes.map(cloth => {
-        return (
-          <div className="container">
-            <hr />
-            <div style={{ width: "30%", margin: "35px auto" }}>
-              <div>
-                <table className="table table-hover">
-                  <thead>
-                    <tr>
-                      <th>Cloth Type</th>
-                      <th>Cloth Descripton</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>{cloth.name}</td>
-                      <td>{cloth.description} </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        );
-      });
-    }
-  }; */
   render() {
     const { errors } = this.state;
     return (

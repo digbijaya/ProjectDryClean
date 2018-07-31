@@ -7,7 +7,7 @@ import classnames from "classnames";
 import { receiveorder, commitToDb } from "../../actions/receiveActions";
 import Tux from "../hoc/Tux";
 import Modal from "../ui/Modal/Modal";
-import Orderrow from "./Receive/OrderRow/OrderRowNew";
+import Orderrow from "./Receive/OrderRow/OrderRow";
 
 class Receive extends Component {
   constructor() {

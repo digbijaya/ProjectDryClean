@@ -1,83 +1,61 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
 import Tux from "../../../hoc/Tux";
-import OrderComponent from "./OrderComponent";
+import Orderlist from "./Orderlist";
 
 class OrderRow extends Component {
-  constructor(props) {
+  constructor() {
     super();
     this.addOrderRow = this.addOrderRow.bind(this);
     this.removeOrderRow = this.removeOrderRow.bind(this);
+    this.allFieldsPopulated = this.allFieldsPopulated.bind(this);
+    this.addToOrderArray = this.addToOrderArray.bind(this);
+    this.child = React.createRef();
     this.state = {
       clothetype: "Clothetype",
       clothequality: "Clothequality",
-      allInputFilled: false,
-      orderrows: [
-        {
-          id: 1,
-          component: (
-            <OrderComponent
-              updateValue={props.updateValue}
-              clothetype={"Clothetype"}
-              clothequality={"Clothequality"}
-              itemid={1}
-              addItem={props.addItem}
-              removeItem={props.removeItem}
-              removeOrderRow={this.removeOrderRow}
-              allFieldsPopulated={state => {
-                this.allFieldsPopulated(state);
-              }}
-            />
-          )
-        }
-      ]
+      allInputFilled: true,
+      orderrows: []
     };
   }
 
   addOrderRow() {
-    let prevId = this.state.orderrows.length;
-    const orderrows = this.state.orderrows.slice(0);
-    orderrows.push({
-      id: prevId + 1,
-      component: (
-        <OrderComponent
-          updateValue={this.props.updateValue}
-          clothetype={"Clothetype"}
-          clothequality={"Clothequality"}
-          itemid={prevId + 1}
-          addItem={this.props.addItem}
-          removeItem={this.props.removeItem}
-          removeOrderRow={this.removeOrderRow}
-          allFieldsPopulated={state => {
-            this.allFieldsPopulated(state);
-          }}
-        />
-      )
-    });
-    this.setState({ orderrows, allInputFilled: false });
+    const neworderrows = this.state.orderrows.slice(0);
+    var order = { orderId: new Date().getTime() };
+    neworderrows.push(order);
+    this.setState({ orderrows: neworderrows, allInputFilled: false });
   }
 
-  removeOrderRow(itemid) {
+  addToOrderArray(event, index) {
     let orderrows = this.state.orderrows.slice(0);
-    orderrows.map(order => {
-      console.log(order.component);
-      console.log(order.id);
-    });
-    orderrows.map(order => {
-      console.log(order.component);
-      console.log(order.id);
-      if (order.id === itemid) {
-        console.log("FOUND");
-        orderrows.splice(itemid + 1, 1);
-      }
-    });
-    console.log("LAST ITER");
-    orderrows.map(order => {
-      console.log(order.component);
-      console.log(order.id);
-    });
+    let clothParam = event.category;
+    let orderAtIndex = orderrows[index];
+    let orderIndex = orderAtIndex["orderId"];
+    if (orderAtIndex.hasOwnProperty(event.category)) {
+      orderAtIndex[clothParam] = event.value;
+      orderAtIndex["orderId"] = orderIndex;
+    } else {
+      orderAtIndex[clothParam] = event.value;
+      orderAtIndex["orderId"] = orderIndex;
+    }
     this.setState({ orderrows });
   }
+
+  removeOrderRow(index) {
+    let neworderrows = this.state.orderrows.slice(0);
+    neworderrows.forEach((val, ind) => {
+      if (ind == index) {
+        neworderrows.splice(index, 1);
+      }
+    });
+    this.setState({ orderrows: neworderrows });
+  }
+
+  submitToHigher = () => {
+    const orders = this.state.orderrows;
+    Object.keys(orders).map(orderKey => {
+      console.log(orders[orderKey]);
+    });
+  };
 
   allFieldsPopulated(allFilled) {
     this.setState({ allInputFilled: allFilled });
@@ -86,16 +64,25 @@ class OrderRow extends Component {
   render() {
     return (
       <Tux>
-        {this.state.orderrows.map(item => <div>{item.component}</div>)}
+        <Orderlist
+          orders={this.state.orderrows}
+          remove={this.removeOrderRow}
+          allFieldsPopulated={this.allFieldsPopulated}
+          updateValue={this.props.updateValue}
+          addToOrderArray={this.addToOrderArray}
+        />
         <button
           disabled={!this.state.allInputFilled}
           onClick={this.addOrderRow}
         >
           Add New
         </button>
+        <button onClick={() => this.props.addItem(this.state.orderrows)}>
+          Submit
+        </button>
       </Tux>
     );
   }
 }
 
-export default withRouter(OrderRow);
+export default OrderRow;

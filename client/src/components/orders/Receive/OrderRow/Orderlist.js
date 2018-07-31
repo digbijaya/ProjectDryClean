@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import OrderComponentNew from "./OrderComponentNew";
+import OrderComponent from "./OrderComponent";
 
 export default class Orderlist extends Component {
   render() {
@@ -11,7 +11,7 @@ export default class Orderlist extends Component {
       <div>
         {Object.keys(orders).map(orderKey => {
           return (
-            <OrderComponentNew
+            <OrderComponent
               clothetype={"Clothetype"}
               clothequality={"Clothequality"}
               remove={remove}

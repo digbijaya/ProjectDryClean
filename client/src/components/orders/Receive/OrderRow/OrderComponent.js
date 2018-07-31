@@ -49,11 +49,12 @@ class OrderComponent extends Component {
   render() {
     return (
       <Tux>
-        <div>Item no.- {this.props.itemid}</div>
+        <div>Item no.- {this.props.orderkey + 1}</div>
         <span>
           <ClotheOptionsDropdown
             updateValue={event => {
               this.props.updateValue(event);
+              this.props.addToOrderArray(event, this.props.orderkey);
               this.isTypeFilled();
             }}
             type={this.props.clothetype}
@@ -64,6 +65,7 @@ class OrderComponent extends Component {
           <ClotheOptionsDropdown
             updateValue={event => {
               this.props.updateValue(event);
+              this.props.addToOrderArray(event, this.props.orderkey);
               this.isQualityFilled();
             }}
             type={this.props.clothequality}
@@ -73,8 +75,8 @@ class OrderComponent extends Component {
 
         <button
           onClick={event => {
-            this.props.removeItem(event);
-            this.props.removeOrderRow(this.props.itemid);
+            // this.props.removeItem(event);
+            this.props.remove(this.props.orderkey);
           }}
         >
           Delete
