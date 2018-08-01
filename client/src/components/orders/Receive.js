@@ -100,7 +100,11 @@ class Receive extends Component {
     return (
       <Tux>
         {/* <Modal show={this.props.orderReceive.committing} /> */}
-        <Confirmation show={this.state.orderConfirmation} />
+        <Confirmation
+          show={this.state.orderConfirmation}
+          orders={this.state.order}
+          user={this.state.user}
+        />
         <div className="container">
           <input
             className={classnames("form-control", {
