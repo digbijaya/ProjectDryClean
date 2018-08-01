@@ -34,7 +34,6 @@ router.post("/orderreceive", (req, res) => {
         if (err) res.status(404).json(err);
         else {
           Orderid.create({}, function(err, newOrderid) {
-            let allclothes = [];
             if (err) res.status(404).json(err);
             else {
               order.map(cloth => {
@@ -50,7 +49,7 @@ router.post("/orderreceive", (req, res) => {
                       Orderid.update(
                         { _id: newOrderid._id },
                         {
-                          $push: { clothes: newCloth, orderstatus: orderstatus }
+                          $push: { clothes: newCloth }
                         },
                         function(err, succ) {
                           if (err) console.log(err);
@@ -61,6 +60,14 @@ router.post("/orderreceive", (req, res) => {
                   }
                 );
               });
+              Orderid.update(
+                { _id: newOrderid._id },
+                { orderstatus: orderstatus },
+                function(err, succ) {
+                  if (err) console.log(err);
+                  else console.log(succ);
+                }
+              );
             }
             newUser.orderids.push(newOrderid);
             newUser.save();
@@ -85,7 +92,7 @@ router.post("/orderreceive", (req, res) => {
                 else {
                   Orderid.update(
                     { _id: newOrderid._id },
-                    { $push: { clothes: newCloth, orderstatus: orderstatus } },
+                    { $push: { clothes: newCloth } },
                     function(err, succ) {
                       if (err) console.log(err);
                       else console.log(succ);
@@ -95,6 +102,14 @@ router.post("/orderreceive", (req, res) => {
               }
             );
           });
+          Orderid.update(
+            { _id: newOrderid._id },
+            { orderstatus: orderstatus },
+            function(err, succ) {
+              if (err) console.log(err);
+              else console.log(succ);
+            }
+          );
         }
         foundUser.orderids.push(newOrderid);
         foundUser.save();

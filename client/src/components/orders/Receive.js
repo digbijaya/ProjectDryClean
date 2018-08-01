@@ -7,6 +7,7 @@ import classnames from "classnames";
 import { receiveorder, commitToDb } from "../../actions/receiveActions";
 import Tux from "../hoc/Tux";
 import Modal from "../ui/Modal/Modal";
+import Confirmation from "./Receive/ConfirmationModal/Confirmation";
 import Orderrow from "./Receive/OrderRow/OrderRow";
 
 class Receive extends Component {
@@ -17,9 +18,9 @@ class Receive extends Component {
       user: { username: "", mobilenumber: "" },
       cloth: { clothetype: "", clothequality: "" },
       order: [],
-      orderstatus: "open",
-      errors: {}
-      // orderrows: [{ id: 1 }]
+      orderstatus: "OPEN",
+      errors: {},
+      orderConfirmation: false
     };
     this.onChange = this.onChange.bind(this);
     this.onUserChange = this.onUserChange.bind(this);
@@ -74,8 +75,8 @@ class Receive extends Component {
       });
     });
     console.log("ORDER", JSON.stringify(order));
-    this.setState({ order }, () => {
-      this.onSubmit();
+    this.setState({ order, orderConfirmation: true }, () => {
+      // this.onSubmit();
     });
   }
 
@@ -88,7 +89,7 @@ class Receive extends Component {
       orderstatus: this.state.orderstatus
     };
     console.log("NEW ENTRY", newEntry);
-    this.props.commitToDb();
+    // this.props.commitToDb();
     console.log("COMMITTING SATTE", this.props.orderReceive.committing);
     this.props.receiveorder(newEntry, this.props.history);
     console.log("COMMITTING SATTE", this.props.orderReceive.committing);
@@ -98,8 +99,8 @@ class Receive extends Component {
 
     return (
       <Tux>
-        <Modal show={this.props.orderReceive.committing} />
-
+        {/* <Modal show={this.props.orderReceive.committing} /> */}
+        <Confirmation show={this.state.orderConfirmation} />
         <div className="container">
           <input
             className={classnames("form-control", {

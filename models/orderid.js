@@ -7,10 +7,7 @@ var orderidSchema = new mongoose.Schema({
       ref: "clothes"
     }
   ],
-  orderstatus: {
-    type: String,
-    required: true
-  }
+  orderstatus: String
 });
 
 module.exports = mongoose.model("orderid", orderidSchema);
