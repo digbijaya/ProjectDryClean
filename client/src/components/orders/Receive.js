@@ -104,6 +104,7 @@ class Receive extends Component {
           show={this.state.orderConfirmation}
           orders={this.state.order}
           user={this.state.user}
+          submit={this.onSubmit}
         />
         <div className="container">
           <input

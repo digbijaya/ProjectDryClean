@@ -2,6 +2,7 @@ import React from "react";
 import Tux from "../../../hoc/Tux";
 import classes from "./Confirmation.css";
 import Backdrop from "../../../ui/Backdrop/Backdrop";
+import Clothelist from "./Clothelist";
 
 const confirmation = props => {
   return (
@@ -14,7 +15,8 @@ const confirmation = props => {
           opacity: props.show ? "1" : "0"
         }}
       >
-        <h1>GOING TO DISPLAY DETAILS HERE</h1>
+        <Clothelist clothes={props.orders} user={props.user} />
+        <button onClick={props.submit}>Submit</button>
       </div>
     </Tux>
   );
