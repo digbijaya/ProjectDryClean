@@ -17,6 +17,7 @@ const confirmation = props => {
       >
         <Clothelist clothes={props.orders} user={props.user} />
         <button onClick={props.submit}>Submit</button>
+        <button onClick={props.cancelConfirmation}>Cancel</button>
       </div>
     </Tux>
   );

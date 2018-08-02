@@ -29,6 +29,7 @@ class Receive extends Component {
     this.addClothToOrder = this.addClothToOrder.bind(this);
     this.removeClothFromOrder = this.removeClothFromOrder.bind(this);
     this.updateValue = this.updateValue.bind(this);
+    this.onConfirmationCancel = this.onConfirmationCancel.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -94,6 +95,10 @@ class Receive extends Component {
     this.props.receiveorder(newEntry, this.props.history);
     console.log("COMMITTING SATTE", this.props.orderReceive.committing);
   }
+
+  onConfirmationCancel() {
+    this.setState({ orderConfirmation: false });
+  }
   render() {
     const { errors } = this.state;
 
@@ -105,6 +110,7 @@ class Receive extends Component {
           orders={this.state.order}
           user={this.state.user}
           submit={this.onSubmit}
+          cancelConfirmation={this.onConfirmationCancel}
         />
         <div className="container">
           <input
