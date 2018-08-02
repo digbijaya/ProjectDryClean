@@ -7,7 +7,8 @@ class OrderComponent extends Component {
     super();
     this.state = {
       clothetypeSelected: false,
-      clothequalitySelected: false
+      clothequalitySelected: false,
+      clothprops: { clothetypeSelected: false, clothequalitySelected: false }
     };
     this.typeCleared = this.typeCleared.bind(this);
     this.qualityCleared = this.qualityCleared.bind(this);
@@ -46,11 +47,44 @@ class OrderComponent extends Component {
     });
   }
 
+  isFilled(clothProp) {
+    let clothprop = eval(clothProp + "Selected");
+    let clothprops = this.state.clothprops;
+    clothprops[clothprop] = true;
+    this.setState({ clothprops }, () => {
+      let allFilled = false;
+      Object.keys(this.state.clothprops).map(clothpropkey => {
+        console.log(this.state.clothprops[clothpropkey]);
+        allFilled = allFilled && this.state.clothprops[clothpropkey];
+      });
+
+      this.props.allFieldsPopulated(
+        this.state.clothequalitySelected && this.state.clothetypeSelected
+      );
+    });
+  }
+
   render() {
     return (
       <Tux>
+        {Object.keys(this.props.clotheproperties).map(clothePropertyKey => {
+          let clothProp = this.props.clotheproperties[clothePropertyKey];
+          return (
+            <span>
+              <ClotheOptionsDropdown
+                updateValue={event => {
+                  this.props.updateValue(event);
+                  this.props.addToOrderArray(event, this.props.orderkey);
+                  this.isFilled(clothProp);
+                }}
+                type={clothProp}
+                cleared={this.typeCleared}
+              />
+            </span>
+          );
+        })}
         <div>Item no.- {this.props.orderkey + 1}</div>
-        <span>
+        {/* <span>
           <ClotheOptionsDropdown
             updateValue={event => {
               this.props.updateValue(event);
@@ -104,7 +138,7 @@ class OrderComponent extends Component {
             type={this.props.color}
             cleared={this.colorCleared}
           />
-        </span>
+        </span> */}
         <span>
           <input type="text" placeholder="price" name="price" />
         </span>

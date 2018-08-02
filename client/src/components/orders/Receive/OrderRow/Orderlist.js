@@ -12,6 +12,13 @@ export default class Orderlist extends Component {
         {Object.keys(orders).map(orderKey => {
           return (
             <OrderComponent
+              clotheproperties={[
+                "clothetype",
+                "clothequality",
+                "washtype",
+                "quantity",
+                "color"
+              ]}
               clothetype={"Clothetype"}
               clothequality={"Clothequality"}
               washtype={"Washtype"}
