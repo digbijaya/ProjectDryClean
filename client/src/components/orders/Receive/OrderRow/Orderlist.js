@@ -14,6 +14,9 @@ export default class Orderlist extends Component {
             <OrderComponent
               clothetype={"Clothetype"}
               clothequality={"Clothequality"}
+              washtype={"Washtype"}
+              quantity={"Quantity"}
+              color={"Color"}
               remove={remove}
               allFieldsPopulated={allFieldsPopulated}
               updateValue={this.props.updateValue}

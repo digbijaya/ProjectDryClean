@@ -90,7 +90,7 @@ class Receive extends Component {
       orderstatus: this.state.orderstatus
     };
     console.log("NEW ENTRY", newEntry);
-    // this.props.commitToDb();
+    this.props.commitToDb();
     console.log("COMMITTING SATTE", this.props.orderReceive.committing);
     this.props.receiveorder(newEntry, this.props.history);
     console.log("COMMITTING SATTE", this.props.orderReceive.committing);
@@ -104,13 +104,14 @@ class Receive extends Component {
 
     return (
       <Tux>
-        {/* <Modal show={this.props.orderReceive.committing} /> */}
+        <Modal show={this.props.orderReceive.committing} />
         <Confirmation
           show={this.state.orderConfirmation}
           orders={this.state.order}
           user={this.state.user}
           submit={this.onSubmit}
           cancelConfirmation={this.onConfirmationCancel}
+          orderid={this.props.orderReceive.order}
         />
         <div className="container">
           <input

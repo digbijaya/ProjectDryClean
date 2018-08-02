@@ -3,8 +3,10 @@ import Tux from "../../../hoc/Tux";
 
 const clothelist = props => (
   <Tux>
-    {/* <div>{props.orderid ? props.orderid._id : null}</div> */}
-    <div>{props.user.username}</div>
+    <div>
+      <span>{props.user.username}</span>
+      <span>{props.orderid ? props.orderid._id : null}</span>
+    </div>
     <div className="container">
       <hr />
       <div style={{ width: "30%", margin: "35px auto" }}>

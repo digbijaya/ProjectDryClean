@@ -72,6 +72,42 @@ class OrderComponent extends Component {
             cleared={this.qualityCleared}
           />
         </span>
+        <span>
+          <ClotheOptionsDropdown
+            updateValue={event => {
+              this.props.updateValue(event);
+              this.props.addToOrderArray(event, this.props.orderkey);
+              this.isWashtypeFilled();
+            }}
+            type={this.props.washtype}
+            cleared={this.washtypeCleared}
+          />
+        </span>
+        <span>
+          <ClotheOptionsDropdown
+            updateValue={event => {
+              this.props.updateValue(event);
+              this.props.addToOrderArray(event, this.props.orderkey);
+              this.isQuantityFilled();
+            }}
+            type={this.props.quantity}
+            cleared={this.quantityCleared}
+          />
+        </span>
+        <span>
+          <ClotheOptionsDropdown
+            updateValue={event => {
+              this.props.updateValue(event);
+              this.props.addToOrderArray(event, this.props.orderkey);
+              this.isColorFilled();
+            }}
+            type={this.props.color}
+            cleared={this.colorCleared}
+          />
+        </span>
+        <span>
+          <input type="text" placeholder="price" name="price" />
+        </span>
 
         <button
           onClick={event => {

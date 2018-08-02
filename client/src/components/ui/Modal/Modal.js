@@ -2,9 +2,9 @@ import React from "react";
 import Tux from "../../hoc/Tux";
 import Backdrop from "../Backdrop/Backdrop";
 import classes from "./Modal.css";
+import Spinner from "../../common/spinner";
 const modal = props => (
   <Tux>
-    <Backdrop show={props.show} />
     <div
       className={classes.Modal}
       style={{
@@ -12,7 +12,7 @@ const modal = props => (
         opacity: props.show ? "1" : "0"
       }}
     >
-      <div>COMMITTING</div>
+      <Spinner />
     </div>
   </Tux>
 );

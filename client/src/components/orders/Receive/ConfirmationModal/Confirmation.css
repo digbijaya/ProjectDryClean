@@ -1,6 +1,6 @@
 .Confirmation {
   position: fixed;
-  z-index: 500;
+  z-index: 110;
   background-color: white;
   width: 100%;
   border: 1px solid #ccc;

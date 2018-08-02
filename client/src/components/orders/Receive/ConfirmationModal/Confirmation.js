@@ -15,9 +15,20 @@ const confirmation = props => {
           opacity: props.show ? "1" : "0"
         }}
       >
-        <Clothelist clothes={props.orders} user={props.user} />
-        <button onClick={props.submit}>Submit</button>
-        <button onClick={props.cancelConfirmation}>Cancel</button>
+        <Clothelist
+          clothes={props.orders}
+          user={props.user}
+          orderid={props.orderid}
+        />
+
+        {props.orderid ? (
+          <button onClick={props.cancelConfirmation}>Done</button>
+        ) : (
+          <div>
+            <button onClick={props.submit}>Submit</button>
+            <button onClick={props.cancelConfirmation}>Cancel</button>
+          </div>
+        )}
       </div>
     </Tux>
   );
