@@ -13,7 +13,9 @@ class OrderComponent extends Component {
         clothequalitySelected: false,
         washtypeSelected: false,
         quantitySelected: false,
-        colorSelected: false
+        colorSelected: false,
+        quantityFilled: false,
+        priceFilled: false
       }
     };
     this.typeCleared = this.typeCleared.bind(this);
@@ -27,6 +29,20 @@ class OrderComponent extends Component {
       this.props.allFieldsPopulated(
         this.state.clothequalitySelected && this.state.clothetypeSelected
       );
+    });
+  }
+
+  isCleared(clothProp) {
+    // let clothprop = clothProp + "Selected";
+    let clothprops = this.state.clothprops;
+    clothprops[clothProp] = false;
+    this.setState({ clothprops }, () => {
+      let allCleared = false;
+      for (let entry of Object.entries(clothprops)) {
+        allCleared = allCleared && entry[1];
+      }
+      console.log("ALL CLEARED", allCleared);
+      this.props.allFieldsPopulated(allCleared);
     });
   }
   qualityCleared() {
@@ -54,12 +70,15 @@ class OrderComponent extends Component {
   }
 
   isFilled(clothProp) {
-    let clothprop = clothProp + "Selected";
+    // let clothprop = clothProp + "Selected";
     let clothprops = this.state.clothprops;
-    clothprops[clothprop] = true;
+    clothprops[clothProp] = true;
+    console.log("VALUE", clothprops[clothProp]);
     this.setState({ clothprops }, () => {
       let allFilled = true;
       for (let entry of Object.entries(clothprops)) {
+        /* console.log("PROP", entry[0]);
+        console.log("VALUE", entry[1]); */
         allFilled = allFilled && entry[1];
       }
       console.log("ALL FILLED", allFilled);
@@ -79,16 +98,43 @@ class OrderComponent extends Component {
                 updateValue={event => {
                   this.props.updateValue(event);
                   this.props.addToOrderArray(event, this.props.orderkey);
-                  this.isFilled(clothProp);
+                  this.isFilled(clothProp + "Selected");
                 }}
                 type={clothProp}
-                cleared={this.typeCleared}
+                cleared={() => {
+                  this.isCleared(clothProp + "Selected");
+                }}
               />
             </span>
           );
         })}
         <span>
-          <input type="text" placeholder="  price" name="price" />
+          <input
+            type="text"
+            placeholder="  quantity"
+            name="quantity"
+            onChange={event => {
+              if (event.target.value == "") {
+                event = null;
+              }
+              event
+                ? this.isFilled("quantityFilled")
+                : this.isCleared("quantityFilled");
+            }}
+          />
+          <input
+            type="text"
+            placeholder="  price"
+            name="price"
+            onChange={event => {
+              if (event.target.value == "") {
+                event = null;
+              }
+              event
+                ? this.isFilled("priceFilled")
+                : this.isCleared("priceFilled");
+            }}
+          />
         </span>
 
         <button
