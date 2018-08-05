@@ -18,11 +18,10 @@ const confirmation = props => {
         <Clothelist
           clothes={props.orders}
           user={props.user}
-          orderid={props.orderid}
-          status={props.status}
+          orderdetails={props.orderdetails}
         />
 
-        {props.orderid ? (
+        {props.orderdetails ? (
           <button onClick={props.cancelConfirmation}>Done</button>
         ) : (
           <div>

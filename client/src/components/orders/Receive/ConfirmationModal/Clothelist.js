@@ -5,8 +5,10 @@ const clothelist = props => (
   <Tux>
     <div>
       <span>{props.user.username}</span>
-      <span>{props.orderid ? props.orderid._id : null}</span>
-      <span>{props.status ? props.status : null}</span>
+      <span>
+        {props.orderdetails ? props.orderdetails.neworderid._id : null}
+      </span>
+      <span>{props.orderdetails ? props.orderdetails.status : null}</span>
     </div>
     <div className="container">
       <hr />

@@ -115,16 +115,7 @@ class Receive extends Component {
           user={this.state.user}
           submit={this.onSubmit}
           cancelConfirmation={this.onConfirmationCancel}
-          orderid={
-            this.props.orderReceive.order
-              ? this.props.orderReceive.order.neworderid
-              : null
-          }
-          status={
-            this.props.orderReceive.order
-              ? this.props.orderReceive.order.status
-              : null
-          }
+          orderdetails={this.props.orderReceive.order}
         />
         <div className="container">
           <input
