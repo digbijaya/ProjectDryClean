@@ -1,6 +1,5 @@
 import React from "react";
 import Tux from "../../hoc/Tux";
-import Backdrop from "../Backdrop/Backdrop";
 import classes from "./Modal.css";
 import Spinner from "../../common/spinner";
 const modal = props => (

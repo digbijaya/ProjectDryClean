@@ -54,8 +54,10 @@ class OrderComponent extends Component {
     this.setState({ clothprops }, () => {
       let allFilled = false;
       Object.keys(this.state.clothprops).map(clothpropkey => {
-        console.log(this.state.clothprops[clothpropkey]);
-        allFilled = allFilled && this.state.clothprops[clothpropkey];
+        return (
+          // console.log(this.state.clothprops[clothpropkey])
+          (allFilled = allFilled && this.state.clothprops[clothpropkey])
+        );
       });
 
       this.props.allFieldsPopulated(
