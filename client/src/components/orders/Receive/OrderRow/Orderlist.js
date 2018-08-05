@@ -16,18 +16,13 @@ export default class Orderlist extends Component {
                 "clothetype",
                 "clothequality",
                 "washtype",
-                "quantity",
                 "color"
               ]}
-              clothetype={"Clothetype"}
-              clothequality={"Clothequality"}
-              washtype={"Washtype"}
-              quantity={"Quantity"}
-              color={"Color"}
               remove={remove}
               allFieldsPopulated={allFieldsPopulated}
               updateValue={this.props.updateValue}
               addToOrderArray={this.props.addToOrderArray}
+              addToOrderArrayFromInput={this.props.addToOrderArrayFromInput}
               key={orders[orderKey].orderId}
               orderkey={orderKey}
               type={orders[orderKey].clothetype}

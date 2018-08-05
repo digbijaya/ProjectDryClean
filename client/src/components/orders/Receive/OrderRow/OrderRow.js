@@ -9,6 +9,7 @@ class OrderRow extends Component {
     this.removeOrderRow = this.removeOrderRow.bind(this);
     this.allFieldsPopulated = this.allFieldsPopulated.bind(this);
     this.addToOrderArray = this.addToOrderArray.bind(this);
+    this.addToOrderArrayFromInput = this.addToOrderArrayFromInput.bind(this);
     this.child = React.createRef();
     this.state = {
       clothetype: "Clothetype",
@@ -23,6 +24,21 @@ class OrderRow extends Component {
     var order = { orderId: new Date().getTime() };
     neworderrows.push(order);
     this.setState({ orderrows: neworderrows, allInputFilled: false });
+  }
+
+  addToOrderArrayFromInput(event, index) {
+    let orderrows = this.state.orderrows.slice(0);
+    let clothParam = event.target.name;
+    let orderAtIndex = orderrows[index];
+    let orderIndex = orderAtIndex["orderId"];
+    if (orderAtIndex.hasOwnProperty(event.target.name)) {
+      orderAtIndex[clothParam] = event.target.value;
+      orderAtIndex["orderId"] = orderIndex;
+    } else {
+      orderAtIndex[clothParam] = event.target.value;
+      orderAtIndex["orderId"] = orderIndex;
+    }
+    this.setState({ orderrows });
   }
 
   addToOrderArray(event, index) {
@@ -70,6 +86,7 @@ class OrderRow extends Component {
           allFieldsPopulated={this.allFieldsPopulated}
           updateValue={this.props.updateValue}
           addToOrderArray={this.addToOrderArray}
+          addToOrderArrayFromInput={this.addToOrderArrayFromInput}
         />
         <button
           disabled={!this.state.allInputFilled}

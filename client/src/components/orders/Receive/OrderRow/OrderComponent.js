@@ -12,7 +12,6 @@ class OrderComponent extends Component {
         clothetypeSelected: false,
         clothequalitySelected: false,
         washtypeSelected: false,
-        quantitySelected: false,
         colorSelected: false,
         quantityFilled: false,
         priceFilled: false
@@ -73,15 +72,11 @@ class OrderComponent extends Component {
     // let clothprop = clothProp + "Selected";
     let clothprops = this.state.clothprops;
     clothprops[clothProp] = true;
-    console.log("VALUE", clothprops[clothProp]);
     this.setState({ clothprops }, () => {
       let allFilled = true;
       for (let entry of Object.entries(clothprops)) {
-        /* console.log("PROP", entry[0]);
-        console.log("VALUE", entry[1]); */
         allFilled = allFilled && entry[1];
       }
-      console.log("ALL FILLED", allFilled);
       this.props.allFieldsPopulated(allFilled);
     });
   }
@@ -113,12 +108,17 @@ class OrderComponent extends Component {
             type="text"
             placeholder="  quantity"
             name="quantity"
+            category="quant"
             onChange={event => {
               if (event.target.value == "") {
                 event = null;
               }
               event
-                ? this.isFilled("quantityFilled")
+                ? (this.isFilled("quantityFilled"),
+                  this.props.addToOrderArrayFromInput(
+                    event,
+                    this.props.orderkey
+                  ))
                 : this.isCleared("quantityFilled");
             }}
           />
@@ -126,12 +126,17 @@ class OrderComponent extends Component {
             type="text"
             placeholder="  price"
             name="price"
+            category="price"
             onChange={event => {
               if (event.target.value == "") {
                 event = null;
               }
               event
-                ? this.isFilled("priceFilled")
+                ? (this.isFilled("priceFilled"),
+                  this.props.addToOrderArrayFromInput(
+                    event,
+                    this.props.orderkey
+                  ))
                 : this.isCleared("priceFilled");
             }}
           />
