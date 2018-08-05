@@ -71,8 +71,12 @@ class Receive extends Component {
 
     orderRows.forEach(orders => {
       order.push({
-        clothname: orders.clothetype,
-        description: orders.clothequality
+        clothtype: orders.clothetype,
+        quality: orders.clothequality,
+        washtype: orders.washtype,
+        color: orders.color,
+        quantity: orders.quantity,
+        price: orders.price
       });
     });
     console.log("ORDER", JSON.stringify(order));
@@ -101,7 +105,7 @@ class Receive extends Component {
   }
   render() {
     const { errors } = this.state;
-
+    console.log("ORDERRECEIVE ORDER RES", this.props.orderReceive.order);
     return (
       <Tux>
         <Modal show={this.props.orderReceive.committing} />
@@ -111,7 +115,16 @@ class Receive extends Component {
           user={this.state.user}
           submit={this.onSubmit}
           cancelConfirmation={this.onConfirmationCancel}
-          orderid={this.props.orderReceive.order}
+          orderid={
+            this.props.orderReceive.order
+              ? this.props.orderReceive.order.neworderid
+              : null
+          }
+          status={
+            this.props.orderReceive.order
+              ? this.props.orderReceive.order.status
+              : null
+          }
         />
         <div className="container">
           <input

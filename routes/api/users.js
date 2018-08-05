@@ -39,8 +39,12 @@ router.post("/orderreceive", (req, res) => {
               order.map(cloth => {
                 Cloth.create(
                   {
-                    name: cloth.clothname,
-                    description: cloth.description,
+                    type: cloth.clothtype,
+                    quality: cloth.quality,
+                    washtype: cloth.washtype,
+                    color: cloth.color,
+                    quantity: cloth.quantity,
+                    price: cloth.price,
                     orderid: newOrderid
                   },
                   function(err, newCloth) {
@@ -71,7 +75,7 @@ router.post("/orderreceive", (req, res) => {
             }
             newUser.orderids.push(newOrderid);
             newUser.save();
-            res.json(newOrderid);
+            res.json({ neworderid: newOrderid, status: orderstatus });
           });
         }
       });
@@ -83,8 +87,12 @@ router.post("/orderreceive", (req, res) => {
           order.map(cloth => {
             Cloth.create(
               {
-                name: cloth.clothname,
-                description: cloth.description,
+                type: cloth.clothtype,
+                quality: cloth.quality,
+                washtype: cloth.washtype,
+                color: cloth.color,
+                quantity: cloth.quantity,
+                price: cloth.price,
                 orderid: newOrderid
               },
               function(err, newCloth) {
@@ -113,7 +121,7 @@ router.post("/orderreceive", (req, res) => {
         }
         foundUser.orderids.push(newOrderid);
         foundUser.save();
-        res.json(newOrderid);
+        res.json({ neworderid: newOrderid, status: orderstatus });
       });
     }
   });

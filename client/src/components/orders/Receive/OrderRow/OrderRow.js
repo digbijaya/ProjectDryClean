@@ -63,7 +63,7 @@ class OrderRow extends Component {
         neworderrows.splice(index, 1);
       }
     });
-    this.setState({ orderrows: neworderrows });
+    this.setState({ orderrows: neworderrows, allInputFilled: true });
   }
 
   submitToHigher = () => {

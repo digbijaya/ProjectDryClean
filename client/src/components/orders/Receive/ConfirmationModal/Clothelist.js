@@ -6,6 +6,7 @@ const clothelist = props => (
     <div>
       <span>{props.user.username}</span>
       <span>{props.orderid ? props.orderid._id : null}</span>
+      <span>{props.status ? props.status : null}</span>
     </div>
     <div className="container">
       <hr />
@@ -15,14 +16,22 @@ const clothelist = props => (
             <thead>
               <tr>
                 <th>Cloth Type</th>
-                <th>Cloth Description</th>
+                <th>Quality</th>
+                <th>Washtype</th>
+                <th>Color</th>
+                <th>Qty</th>
+                <th>Price</th>
               </tr>
             </thead>
             <tbody>
               {props.clothes.map(cloth => (
-                <tr key={cloth.clothname}>
-                  <td>{cloth.clothname}</td>
-                  <td>{cloth.description}</td>
+                <tr key={cloth.clothtype}>
+                  <td>{cloth.clothtype}</td>
+                  <td>{cloth.quality}</td>
+                  <td>{cloth.washtype}</td>
+                  <td>{cloth.color}</td>
+                  <td>{cloth.quantity}</td>
+                  <td>{cloth.price}</td>
                 </tr>
               ))}
             </tbody>

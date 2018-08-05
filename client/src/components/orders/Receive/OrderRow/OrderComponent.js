@@ -21,6 +21,7 @@ class OrderComponent extends Component {
     this.qualityCleared = this.qualityCleared.bind(this);
     this.isTypeFilled = this.isTypeFilled.bind(this);
     this.isQualityFilled = this.isQualityFilled.bind(this);
+    this.isFilled = this.isFilled.bind(this);
   }
 
   typeCleared() {
@@ -69,7 +70,7 @@ class OrderComponent extends Component {
   }
 
   isFilled(clothProp) {
-    // let clothprop = clothProp + "Selected";
+    console.log("IS FILLED");
     let clothprops = this.state.clothprops;
     clothprops[clothProp] = true;
     this.setState({ clothprops }, () => {

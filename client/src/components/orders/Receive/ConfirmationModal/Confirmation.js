@@ -19,6 +19,7 @@ const confirmation = props => {
           clothes={props.orders}
           user={props.user}
           orderid={props.orderid}
+          status={props.status}
         />
 
         {props.orderid ? (
