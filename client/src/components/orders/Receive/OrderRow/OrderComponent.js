@@ -8,7 +8,13 @@ class OrderComponent extends Component {
     this.state = {
       clothetypeSelected: false,
       clothequalitySelected: false,
-      clothprops: { clothetypeSelected: false, clothequalitySelected: false }
+      clothprops: {
+        clothetypeSelected: false,
+        clothequalitySelected: false,
+        washtypeSelected: false,
+        quantitySelected: false,
+        colorSelected: false
+      }
     };
     this.typeCleared = this.typeCleared.bind(this);
     this.qualityCleared = this.qualityCleared.bind(this);
@@ -48,27 +54,23 @@ class OrderComponent extends Component {
   }
 
   isFilled(clothProp) {
-    let clothprop = eval(clothProp + "Selected");
+    let clothprop = clothProp + "Selected";
     let clothprops = this.state.clothprops;
     clothprops[clothprop] = true;
     this.setState({ clothprops }, () => {
-      let allFilled = false;
-      Object.keys(this.state.clothprops).map(clothpropkey => {
-        return (
-          // console.log(this.state.clothprops[clothpropkey])
-          (allFilled = allFilled && this.state.clothprops[clothpropkey])
-        );
-      });
-
-      this.props.allFieldsPopulated(
-        this.state.clothequalitySelected && this.state.clothetypeSelected
-      );
+      let allFilled = true;
+      for (let entry of Object.entries(clothprops)) {
+        allFilled = allFilled && entry[1];
+      }
+      console.log("ALL FILLED", allFilled);
+      this.props.allFieldsPopulated(allFilled);
     });
   }
 
   render() {
     return (
       <Tux>
+        <div>Item no.- {this.props.orderkey + 1}</div>
         {Object.keys(this.props.clotheproperties).map(clothePropertyKey => {
           let clothProp = this.props.clotheproperties[clothePropertyKey];
           return (
@@ -85,64 +87,8 @@ class OrderComponent extends Component {
             </span>
           );
         })}
-        <div>Item no.- {this.props.orderkey + 1}</div>
-        {/* <span>
-          <ClotheOptionsDropdown
-            updateValue={event => {
-              this.props.updateValue(event);
-              this.props.addToOrderArray(event, this.props.orderkey);
-              this.isTypeFilled();
-            }}
-            type={this.props.clothetype}
-            cleared={this.typeCleared}
-          />
-        </span>
         <span>
-          <ClotheOptionsDropdown
-            updateValue={event => {
-              this.props.updateValue(event);
-              this.props.addToOrderArray(event, this.props.orderkey);
-              this.isQualityFilled();
-            }}
-            type={this.props.clothequality}
-            cleared={this.qualityCleared}
-          />
-        </span>
-        <span>
-          <ClotheOptionsDropdown
-            updateValue={event => {
-              this.props.updateValue(event);
-              this.props.addToOrderArray(event, this.props.orderkey);
-              this.isWashtypeFilled();
-            }}
-            type={this.props.washtype}
-            cleared={this.washtypeCleared}
-          />
-        </span>
-        <span>
-          <ClotheOptionsDropdown
-            updateValue={event => {
-              this.props.updateValue(event);
-              this.props.addToOrderArray(event, this.props.orderkey);
-              this.isQuantityFilled();
-            }}
-            type={this.props.quantity}
-            cleared={this.quantityCleared}
-          />
-        </span>
-        <span>
-          <ClotheOptionsDropdown
-            updateValue={event => {
-              this.props.updateValue(event);
-              this.props.addToOrderArray(event, this.props.orderkey);
-              this.isColorFilled();
-            }}
-            type={this.props.color}
-            cleared={this.colorCleared}
-          />
-        </span> */}
-        <span>
-          <input type="text" placeholder="price" name="price" />
+          <input type="text" placeholder="  price" name="price" />
         </span>
 
         <button
