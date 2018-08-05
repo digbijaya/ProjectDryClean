@@ -109,7 +109,6 @@ class OrderComponent extends Component {
             type="text"
             placeholder="  quantity"
             name="quantity"
-            category="quant"
             onChange={event => {
               if (event.target.value == "") {
                 event = null;
@@ -127,7 +126,6 @@ class OrderComponent extends Component {
             type="text"
             placeholder="  price"
             name="price"
-            category="price"
             onChange={event => {
               if (event.target.value == "") {
                 event = null;
