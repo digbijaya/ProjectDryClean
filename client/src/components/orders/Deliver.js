@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import classnames from "classnames";
 import { connect } from "react-redux";
 import { deliverorder, clearOrders } from "../../actions/deliverActions";
+import Orderrows from "./Deliver/OrderRows/Orderrows";
 import Spinner from "../common/spinner";
 
 class Deliver extends Component {
@@ -74,6 +75,7 @@ class Deliver extends Component {
 
   render() {
     const { errors } = this.state;
+    const orderids = this.props.order ? this.props.order.orderids : null;
     return (
       <div className="container">
         <h1 style={{ textAlign: "center" }}>Deliver order</h1>
@@ -104,10 +106,11 @@ class Deliver extends Component {
           {/* <Link to="/initial" onClick={this.handleClick.bind(this)}>
             Back
           </Link> */}
+          <div>{this.props.order ? orderids[2] : null}</div>
           <div>
-            {this.props.orders.orders
-              ? this.renderList(this.props.orders)
-              : null}
+            {this.props.orderids ? (
+              <Orderrows orderids={this.props.orderids} />
+            ) : null}
           </div>
         </div>
       </div>
@@ -117,12 +120,12 @@ class Deliver extends Component {
 
 Deliver.propTypes = {
   deliverorder: PropTypes.func.isRequired,
-  orders: PropTypes.object,
+  order: PropTypes.object,
   errors: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  orders: state.orderDeliver,
+  order: state.orderDeliver.orders,
   errors: state.errors
 });
 
