@@ -33,7 +33,6 @@ class OrderComponent extends Component {
   }
 
   isCleared(clothProp) {
-    // let clothprop = clothProp + "Selected";
     let clothprops = this.state.clothprops;
     clothprops[clothProp] = false;
     this.setState({ clothprops }, () => {
