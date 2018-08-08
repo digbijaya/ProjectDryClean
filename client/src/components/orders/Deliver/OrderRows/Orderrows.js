@@ -9,6 +9,13 @@ class Orderrows extends Component {
     this.state = {
       showOrderDetails: false
     };
+    this.toggleStateToShowOrderdetails = this.toggleStateToShowOrderdetails.bind(
+      this
+    );
+  }
+
+  toggleStateToShowOrderdetails() {
+    this.setState({ showOrderDetails: true });
   }
 
   render() {
@@ -22,7 +29,7 @@ class Orderrows extends Component {
             <div>id- {orderid._id}</div>
             <button
               className="btn btn-primary btn-lg btn-default btn-lock"
-              onClick={this.setState({ showOrderDetails: true })}
+              onClick={this.toggleStateToShowOrderdetails}
             >
               Details
             </button>

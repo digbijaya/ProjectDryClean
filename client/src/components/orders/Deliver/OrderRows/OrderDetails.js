@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Tux from "../../../hoc/Tux";
 import Backdrop from "../../../ui/Backdrop/Backdrop";
+import classes from "./OrderDetails.css";
 class OrderDetails extends Component {
   constructor() {
     super();
@@ -9,15 +10,15 @@ class OrderDetails extends Component {
   render() {
     return (
       <Tux>
-        <Backdrop show={props.show} />
+        <Backdrop show={this.props.show} />
         <div
           className={classes.OrderDetails}
           style={{
-            transform: props.show ? "translateY(0)" : "translateY(-100vh)",
-            opacity: props.show ? "1" : "0"
+            transform: this.props.show ? "translateY(0)" : "translateY(-100vh)",
+            opacity: this.props.show ? "1" : "0"
           }}
         >
-          <div>Length- {this.props.orderdetail.clothes.length}</div>
+          <div>Length- {this.props.orderid.clothes.length}</div>
         </div>
       </Tux>
     );
