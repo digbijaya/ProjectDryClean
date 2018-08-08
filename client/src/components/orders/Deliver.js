@@ -5,7 +5,8 @@ import classnames from "classnames";
 import { connect } from "react-redux";
 import { deliverorder, clearOrders } from "../../actions/deliverActions";
 import Orderrows from "./Deliver/OrderRows/Orderrows";
-import Spinner from "../common/spinner";
+import Modal from "../ui/Modal/Modal";
+import Backdrop from "../ui/Backdrop/Backdrop";
 
 class Deliver extends Component {
   constructor() {
@@ -75,7 +76,6 @@ class Deliver extends Component {
 
   render() {
     const { errors } = this.state;
-    const orderids = this.props.order ? this.props.order.orderids : null;
     return (
       <div className="container">
         <h1 style={{ textAlign: "center" }}>Deliver order</h1>
@@ -106,10 +106,13 @@ class Deliver extends Component {
           {/* <Link to="/initial" onClick={this.handleClick.bind(this)}>
             Back
           </Link> */}
-          <div>{this.props.order ? orderids[2] : null}</div>
+          {/*<Userdetails username={this.props.order.username}
+            mobilenumber={this.props.order.mobilenumber}/>*/}
+          <Backdrop show={this.props.fetchstatus} />
+          <Modal show={this.props.fetchstatus} />
           <div>
-            {this.props.orderids ? (
-              <Orderrows orderids={this.props.orderids} />
+            {this.props.order ? (
+              <Orderrows orderids={this.props.order.orderids} />
             ) : null}
           </div>
         </div>
@@ -126,6 +129,7 @@ Deliver.propTypes = {
 
 const mapStateToProps = state => ({
   order: state.orderDeliver.orders,
+  fetchstatus: state.orderDeliver.loading,
   errors: state.errors
 });
 

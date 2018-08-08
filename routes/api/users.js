@@ -182,7 +182,14 @@ router.post("/orderdeliver", function(req, res) {
   const errs = {};
   var cellNumber = req.body.mobilenumber;
   User.findOne({ mobilenumber: req.body.user.mobilenumber })
-    .populate("orderid")
+    .populate({
+      path: "orderids",
+      model: "orderid",
+      populate: {
+        path: "clothes",
+        model: "clothes"
+      }
+    })
     .exec(function(err, foundUser) {
       if (err) {
         errs.mobilenumber = err;

@@ -10,12 +10,16 @@ class Orderrows extends Component {
   }
 
   render() {
-    var orderids = this.props.orderids;
+    const orderids = this.props.orderids;
     return (
       <Tux>
-        {Object.keys(orderids).map(order => {
-          <div>Status- {order.orderstatus}</div>;
-        })}
+        {orderids.map(order => (
+          <div>
+            <div>Status- {order.orderstatus}</div>
+            <div>id- {order._id}</div>
+            <hr />
+          </div>
+        ))}
       </Tux>
     );
   }

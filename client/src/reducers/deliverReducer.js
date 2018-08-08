@@ -1,4 +1,9 @@
-import { GET_ORDERS, ORDERS_LOADING, CLEAR_ORDERS } from "../actions/types";
+import {
+  GET_ORDERS,
+  ORDERS_LOADING_COMPLETE,
+  ORDERS_LOADING,
+  CLEAR_ORDERS
+} from "../actions/types";
 const initialState = {
   delivered: false,
   orders: null,
@@ -16,6 +21,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         orders: action.payload,
+        loading: true
+      };
+    case ORDERS_LOADING_COMPLETE:
+      return {
+        ...state,
         loading: false
       };
     case CLEAR_ORDERS:
