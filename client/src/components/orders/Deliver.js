@@ -111,8 +111,8 @@ class Deliver extends Component {
           <Backdrop show={this.props.fetchstatus} />
           <Modal show={this.props.fetchstatus} />
           <div>
-            {this.props.order ? (
-              <Orderrows orderids={this.props.order.orderids} />
+            {this.props.orders ? (
+              <Orderrows orders={this.props.orders} />
             ) : null}
           </div>
         </div>
@@ -128,7 +128,7 @@ Deliver.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  order: state.orderDeliver.orders,
+  orders: state.orderDeliver.orders,
   fetchstatus: state.orderDeliver.loading,
   errors: state.errors
 });

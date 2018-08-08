@@ -1,22 +1,36 @@
 import React, { Component } from "react";
 import Tux from "../../../hoc/Tux";
-import Orderrow from "./Orderrow";
+import OrderDetails from "./OrderDetails";
+import Modal from "../../../ui/Modal/Modal";
+import Backdrop from "../../../ui/Backdrop/Backdrop";
 class Orderrows extends Component {
   constructor() {
     super();
     this.state = {
-      gen: false
+      showOrderDetails: false
     };
   }
 
   render() {
-    const orderids = this.props.orderids;
+    const fullorder = this.props.orders;
+    const orderids = this.props.orders.orderids;
     return (
       <Tux>
-        {orderids.map(order => (
+        {orderids.map(orderid => (
           <div>
-            <div>Status- {order.orderstatus}</div>
-            <div>id- {order._id}</div>
+            <div>Status- {orderid.orderstatus}</div>
+            <div>id- {orderid._id}</div>
+            <button
+              className="btn btn-primary btn-lg btn-default btn-lock"
+              onClick={this.setState({ showOrderDetails: true })}
+            >
+              Details
+            </button>
+            <OrderDetails
+              show={this.state.showOrderDetails}
+              fullOrder={fullorder}
+              orderid={orderid}
+            />
             <hr />
           </div>
         ))}

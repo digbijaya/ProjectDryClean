@@ -16,7 +16,7 @@ export const deliverorder = userData => dispatch => {
         type: GET_ORDERS,
         payload: res.data
       });
-      sleep(5000);
+      // sleep(5000);
       dispatch(fetchfromdbcomplete());
     })
     .catch(err =>
