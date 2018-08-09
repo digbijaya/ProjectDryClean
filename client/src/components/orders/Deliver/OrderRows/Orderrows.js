@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import Tux from "../../../hoc/Tux";
 import OrderDetails from "./OrderDetails";
-import Modal from "../../../ui/Modal/Modal";
-import Backdrop from "../../../ui/Backdrop/Backdrop";
 class Orderrows extends Component {
   constructor() {
     super();
@@ -37,6 +35,7 @@ class Orderrows extends Component {
               show={this.state.showOrderDetails}
               fullOrder={fullorder}
               orderid={orderid}
+              key={new Date().getTime()}
             />
             <hr />
           </div>
