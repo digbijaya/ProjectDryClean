@@ -14,6 +14,7 @@ export default class ClotheOptionsDropdown extends Component {
     };
     this.setNewValue = this.setNewValue.bind(this);
     this.clearValue = this.clearValue.bind(this);
+//      test
   }
 
   // getInitialState() {
