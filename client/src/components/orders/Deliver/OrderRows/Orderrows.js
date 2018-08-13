@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Tux from "../../../hoc/Tux";
-import OrderDetails from "./OrderDetails";
 class Orderrows extends Component {
   constructor() {
     super();

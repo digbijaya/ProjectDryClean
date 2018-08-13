@@ -59,7 +59,7 @@ class OrderRow extends Component {
   removeOrderRow(index) {
     let neworderrows = this.state.orderrows.slice(0);
     neworderrows.forEach((val, ind) => {
-      if (ind == index) {
+      if (ind === index) {
         neworderrows.splice(index, 1);
       }
     });

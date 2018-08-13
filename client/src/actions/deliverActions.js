@@ -3,6 +3,7 @@ import {
   GET_ORDERS,
   ORDERS_LOADING_COMPLETE,
   ORDERS_LOADING,
+  CHANGE_ORDERID_STATE,
   CLEAR_ORDERS
 } from "./types";
 import axios from "axios";
@@ -46,6 +47,26 @@ export const clearOrders = () => {
   return {
     type: CLEAR_ORDERS
   };
+};
+
+//Change status
+export const changeOrderidStatus = updateorderid => dispatch => {
+  dispatch(setOrdersLoading());
+  axios
+    .post("/api/users/changeorderidstatus", updateorderid)
+    .then(res => {
+      dispatch({
+        type: CHANGE_ORDERID_STATE,
+        payload: res.data
+      });
+      dispatch(fetchfromdbcomplete());
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
 };
 
 function sleep(milliseconds) {

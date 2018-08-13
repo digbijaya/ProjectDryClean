@@ -2,6 +2,7 @@ import {
   GET_ORDERS,
   ORDERS_LOADING_COMPLETE,
   ORDERS_LOADING,
+  CHANGE_ORDERID_STATE,
   CLEAR_ORDERS
 } from "../actions/types";
 const initialState = {
@@ -32,6 +33,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         userentry: null
+      };
+    case CHANGE_ORDERID_STATE:
+      return {
+        ...state,
+        userentry: action.payload
       };
     default:
       return state;

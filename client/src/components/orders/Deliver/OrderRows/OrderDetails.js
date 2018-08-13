@@ -15,6 +15,20 @@ const orderDetails = props => {
         }}
       >
         <Clothelist fullUser={props.fullUser} orderid={props.orderid} />
+        <button onClick={props.closeOrderDetails}>DONE</button>
+        <div>CHANGE ORDER STATUS</div>
+        {props.orderid.orderstatus === "OPEN" ? (
+          <button
+            onClick={() => props.changeOrderidState(props.orderid, "CLOSE")}
+            className="btn btn-primary btn-lg btn-default btn-lock"
+          >
+            CLOSE
+          </button>
+        ) : (
+          <button className="btn btn-primary btn-lg btn-default btn-lock">
+            REOPEN
+          </button>
+        )}
       </div>
     </Tux>
   );

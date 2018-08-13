@@ -3,7 +3,11 @@ import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import classnames from "classnames";
 import { connect } from "react-redux";
-import { deliverorder, clearOrders } from "../../actions/deliverActions";
+import {
+  deliverorder,
+  clearOrders,
+  changeOrderidStatus
+} from "../../actions/deliverActions";
 import Orderrows from "./Deliver/OrderRows/Orderrows";
 import OrderDetails from "./Deliver/OrderRows/OrderDetails";
 import Modal from "../ui/Modal/Modal";
@@ -23,6 +27,7 @@ class Deliver extends Component {
     this.onUserChange = this.onUserChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.populateSelectedOrderid = this.populateSelectedOrderid.bind(this);
+    this.closeOrderDetails = this.closeOrderDetails.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -44,12 +49,21 @@ class Deliver extends Component {
   };
 
   populateSelectedOrderid(orderid, showOrderDetails) {
-    console.log("I AM HERE");
     this.setState({ showOrderDetails, orderid });
+  }
+  closeOrderDetails() {
+    this.setState({ showOrderDetails: false });
+  }
+
+  changeOrderidState(orderid, newState) {
+    const updateorderid = {
+      orderid: orderid,
+      newState: newState
+    };
+    this.props.changeOrderidStatus(updateorderid);
   }
 
   onSubmit(event) {
-    console.log("I AM THERE");
     event.preventDefault();
     const searchUser = {
       mobilenumber: this.state.user["mobilenumber"]
@@ -66,6 +80,8 @@ class Deliver extends Component {
       <Tux>
         <OrderDetails
           show={this.state.showOrderDetails}
+          closeOrderDetails={this.closeOrderDetails}
+          changeOrderidState={this.changeOrderidState}
           fullUser={this.props.userentry}
           orderid={this.state.orderid}
           key={new Date().getTime()}
@@ -132,5 +148,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { deliverorder, clearOrders }
+  { deliverorder, clearOrders, changeOrderidStatus }
 )(withRouter(Deliver));
