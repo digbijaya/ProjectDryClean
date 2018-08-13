@@ -4,7 +4,7 @@ import Tux from "../../../hoc/Tux";
 const clothelist = props => (
   <Tux>
     <div>
-      <span>{props.fullOrder.username}</span>
+      <span>{props.fullUser.username}</span>
       <span>{props.orderid ? props.orderid._id : null}</span>
       <span>{props.orderid ? props.orderid.orderstatus : null}</span>
     </div>
@@ -24,16 +24,18 @@ const clothelist = props => (
               </tr>
             </thead>
             <tbody>
-              {props.clothes.map(cloth => (
-                <tr key={cloth.clothtype}>
-                  <td>{cloth.clothtype}</td>
-                  <td>{cloth.quality}</td>
-                  <td>{cloth.washtype}</td>
-                  <td>{cloth.color}</td>
-                  <td>{cloth.quantity}</td>
-                  <td>{cloth.price}</td>
-                </tr>
-              ))}
+              {props.orderid.clothes
+                ? props.orderid.clothes.map(cloth => (
+                    <tr key={cloth.quality}>
+                      <td>{cloth.type}</td>
+                      <td>{cloth.quality}</td>
+                      <td>{cloth.washtype}</td>
+                      <td>{cloth.color}</td>
+                      <td>{cloth.quantity}</td>
+                      <td>{cloth.price}</td>
+                    </tr>
+                  ))
+                : null}
             </tbody>
           </table>
         </div>

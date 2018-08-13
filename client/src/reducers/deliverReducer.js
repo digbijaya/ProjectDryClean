@@ -6,7 +6,7 @@ import {
 } from "../actions/types";
 const initialState = {
   delivered: false,
-  orders: null,
+  userentry: null,
   loading: false
 };
 
@@ -20,7 +20,7 @@ export default function(state = initialState, action) {
     case GET_ORDERS:
       return {
         ...state,
-        orders: action.payload,
+        userentry: action.payload,
         loading: true
       };
     case ORDERS_LOADING_COMPLETE:
@@ -31,7 +31,7 @@ export default function(state = initialState, action) {
     case CLEAR_ORDERS:
       return {
         ...state,
-        orders: null
+        userentry: null
       };
     default:
       return state;

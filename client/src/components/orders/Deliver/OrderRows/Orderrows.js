@@ -15,11 +15,12 @@ class Orderrows extends Component {
 
   toggleStateToShowOrderdetails(orderid) {
     this.setState({ showOrderDetails: true, orderid });
+    this.props.populateSelectedOrderid(orderid);
   }
 
   render() {
-    const fullorder = this.props.orders;
-    const orderids = this.props.orders.orderids;
+    const fullUser = this.props.userentry;
+    const orderids = this.props.userentry.orderids;
     return (
       <Tux>
         {orderids.map(orderid => (
@@ -37,12 +38,6 @@ class Orderrows extends Component {
             <hr />
           </div>
         ))}
-        <OrderDetails
-          show={this.state.showOrderDetails}
-          fullOrder={fullorder}
-          orderid={this.state.orderid}
-          key={new Date().getTime()}
-        />
       </Tux>
     );
   }

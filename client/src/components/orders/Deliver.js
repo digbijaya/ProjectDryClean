@@ -15,7 +15,9 @@ class Deliver extends Component {
     super();
     this.state = {
       user: { mobilenumber: "" },
-      errors: {}
+      errors: {},
+      orderid: {},
+      clothesinorderid: []
     };
     this.onUserChange = this.onUserChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -39,6 +41,8 @@ class Deliver extends Component {
     this.props.history.push("/initial");
   };
 
+  populateSelectedOrderid(orderid) {}
+
   onSubmit(event) {
     event.preventDefault();
     const searchUser = {
@@ -50,36 +54,16 @@ class Deliver extends Component {
     this.props.deliverorder(newSearch);
   }
 
-  renderList = orders => (
-    <div className="container">
-      <hr />
-      <div style={{ width: "30%", margin: "35px auto" }}>
-        <div>
-          <table className="table table-hover">
-            <thead>
-              <tr>
-                <th>Cloth Type</th>
-                <th>Cloth Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              {orders.orders.clothes.map(cloth => (
-                <tr>
-                  <td>{cloth.name}</td>
-                  <td>{cloth.description}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  );
-
   render() {
     const { errors } = this.state;
     return (
       <Tux>
+        <OrderDetails
+          show={this.state.showOrderDetails}
+          fullUser={this.props.userentry}
+          orderid={this.state.orderid}
+          key={new Date().getTime()}
+        />
         <div className="container">
           <h1 style={{ textAlign: "center" }}>Deliver order</h1>
           <div style={{ width: "30%", margin: "35px auto" }}>
@@ -114,8 +98,11 @@ class Deliver extends Component {
             <Backdrop show={this.props.fetchstatus} />
             <Modal show={this.props.fetchstatus} />
             <div>
-              {this.props.orders ? (
-                <Orderrows orders={this.props.orders} />
+              {this.props.userentry ? (
+                <Orderrows
+                  userentry={this.props.userentry}
+                  populateSelectedOrderid={this.populateSelectedOrderid()}
+                />
               ) : null}
             </div>
           </div>
@@ -127,12 +114,12 @@ class Deliver extends Component {
 
 Deliver.propTypes = {
   deliverorder: PropTypes.func.isRequired,
-  order: PropTypes.object,
+  userentry: PropTypes.object,
   errors: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  orders: state.orderDeliver.orders,
+  userentry: state.orderDeliver.userentry,
   fetchstatus: state.orderDeliver.loading,
   errors: state.errors
 });
