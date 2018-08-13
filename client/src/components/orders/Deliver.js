@@ -17,10 +17,12 @@ class Deliver extends Component {
       user: { mobilenumber: "" },
       errors: {},
       orderid: {},
-      clothesinorderid: []
+      clothesinorderid: [],
+      showOrderDetails: false
     };
     this.onUserChange = this.onUserChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.populateSelectedOrderid = this.populateSelectedOrderid.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -41,9 +43,13 @@ class Deliver extends Component {
     this.props.history.push("/initial");
   };
 
-  populateSelectedOrderid(orderid) {}
+  populateSelectedOrderid(orderid, showOrderDetails) {
+    console.log("I AM HERE");
+    this.setState({ showOrderDetails, orderid });
+  }
 
   onSubmit(event) {
+    console.log("I AM THERE");
     event.preventDefault();
     const searchUser = {
       mobilenumber: this.state.user["mobilenumber"]
@@ -101,7 +107,7 @@ class Deliver extends Component {
               {this.props.userentry ? (
                 <Orderrows
                   userentry={this.props.userentry}
-                  populateSelectedOrderid={this.populateSelectedOrderid()}
+                  populateSelectedOrderid={this.populateSelectedOrderid}
                 />
               ) : null}
             </div>

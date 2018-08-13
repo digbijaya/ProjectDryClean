@@ -4,18 +4,13 @@ import OrderDetails from "./OrderDetails";
 class Orderrows extends Component {
   constructor() {
     super();
-    this.state = {
-      showOrderDetails: false,
-      orderid: {}
-    };
     this.toggleStateToShowOrderdetails = this.toggleStateToShowOrderdetails.bind(
       this
     );
   }
 
-  toggleStateToShowOrderdetails(orderid) {
-    this.setState({ showOrderDetails: true, orderid });
-    this.props.populateSelectedOrderid(orderid);
+  toggleStateToShowOrderdetails(orderid, showOrderDetails) {
+    this.props.populateSelectedOrderid(orderid, showOrderDetails);
   }
 
   render() {
@@ -29,8 +24,8 @@ class Orderrows extends Component {
             <div>id- {orderid._id}</div>
             <button
               className="btn btn-primary btn-lg btn-default btn-lock"
-              onClick={() => {
-                this.toggleStateToShowOrderdetails(orderid);
+              onClick={event => {
+                this.toggleStateToShowOrderdetails(orderid, true);
               }}
             >
               Details

@@ -4,7 +4,7 @@ import Tux from "../../../hoc/Tux";
 const clothelist = props => (
   <Tux>
     <div>
-      <span>{props.fullUser.username}</span>
+      <span>{props.fullUser ? props.fullUser.username : null}</span>
       <span>{props.orderid ? props.orderid._id : null}</span>
       <span>{props.orderid ? props.orderid.orderstatus : null}</span>
     </div>
