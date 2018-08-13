@@ -5,15 +5,16 @@ class Orderrows extends Component {
   constructor() {
     super();
     this.state = {
-      showOrderDetails: false
+      showOrderDetails: false,
+      orderid: {}
     };
     this.toggleStateToShowOrderdetails = this.toggleStateToShowOrderdetails.bind(
       this
     );
   }
 
-  toggleStateToShowOrderdetails() {
-    this.setState({ showOrderDetails: true });
+  toggleStateToShowOrderdetails(orderid) {
+    this.setState({ showOrderDetails: true, orderid });
   }
 
   render() {
@@ -27,19 +28,21 @@ class Orderrows extends Component {
             <div>id- {orderid._id}</div>
             <button
               className="btn btn-primary btn-lg btn-default btn-lock"
-              onClick={this.toggleStateToShowOrderdetails}
+              onClick={() => {
+                this.toggleStateToShowOrderdetails(orderid);
+              }}
             >
               Details
             </button>
-            <OrderDetails
-              show={this.state.showOrderDetails}
-              fullOrder={fullorder}
-              orderid={orderid}
-              key={new Date().getTime()}
-            />
             <hr />
           </div>
         ))}
+        <OrderDetails
+          show={this.state.showOrderDetails}
+          fullOrder={fullorder}
+          orderid={this.state.orderid}
+          key={new Date().getTime()}
+        />
       </Tux>
     );
   }

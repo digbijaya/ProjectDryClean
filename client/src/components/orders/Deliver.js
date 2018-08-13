@@ -5,8 +5,10 @@ import classnames from "classnames";
 import { connect } from "react-redux";
 import { deliverorder, clearOrders } from "../../actions/deliverActions";
 import Orderrows from "./Deliver/OrderRows/Orderrows";
+import OrderDetails from "./Deliver/OrderRows/OrderDetails";
 import Modal from "../ui/Modal/Modal";
 import Backdrop from "../ui/Backdrop/Backdrop";
+import Tux from "../hoc/Tux";
 
 class Deliver extends Component {
   constructor() {
@@ -77,46 +79,48 @@ class Deliver extends Component {
   render() {
     const { errors } = this.state;
     return (
-      <div className="container">
-        <h1 style={{ textAlign: "center" }}>Deliver order</h1>
-        <div style={{ width: "30%", margin: "35px auto" }}>
-          <form onSubmit={this.onSubmit}>
-            <div className="form-group">
-              <input
-                className={classnames("form-control", {
-                  "is-invalid": errors.mobilenumber
-                })}
-                type="text"
-                name="mobilenumber"
-                value={this.state.user["mobilenumber"]}
-                onChange={this.onUserChange}
-                placeholder="Customer cell no."
-              />
-              {errors.mobilenumber && (
-                <div className="invalid-feedback">{errors.mobilenumber} </div>
-              )}
-            </div>
-            <div className="form-group">
-              <button className="btn btn-primary btn-lg btn-default btn-lock">
-                Submit
-              </button>
-            </div>
-          </form>
-          <a onClick={this.clearOrdersStore.bind(this)}>Back</a>
-          {/* <Link to="/initial" onClick={this.handleClick.bind(this)}>
+      <Tux>
+        <div className="container">
+          <h1 style={{ textAlign: "center" }}>Deliver order</h1>
+          <div style={{ width: "30%", margin: "35px auto" }}>
+            <form onSubmit={this.onSubmit}>
+              <div className="form-group">
+                <input
+                  className={classnames("form-control", {
+                    "is-invalid": errors.mobilenumber
+                  })}
+                  type="text"
+                  name="mobilenumber"
+                  value={this.state.user["mobilenumber"]}
+                  onChange={this.onUserChange}
+                  placeholder="Customer cell no."
+                />
+                {errors.mobilenumber && (
+                  <div className="invalid-feedback">{errors.mobilenumber} </div>
+                )}
+              </div>
+              <div className="form-group">
+                <button className="btn btn-primary btn-lg btn-default btn-lock">
+                  Submit
+                </button>
+              </div>
+            </form>
+            <a onClick={this.clearOrdersStore.bind(this)}>Back</a>
+            {/* <Link to="/initial" onClick={this.handleClick.bind(this)}>
             Back
           </Link> */}
-          {/*<Userdetails username={this.props.order.username}
+            {/*<Userdetails username={this.props.order.username}
             mobilenumber={this.props.order.mobilenumber}/>*/}
-          <Backdrop show={this.props.fetchstatus} />
-          <Modal show={this.props.fetchstatus} />
-          <div>
-            {this.props.orders ? (
-              <Orderrows orders={this.props.orders} />
-            ) : null}
+            <Backdrop show={this.props.fetchstatus} />
+            <Modal show={this.props.fetchstatus} />
+            <div>
+              {this.props.orders ? (
+                <Orderrows orders={this.props.orders} />
+              ) : null}
+            </div>
           </div>
         </div>
-      </div>
+      </Tux>
     );
   }
 }
