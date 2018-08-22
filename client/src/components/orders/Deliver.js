@@ -28,6 +28,7 @@ class Deliver extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.populateSelectedOrderid = this.populateSelectedOrderid.bind(this);
     this.closeOrderDetails = this.closeOrderDetails.bind(this);
+    this.changeOrderidState = this.changeOrderidState.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -56,11 +57,13 @@ class Deliver extends Component {
   }
 
   changeOrderidState(orderid, newState) {
+    console.log("ORDER ID PRINT", orderid._id);
     const updateorderid = {
-      orderid: orderid,
+      orderid: orderid._id,
       newState: newState
     };
     this.props.changeOrderidStatus(updateorderid);
+    console.log(this.props.updatedorderid);
   }
 
   onSubmit(event) {
@@ -135,14 +138,17 @@ class Deliver extends Component {
 }
 
 Deliver.propTypes = {
+  changeOrderidStatus: PropTypes.func,
   deliverorder: PropTypes.func.isRequired,
   userentry: PropTypes.object,
+  updatedorderid: PropTypes.object,
   errors: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   userentry: state.orderDeliver.userentry,
   fetchstatus: state.orderDeliver.loading,
+  updatedorderid: state.orderDeliver.updatedorderid,
   errors: state.errors
 });
 

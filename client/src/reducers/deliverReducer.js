@@ -8,6 +8,7 @@ import {
 const initialState = {
   delivered: false,
   userentry: null,
+  updatedorderid: null,
   loading: false
 };
 
@@ -37,7 +38,7 @@ export default function(state = initialState, action) {
     case CHANGE_ORDERID_STATE:
       return {
         ...state,
-        userentry: action.payload
+        updatedorderid: action.payload
       };
     default:
       return state;
