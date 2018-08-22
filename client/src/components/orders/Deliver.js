@@ -58,12 +58,34 @@ class Deliver extends Component {
 
   changeOrderidState(orderid, newState) {
     console.log("ORDER ID PRINT", orderid._id);
+    // let beforeloading = this.props.fetchstatus;
     const updateorderid = {
       orderid: orderid._id,
       newState: newState
     };
     this.props.changeOrderidStatus(updateorderid);
-    console.log(this.props.updatedorderid);
+    // let afterloading = this.props.fetchstatus;
+    // for (let i = 0; i < 60; i++) {
+    //   console.log("AFTER", this.props.fetchstatus);
+    //   this.sleep(100);
+    // }
+    // while (afterloading == beforeloading) {
+    //   afterloading = this.props.fetchstatus;
+    //   console.log("IN LOOP");
+    // }
+    // this.setState({ orderid: this.props.updatedorderid });
+  }
+  updateOrderidState() {
+    this.setState({ orderid: this.props.updatedorderid });
+  }
+
+  sleep(milliseconds) {
+    var start = new Date().getTime();
+    for (var i = 0; i < 1e7; i++) {
+      if (new Date().getTime() - start > milliseconds) {
+        break;
+      }
+    }
   }
 
   onSubmit(event) {
@@ -84,7 +106,10 @@ class Deliver extends Component {
         <OrderDetails
           show={this.state.showOrderDetails}
           closeOrderDetails={this.closeOrderDetails}
-          changeOrderidState={this.changeOrderidState}
+          changeOrderidState={(orderid, newState) => {
+            this.changeOrderidState(orderid, newState);
+            this.updateOrderidState();
+          }}
           fullUser={this.props.userentry}
           orderid={this.state.orderid}
           key={new Date().getTime()}
