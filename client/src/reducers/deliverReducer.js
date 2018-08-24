@@ -3,6 +3,7 @@ import {
   ORDERS_LOADING_COMPLETE,
   ORDERS_LOADING,
   CHANGE_ORDERID_STATE,
+  CLEAR_ORDERID_STATE,
   CLEAR_ORDERS
 } from "../actions/types";
 const initialState = {
@@ -33,7 +34,13 @@ export default function(state = initialState, action) {
     case CLEAR_ORDERS:
       return {
         ...state,
-        userentry: null
+        userentry: null,
+        updatedorderid: null
+      };
+    case CLEAR_ORDERID_STATE:
+      return {
+        ...state,
+        updatedorderid: null
       };
     case CHANGE_ORDERID_STATE:
       return {

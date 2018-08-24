@@ -4,6 +4,7 @@ import {
   ORDERS_LOADING_COMPLETE,
   ORDERS_LOADING,
   CHANGE_ORDERID_STATE,
+  CLEAR_ORDERID_STATE,
   CLEAR_ORDERS
 } from "./types";
 import axios from "axios";
@@ -46,6 +47,13 @@ const fetchfromdbcomplete = () => {
 export const clearOrders = () => {
   return {
     type: CLEAR_ORDERS
+  };
+};
+
+//Orderid status cleaning
+export const clearOrderidStatus = () => {
+  return {
+    type: CLEAR_ORDERID_STATE
   };
 };
 

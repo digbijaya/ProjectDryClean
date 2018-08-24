@@ -19,7 +19,9 @@ const orderDetails = props => {
         <div>CHANGE ORDER STATUS</div>
         {props.orderid.orderstatus === "OPEN" ? (
           <button
-            onClick={() => props.changeOrderidState(props.orderid, "CLOSE")}
+            onClick={() => {
+              props.changeOrderidState(props.orderid, "CLOSE");
+            }}
             className="btn btn-primary btn-lg btn-default btn-lock"
           >
             CLOSE

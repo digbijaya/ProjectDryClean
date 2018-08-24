@@ -3,6 +3,9 @@ import Tux from "../../../hoc/Tux";
 class Orderrows extends Component {
   constructor() {
     super();
+    this.state = {
+      orderids: {}
+    };
     this.toggleStateToShowOrderdetails = this.toggleStateToShowOrderdetails.bind(
       this
     );
@@ -15,6 +18,7 @@ class Orderrows extends Component {
   render() {
     const fullUser = this.props.userentry;
     const orderids = this.props.userentry.orderids;
+
     return (
       <Tux>
         {orderids.map(orderid => (

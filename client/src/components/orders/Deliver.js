@@ -6,7 +6,8 @@ import { connect } from "react-redux";
 import {
   deliverorder,
   clearOrders,
-  changeOrderidStatus
+  changeOrderidStatus,
+  clearOrderidStatus
 } from "../../actions/deliverActions";
 import Orderrows from "./Deliver/OrderRows/Orderrows";
 import OrderDetails from "./Deliver/OrderRows/OrderDetails";
@@ -54,29 +55,25 @@ class Deliver extends Component {
   }
   closeOrderDetails() {
     this.setState({ showOrderDetails: false });
+    // this.props.clearOrderidStatus();
+    console.log("MOBILE ", this.state.user["mobilenumber"]);
+    this.props.clearOrders();
+    const searchUser = {
+      mobilenumber: this.state.user["mobilenumber"]
+    };
+    const newSearch = {
+      user: searchUser
+    };
+    this.props.deliverorder(newSearch);
   }
 
   changeOrderidState(orderid, newState) {
-    console.log("ORDER ID PRINT", orderid._id);
     // let beforeloading = this.props.fetchstatus;
     const updateorderid = {
       orderid: orderid._id,
       newState: newState
     };
     this.props.changeOrderidStatus(updateorderid);
-    // let afterloading = this.props.fetchstatus;
-    // for (let i = 0; i < 60; i++) {
-    //   console.log("AFTER", this.props.fetchstatus);
-    //   this.sleep(100);
-    // }
-    // while (afterloading == beforeloading) {
-    //   afterloading = this.props.fetchstatus;
-    //   console.log("IN LOOP");
-    // }
-    // this.setState({ orderid: this.props.updatedorderid });
-  }
-  updateOrderidState() {
-    this.setState({ orderid: this.props.updatedorderid });
   }
 
   sleep(milliseconds) {
@@ -106,12 +103,13 @@ class Deliver extends Component {
         <OrderDetails
           show={this.state.showOrderDetails}
           closeOrderDetails={this.closeOrderDetails}
-          changeOrderidState={(orderid, newState) => {
-            this.changeOrderidState(orderid, newState);
-            this.updateOrderidState();
-          }}
+          changeOrderidState={this.changeOrderidState}
           fullUser={this.props.userentry}
-          orderid={this.state.orderid}
+          orderid={
+            this.props.updatedorderid
+              ? this.props.updatedorderid
+              : this.state.orderid
+          }
           key={new Date().getTime()}
         />
         <div className="container">
@@ -179,5 +177,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { deliverorder, clearOrders, changeOrderidStatus }
+  { deliverorder, clearOrders, changeOrderidStatus, clearOrderidStatus }
 )(withRouter(Deliver));

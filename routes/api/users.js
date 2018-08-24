@@ -207,5 +207,33 @@ router.post("/orderdeliver", function(req, res) {
 //@route POST /api/users/changeorderidstatus
 //@Desc update orderid status
 //@access public route
-router.post("/changeorderidstatus", function(req, res) {});
+router.post("/changeorderidstatus", function(req, res) {
+  /* Orderid.findOneAndUpdate(
+    { _id: req.body.orderid },
+    { $set: { orderstatus: req.body.newState } },
+    { new: true },
+    function(err, updateddoc) {
+      if (err) {
+      } else {
+        res.json(updateddoc);
+      }
+    }
+  ); */
+
+  Orderid.findOneAndUpdate(
+    { _id: req.body.orderid },
+    { $set: { orderstatus: req.body.newState } },
+    { new: true }
+  )
+    .populate({
+      path: "clothes",
+      model: "clothes"
+    })
+    .exec(function(err, updateddoc) {
+      if (err) {
+      } else {
+        res.json(updateddoc);
+      }
+    });
+});
 module.exports = router;
