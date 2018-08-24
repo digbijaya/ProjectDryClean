@@ -55,8 +55,6 @@ class Deliver extends Component {
   }
   closeOrderDetails() {
     this.setState({ showOrderDetails: false });
-    // this.props.clearOrderidStatus();
-    console.log("MOBILE ", this.state.user["mobilenumber"]);
     this.props.clearOrders();
     const searchUser = {
       mobilenumber: this.state.user["mobilenumber"]
