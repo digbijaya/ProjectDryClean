@@ -23,6 +23,7 @@ router.post("/orderreceive", (req, res) => {
   var order = req.body.order;
   var user = req.body.user;
   var orderstatus = req.body.orderstatus;
+  var totalPrice = req.body.totalPrice;
 
   User.findOne({ mobilenumber: req.body.user.mobilenumber }, function(
     err,
@@ -67,6 +68,7 @@ router.post("/orderreceive", (req, res) => {
               Orderid.update(
                 { _id: newOrderid._id },
                 { orderstatus: orderstatus },
+                { totalprice: totalPrice },
                 function(err, succ) {
                   if (err) console.log(err);
                   else console.log(succ);
@@ -113,6 +115,7 @@ router.post("/orderreceive", (req, res) => {
           Orderid.update(
             { _id: newOrderid._id },
             { orderstatus: orderstatus },
+            { totalprice: totalPrice },
             function(err, succ) {
               if (err) console.log(err);
               else console.log(succ);
