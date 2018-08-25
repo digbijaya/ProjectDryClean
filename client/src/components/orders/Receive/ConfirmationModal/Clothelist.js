@@ -28,7 +28,7 @@ const clothelist = props => (
             <tbody>
               {props.clothes.map(cloth => (
                 <tr key={cloth.clothtype}>
-                  <td>{cloth.clothtype}</td>
+                  <td nowrap>{cloth.clothtype}</td>
                   <td>{cloth.quality}</td>
                   <td>{cloth.washtype}</td>
                   <td>{cloth.color}</td>
@@ -36,6 +36,14 @@ const clothelist = props => (
                   <td>{cloth.price}</td>
                 </tr>
               ))}
+              <tr>
+                <td nowrap>Total Price</td>
+                <td />
+                <td />
+                <td />
+                <td />
+                <td>{props.totalPrice}</td>
+              </tr>
             </tbody>
           </table>
         </div>
