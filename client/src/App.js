@@ -9,6 +9,7 @@ import Footer from "./components/layout/Footer";
 import Initial from "./components/layout/Initial";
 import Receive from "./components/orders/Receive";
 import Deliver from "./components/orders/Deliver";
+import Reports from "./components/reports/Reports";
 import "./App.css";
 
 class App extends Component {
@@ -23,6 +24,7 @@ class App extends Component {
               <Route exact path="/initial" component={Initial} />
               <Route exact path="/orderreceive" component={Receive} />
               <Route exact path="/orderdeliver" component={Deliver} />
+              <Route exact path="/reports" component={Reports} />
             </div>
             <Footer />
           </div>
