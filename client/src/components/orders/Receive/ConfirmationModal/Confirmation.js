@@ -17,7 +17,7 @@ const confirmation = props => {
       >
         <Clothelist
           clothes={props.orders}
-          totalPrice={props.totalPrice}
+          totalprice={props.totalprice}
           user={props.user}
           orderdetails={props.orderdetails}
         />

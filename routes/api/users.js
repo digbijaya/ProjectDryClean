@@ -23,7 +23,7 @@ router.post("/orderreceive", (req, res) => {
   var order = req.body.order;
   var user = req.body.user;
   var orderstatus = req.body.orderstatus;
-  var totalPrice = req.body.totalPrice;
+  var totalprice = req.body.totalprice;
 
   User.findOne({ mobilenumber: req.body.user.mobilenumber }, function(
     err,
@@ -67,8 +67,7 @@ router.post("/orderreceive", (req, res) => {
               });
               Orderid.update(
                 { _id: newOrderid._id },
-                { orderstatus: orderstatus },
-                { totalprice: totalPrice },
+                { orderstatus: orderstatus, totalprice: totalprice },
                 function(err, succ) {
                   if (err) console.log(err);
                   else console.log(succ);
@@ -83,6 +82,7 @@ router.post("/orderreceive", (req, res) => {
       });
     } else {
       console.log("I AM THERE");
+      console.log(typeof totalprice);
       Orderid.create({}, function(err, newOrderid) {
         if (err) res.status(404).json(err);
         else {
@@ -114,8 +114,7 @@ router.post("/orderreceive", (req, res) => {
           });
           Orderid.update(
             { _id: newOrderid._id },
-            { orderstatus: orderstatus },
-            { totalprice: totalPrice },
+            { orderstatus: orderstatus, totalprice: totalprice },
             function(err, succ) {
               if (err) console.log(err);
               else console.log(succ);

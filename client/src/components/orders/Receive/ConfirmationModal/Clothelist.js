@@ -42,7 +42,7 @@ const clothelist = props => (
                 <td />
                 <td />
                 <td />
-                <td>{props.totalPrice}</td>
+                <td>{props.totalprice}</td>
               </tr>
             </tbody>
           </table>

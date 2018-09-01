@@ -8,7 +8,7 @@ var orderidSchema = new mongoose.Schema({
     }
   ],
   orderstatus: String,
-  totalprice: Number
+  totalprice: String
 });
 
 module.exports = mongoose.model("orderid", orderidSchema);
