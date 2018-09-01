@@ -24,6 +24,7 @@ router.post("/orderreceive", (req, res) => {
   var user = req.body.user;
   var orderstatus = req.body.orderstatus;
   var totalprice = req.body.totalprice;
+  var orderplaceddate = req.body.orderplaceddate;
 
   User.findOne({ mobilenumber: req.body.user.mobilenumber }, function(
     err,
@@ -67,7 +68,11 @@ router.post("/orderreceive", (req, res) => {
               });
               Orderid.update(
                 { _id: newOrderid._id },
-                { orderstatus: orderstatus, totalprice: totalprice },
+                {
+                  orderstatus: orderstatus,
+                  totalprice: totalprice,
+                  orderplaceddate: orderplaceddate
+                },
                 function(err, succ) {
                   if (err) console.log(err);
                   else console.log(succ);
@@ -114,7 +119,11 @@ router.post("/orderreceive", (req, res) => {
           });
           Orderid.update(
             { _id: newOrderid._id },
-            { orderstatus: orderstatus, totalprice: totalprice },
+            {
+              orderstatus: orderstatus,
+              totalprice: totalprice,
+              orderplaceddate: orderplaceddate
+            },
             function(err, succ) {
               if (err) console.log(err);
               else console.log(succ);
@@ -182,7 +191,6 @@ router.post("/orderdeliver", function(req, res) {
     return res.status(400).json(errors);
   }
   const errs = {};
-  var cellNumber = req.body.mobilenumber;
   User.findOne({ mobilenumber: req.body.user.mobilenumber })
     .populate({
       path: "orderids",
