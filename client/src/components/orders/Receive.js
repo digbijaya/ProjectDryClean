@@ -94,7 +94,8 @@ class Receive extends Component {
       user: this.state.user,
       order: this.state.order,
       orderstatus: this.state.orderstatus,
-      totalprice: this.state.totalprice
+      totalprice: this.state.totalprice,
+      orderplaceddate: new Date()
     };
     console.log("NEW ENTRY", newEntry);
     this.props.commitToDb();

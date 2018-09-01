@@ -23,7 +23,8 @@ class Deliver extends Component {
       errors: {},
       orderid: {},
       clothesinorderid: [],
-      showOrderDetails: false
+      showOrderDetails: false,
+      currentpage: null
     };
     this.onUserChange = this.onUserChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -50,8 +51,8 @@ class Deliver extends Component {
     this.props.history.push("/initial");
   };
 
-  populateSelectedOrderid(orderid, showOrderDetails) {
-    this.setState({ showOrderDetails, orderid });
+  populateSelectedOrderid(orderid, showOrderDetails, currentpage) {
+    this.setState({ showOrderDetails, orderid, currentpage });
   }
   closeOrderDetails() {
     this.setState({ showOrderDetails: false });
@@ -148,6 +149,7 @@ class Deliver extends Component {
                 <Orderrows
                   userentry={this.props.userentry}
                   populateSelectedOrderid={this.populateSelectedOrderid}
+                  currentpage={this.state.currentpage}
                 />
               ) : null}
             </div>
