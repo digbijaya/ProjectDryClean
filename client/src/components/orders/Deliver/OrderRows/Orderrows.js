@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Tux from "../../../hoc/Tux";
 import Pagination from "react-js-pagination";
 
-const PER_PAGE = 3;
+const PER_PAGE = 4;
 class Orderrows extends Component {
   constructor() {
     super();
