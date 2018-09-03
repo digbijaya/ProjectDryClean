@@ -8,7 +8,7 @@ export default class Orderlist extends Component {
     var allFieldsPopulated = this.props.allFieldsPopulated;
 
     return (
-      <div>
+      <div class="form-group row">
         {Object.keys(orders).map(orderKey => {
           return (
             <OrderComponent
