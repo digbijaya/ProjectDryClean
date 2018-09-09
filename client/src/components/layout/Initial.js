@@ -18,6 +18,11 @@ class Initial extends Component {
                 Deliver
               </Link>
             </p>
+            <p>
+              <Link className="btn btn-primary btn-large" to="/reports">
+                Reports
+              </Link>
+            </p>
             <button
               id="collect"
               className="btn btn-primary btn-lg btn-default btn-lock"

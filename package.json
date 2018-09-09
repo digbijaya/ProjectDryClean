@@ -21,7 +21,7 @@
     "express": "^4.16.3",
     "mongoose": "^5.1.0",
     "nocache": "^2.0.0",
-    "react-select": "^1.2.1",
+    "react-js-pagination": "^3.0.2",
     "validator": "^10.2.0"
   },
   "devDependencies": {

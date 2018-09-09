@@ -23,6 +23,8 @@ router.post("/orderreceive", (req, res) => {
   var order = req.body.order;
   var user = req.body.user;
   var orderstatus = req.body.orderstatus;
+  var totalprice = req.body.totalprice;
+  var orderplaceddate = req.body.orderplaceddate;
 
   User.findOne({ mobilenumber: req.body.user.mobilenumber }, function(
     err,
@@ -66,7 +68,11 @@ router.post("/orderreceive", (req, res) => {
               });
               Orderid.update(
                 { _id: newOrderid._id },
-                { orderstatus: orderstatus },
+                {
+                  orderstatus: orderstatus,
+                  totalprice: totalprice,
+                  orderplaceddate: orderplaceddate
+                },
                 function(err, succ) {
                   if (err) console.log(err);
                   else console.log(succ);
@@ -81,6 +87,7 @@ router.post("/orderreceive", (req, res) => {
       });
     } else {
       console.log("I AM THERE");
+      console.log(typeof totalprice);
       Orderid.create({}, function(err, newOrderid) {
         if (err) res.status(404).json(err);
         else {
@@ -112,7 +119,11 @@ router.post("/orderreceive", (req, res) => {
           });
           Orderid.update(
             { _id: newOrderid._id },
-            { orderstatus: orderstatus },
+            {
+              orderstatus: orderstatus,
+              totalprice: totalprice,
+              orderplaceddate: orderplaceddate
+            },
             function(err, succ) {
               if (err) console.log(err);
               else console.log(succ);
@@ -180,9 +191,15 @@ router.post("/orderdeliver", function(req, res) {
     return res.status(400).json(errors);
   }
   const errs = {};
-  var cellNumber = req.body.mobilenumber;
   User.findOne({ mobilenumber: req.body.user.mobilenumber })
-    .populate("clothes")
+    .populate({
+      path: "orderids",
+      model: "orderid",
+      populate: {
+        path: "clothes",
+        model: "clothes"
+      }
+    })
     .exec(function(err, foundUser) {
       if (err) {
         errs.mobilenumber = err;
@@ -193,6 +210,39 @@ router.post("/orderdeliver", function(req, res) {
       } else {
         res.json(foundUser);
         // res.render("orderhistory", { user: foundUser });
+      }
+    });
+});
+
+//@route POST /api/users/changeorderidstatus
+//@Desc update orderid status
+//@access public route
+router.post("/changeorderidstatus", function(req, res) {
+  /* Orderid.findOneAndUpdate(
+    { _id: req.body.orderid },
+    { $set: { orderstatus: req.body.newState } },
+    { new: true },
+    function(err, updateddoc) {
+      if (err) {
+      } else {
+        res.json(updateddoc);
+      }
+    }
+  ); */
+
+  Orderid.findOneAndUpdate(
+    { _id: req.body.orderid },
+    { $set: { orderstatus: req.body.newState } },
+    { new: true }
+  )
+    .populate({
+      path: "clothes",
+      model: "clothes"
+    })
+    .exec(function(err, updateddoc) {
+      if (err) {
+      } else {
+        res.json(updateddoc);
       }
     });
 });

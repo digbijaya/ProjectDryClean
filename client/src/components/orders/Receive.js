@@ -19,6 +19,7 @@ class Receive extends Component {
       cloth: { clothetype: "", clothequality: "" },
       order: [],
       orderstatus: "OPEN",
+      totalPrice: 0,
       errors: {},
       orderConfirmation: false
     };
@@ -68,8 +69,9 @@ class Receive extends Component {
   addClothToOrder(orderRows) {
     console.log("ORDERROWS", orderRows);
     const order = this.state.order.slice(0);
-
+    let totalprice = 0;
     orderRows.forEach(orders => {
+      totalprice = totalprice + Math.trunc(orders.price);
       order.push({
         clothtype: orders.clothetype,
         quality: orders.clothequality,
@@ -80,7 +82,7 @@ class Receive extends Component {
       });
     });
     console.log("ORDER", JSON.stringify(order));
-    this.setState({ order, orderConfirmation: true }, () => {
+    this.setState({ order, totalprice, orderConfirmation: true }, () => {
       // this.onSubmit();
     });
   }
@@ -91,7 +93,9 @@ class Receive extends Component {
     const newEntry = {
       user: this.state.user,
       order: this.state.order,
-      orderstatus: this.state.orderstatus
+      orderstatus: this.state.orderstatus,
+      totalprice: this.state.totalprice,
+      orderplaceddate: new Date()
     };
     console.log("NEW ENTRY", newEntry);
     this.props.commitToDb();
@@ -112,6 +116,7 @@ class Receive extends Component {
         <Confirmation
           show={this.state.orderConfirmation}
           orders={this.state.order}
+          totalprice={this.state.totalprice}
           user={this.state.user}
           submit={this.onSubmit}
           cancelConfirmation={this.onConfirmationCancel}
