@@ -17,9 +17,6 @@ import "./react-select.css?external";
 import { withStyles, css } from "react-with-styles";
 const SHOPNAMES = require("../../data/shopnames");
 
-let SelectedStartDate = moment();
-let SelectedEndDate = moment();
-
 const today = moment();
 const yesterday = moment().subtract(1, "day");
 const presets = [
@@ -36,12 +33,12 @@ const presets = [
   {
     text: "Last Week",
     start: today,
-    end: moment().subtract(1, "week")
+    end: today.clone().subtract(1, "week")
   },
   {
     text: "Last Month",
     start: today,
-    end: moment().subtract(1, "month")
+    end: today.clone().subtract(1, "month")
   }
 ];
 
@@ -51,8 +48,8 @@ class Reports extends Component {
     this.state = {
       clearable: true,
       searchable: true,
-      startDate: moment(),
-      endDate: moment(),
+      startDate: today.clone(),
+      endDate: today.clone(),
       focusedInput: null
     };
     this.renderDatePresets = this.renderDatePresets.bind(this);
@@ -143,8 +140,9 @@ class Reports extends Component {
             this.setState({ focusedInput });
           }}
           minimumNights={0}
-          isOutsideRange={day => !isInclusivelyBeforeDay(day, moment())}
+          isOutsideRange={day => !isInclusivelyBeforeDay(day, today)}
           renderCalendarInfo={this.renderDatePresets}
+          initialVisibleMonth={() => today.clone().subtract(1, "month")}
         />
       </Tux>
     );
