@@ -2,12 +2,7 @@ import React, { Component } from "react";
 import "react-dates/initialize";
 import "./_datepicker.css?external";
 import presetclass from "./presetdatepicker.css";
-import {
-  DateRangePicker,
-  SingleDatePicker,
-  DayPickerRangeController,
-  isInclusivelyBeforeDay
-} from "react-dates";
+import { DateRangePicker, isInclusivelyBeforeDay } from "react-dates";
 import isSameDay from "./isSameDay";
 import moment from "moment";
 import Select from "react-select";
@@ -75,7 +70,6 @@ class Reports extends Component {
   }
 
   renderDatePresets() {
-    const { styles } = this.props;
     const { startDate, endDate } = this.state;
 
     return (
