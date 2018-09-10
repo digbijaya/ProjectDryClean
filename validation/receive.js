@@ -9,7 +9,7 @@ module.exports = function validateReceivedOrder(data) {
     ? ""
     : data.user.mobilenumber;
   data.order = isEmpty(data.order) ? "" : data.order;
-  console.log("****************************** " + data.order);
+
   /* data.order.forEach(order => {
     order.clothtype = isEmpty(order.clothtype) ? "" : order.clothtype;
     order.quality = isEmpty(order.quality) ? "" : order.quality;
@@ -43,7 +43,8 @@ module.exports = function validateReceivedOrder(data) {
   if (validator.isEmpty(data.orderstatus)) {
     errors.orderstatus = "Order status is required";
   }
-  if (validator.isInt("" + data.totalprice, [{ min: 1 }])) {
+
+  if (data.totalprice < 1) {
     errors.totalprice = "total price can't be 0";
   }
   if (validator.isEmpty(data.orderplaceddate)) {

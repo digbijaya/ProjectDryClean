@@ -15,22 +15,36 @@ class OrderComponent extends Component {
         colorSelected: false,
         quantityFilled: false,
         priceFilled: false
-      }
+      },
+      errors: {}
     };
-    this.typeCleared = this.typeCleared.bind(this);
+    // this.typeCleared = this.typeCleared.bind(this);
     this.qualityCleared = this.qualityCleared.bind(this);
     this.isTypeFilled = this.isTypeFilled.bind(this);
     this.isQualityFilled = this.isQualityFilled.bind(this);
     this.isFilled = this.isFilled.bind(this);
   }
 
-  typeCleared() {
+  /* typeCleared() {
     this.setState({ clothetypeSelected: false }, () => {
       this.props.allFieldsPopulated(
         this.state.clothequalitySelected && this.state.clothetypeSelected
       );
     });
-  }
+  } */
+
+  handleChangeInputBoxes = (event, inputboxFilledVar, props) => {
+    const errors = { ...this.state.errors };
+    if (event.target.value.trim() === "") {
+      event = null;
+      errors[inputboxFilledVar] = "Can't be empty";
+      this.setState({ errors });
+    }
+    event
+      ? (this.isFilled(inputboxFilledVar),
+        props.addToOrderArrayFromInput(event, props.orderkey))
+      : this.isCleared(inputboxFilledVar);
+  };
 
   isCleared(clothProp) {
     let clothprops = this.state.clothprops;
@@ -69,10 +83,11 @@ class OrderComponent extends Component {
   }
 
   isFilled(clothProp) {
-    console.log("IS FILLED");
+    const errors = { ...this.state.errors };
+    errors[clothProp] = null;
     let clothprops = this.state.clothprops;
     clothprops[clothProp] = true;
-    this.setState({ clothprops }, () => {
+    this.setState({ clothprops, errors }, () => {
       let allFilled = true;
       for (let entry of Object.entries(clothprops)) {
         allFilled = allFilled && entry[1];
@@ -82,6 +97,7 @@ class OrderComponent extends Component {
   }
 
   render() {
+    let { errors } = this.state;
     return (
       <Tux>
         <div>Item no.- {this.props.orderkey + 1}</div>
@@ -108,36 +124,25 @@ class OrderComponent extends Component {
             type="text"
             placeholder="  quantity"
             name="quantity"
-            onChange={event => {
-              if (event.target.value === "") {
-                event = null;
-              }
-              event
-                ? (this.isFilled("quantityFilled"),
-                  this.props.addToOrderArrayFromInput(
-                    event,
-                    this.props.orderkey
-                  ))
-                : this.isCleared("quantityFilled");
-            }}
+            onChange={event =>
+              this.handleChangeInputBoxes(event, "quantityFilled", this.props)
+            }
           />
+          {errors.quantityFilled && (
+            <div className="alert alert-danger">{errors.quantityFilled}</div>
+          )}
+
           <input
             type="text"
             placeholder="  price"
             name="price"
-            onChange={event => {
-              if (event.target.value === "") {
-                event = null;
-              }
-              event
-                ? (this.isFilled("priceFilled"),
-                  this.props.addToOrderArrayFromInput(
-                    event,
-                    this.props.orderkey
-                  ))
-                : this.isCleared("priceFilled");
-            }}
+            onChange={event =>
+              this.handleChangeInputBoxes(event, "priceFilled", this.props)
+            }
           />
+          {errors.priceFilled && (
+            <div className="alert alert-danger">{errors.priceFilled}</div>
+          )}
         </span>
 
         <button

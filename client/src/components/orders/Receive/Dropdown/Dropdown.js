@@ -10,7 +10,8 @@ export default class ClotheOptionsDropdown extends Component {
     this.state = {
       // selectValue: "Saree",
       clearable: true,
-      searchable: true
+      searchable: true,
+      errors: {}
     };
     this.setNewValue = this.setNewValue.bind(this);
     this.clearValue = this.clearValue.bind(this);
@@ -37,16 +38,20 @@ export default class ClotheOptionsDropdown extends Component {
   // }
 
   setNewValue(event) {
+    const errors = {};
     if (event) {
-      this.setState({ selectValue: event.value });
+      errors.blankfieldmessage = null;
+      this.setState({ selectValue: event.value, errors });
       this.props.updateValue(event);
     } else {
-      this.setState({ selectValue: "" });
+      errors.blankfieldmessage = "Can't be empty";
+      this.setState({ selectValue: "", errors });
       this.props.cleared();
     }
   }
   render() {
     var options = CLOTHECATEGORIES[this.props.type.toLowerCase()];
+    const { errors } = this.state;
     return (
       <div className="section">
         <Select
@@ -62,6 +67,9 @@ export default class ClotheOptionsDropdown extends Component {
           }}
           searchable={this.state.searchable}
         />
+        {errors.blankfieldmessage && (
+          <div className="alert alert-danger">{errors.blankfieldmessage}</div>
+        )}
       </div>
     );
   }

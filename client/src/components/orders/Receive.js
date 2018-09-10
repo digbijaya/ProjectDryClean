@@ -4,11 +4,13 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import classnames from "classnames";
+import validator from "validator";
 import { receiveorder, commitToDb } from "../../actions/receiveActions";
 import Tux from "../hoc/Tux";
 import Modal from "../ui/Modal/Modal";
 import Confirmation from "./Receive/ConfirmationModal/Confirmation";
 import Orderrow from "./Receive/OrderRow/OrderRow";
+import FormInlineMessage from "../common/FormInlineMessage";
 
 class Receive extends Component {
   constructor() {
@@ -46,6 +48,7 @@ class Receive extends Component {
   onUserChange(event) {
     let user = this.state.user;
     user[event.target.name] = event.target.value;
+    // this.checkUserFields();
     this.setState({ user });
   }
 
@@ -82,10 +85,49 @@ class Receive extends Component {
       });
     });
     console.log("ORDER", JSON.stringify(order));
-    this.setState({ order, totalprice, orderConfirmation: true }, () => {
-      // this.onSubmit();
-    });
+    const userfields_validation = this.checkUserFields();
+    console.log("**************************** ", userfields_validation);
+    userfields_validation
+      ? this.setState({ order, totalprice, orderConfirmation: true }, () => {
+          // this.onSubmit();
+        })
+      : null;
   }
+
+  validate(data) {
+    const errors = {};
+    if (!data.username) errors.username = "Username can't be blank";
+    if (!data.mobilenumber)
+      errors.mobilenumber = "Mobile number can't be blank";
+    return errors;
+    // if (price <= 0) errors.price = "too cheap";
+  }
+
+  checkUserFields = () => {
+    const mobile = this.state.user["mobilenumber"];
+    const user = this.state.user["username"];
+    const errors = {};
+    let flag = true;
+    if (!validator.isLength(user, { min: 3, max: 50 })) {
+      errors.username =
+        "User name should be between 3 and 50 characters. Boundaries inclusive";
+      flag = false;
+    }
+    if (validator.isEmpty(user)) {
+      errors.username = "User name is required";
+      flag = false;
+    }
+    if (!validator.isLength(mobile, { min: 3, max: 10 })) {
+      errors.mobilenumber = "Mobile number need to be atleast 10 digits";
+      flag = false;
+    }
+    if (validator.isEmpty(mobile)) {
+      errors.mobilenumber = "Mobile number is required";
+      flag = false;
+    }
+    flag ? "" : this.setState({ errors });
+    return flag;
+  };
 
   removeClothFromOrder(event) {}
 
@@ -102,6 +144,9 @@ class Receive extends Component {
     console.log("COMMITTING SATTE", this.props.orderReceive.committing);
     this.props.receiveorder(newEntry, this.props.history);
     console.log("COMMITTING SATTE", this.props.orderReceive.committing);
+
+    // const errors = this.validate(this.state.user);
+    // this.setState({ errors });
   }
 
   onConfirmationCancel() {
@@ -137,6 +182,7 @@ class Receive extends Component {
           {errors.mobilenumber && (
             <div className="invalid-feedback">{errors.mobilenumber} </div>
           )}
+          {/* <FormInlineMessage content={errors.mobilenumber} type="error" /> */}
           <input
             className={classnames("form-control", {
               "is-invalid": errors.username
@@ -150,12 +196,14 @@ class Receive extends Component {
           {errors.username && (
             <div className="invalid-feedback">{errors.username} </div>
           )}
+
           <div className="row">
             <h1 style={{ textAlign: "center" }}>Add new order</h1>
             <div style={{ width: "30%", margin: "35px auto" }}>
               <Orderrow
                 updateValue={this.updateValue}
                 addItem={this.addClothToOrder}
+                checkUserFields={this.checkUserFields}
                 removeItem={event => {
                   this.removeClothFromOrder(event);
                 }}

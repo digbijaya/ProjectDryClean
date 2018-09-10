@@ -11,14 +11,15 @@ export const receiveorder = (orderData, history) => dispatch => {
         payload: res.data
       });
       sleep(5000);
+      dispatch(commitToDbComplete());
     })
-    .catch(err =>
+    .catch(err => {
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
-      })
-    );
-  dispatch(commitToDbComplete());
+      });
+      dispatch(commitToDbComplete());
+    });
 };
 
 export const commitToDb = () => dispatch => {
