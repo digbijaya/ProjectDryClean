@@ -11,7 +11,6 @@ export const receiveorder = (orderData, history) => dispatch => {
         payload: res.data
       });
       sleep(5000);
-      dispatch(commitToDbComplete());
     })
     .catch(err =>
       dispatch({
@@ -19,6 +18,7 @@ export const receiveorder = (orderData, history) => dispatch => {
         payload: err.response.data
       })
     );
+  dispatch(commitToDbComplete());
 };
 
 export const commitToDb = () => dispatch => {

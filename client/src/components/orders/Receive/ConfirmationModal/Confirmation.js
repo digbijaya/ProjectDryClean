@@ -21,7 +21,9 @@ const confirmation = props => {
           user={props.user}
           orderdetails={props.orderdetails}
         />
-
+        {props.errors.order && (
+          <div className="alert alert-danger">{props.errors.order} </div>
+        )}
         {props.orderdetails ? (
           <button onClick={props.cancelConfirmation}>Done</button>
         ) : (

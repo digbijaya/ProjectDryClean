@@ -121,6 +121,7 @@ class Receive extends Component {
           submit={this.onSubmit}
           cancelConfirmation={this.onConfirmationCancel}
           orderdetails={this.props.orderReceive.order}
+          errors={errors}
         />
         <div className="container">
           <input
