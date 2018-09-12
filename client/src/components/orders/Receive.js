@@ -112,58 +112,41 @@ class Receive extends Component {
     console.log("ORDERRECEIVE ORDER RES", this.props.orderReceive.order);
     return (
       <Tux>
+
         <Modal show={this.props.orderReceive.committing} />
-        <Confirmation
-          show={this.state.orderConfirmation}
-          orders={this.state.order}
-          totalprice={this.state.totalprice}
-          user={this.state.user}
-          submit={this.onSubmit}
-          cancelConfirmation={this.onConfirmationCancel}
-          orderdetails={this.props.orderReceive.order}
-        />
-        <div className="container">
-          <input
-            className={classnames("form-control", {
-              "is-invalid": errors.mobilenumber
-            })}
-            type="text"
-            name="mobilenumber"
-            value={this.state.user["mobilenumber"]}
-            onChange={this.onUserChange}
-            placeholder="Customer mbole no."
-          />
-          {errors.mobilenumber && (
-            <div className="invalid-feedback">{errors.mobilenumber} </div>
-          )}
-          <input
-            className={classnames("form-control", {
-              "is-invalid": errors.username
-            })}
-            type="text"
-            name="username"
-            value={this.state.user["username"]}
-            onChange={this.onUserChange}
-            placeholder="Customer Name"
-          />
-          {errors.username && (
-            <div className="invalid-feedback">{errors.username} </div>
-          )}
-          <div className="row">
-            <h1 style={{ textAlign: "center" }}>Add new order</h1>
-            <div style={{ width: "30%", margin: "35px auto" }}>
-              <Orderrow
-                updateValue={this.updateValue}
-                addItem={this.addClothToOrder}
-                removeItem={event => {
-                  this.removeClothFromOrder(event);
-                }}
-              />
-              <Link to="/initial">Back</Link>
+        <Confirmation show={this.state.orderConfirmation} orders={this.state.order} totalprice={this.state.totalprice} user={this.state.user} submit={this.onSubmit} cancelConfirmation={this.onConfirmationCancel} orderdetails={this.props.orderReceive.order} />
+
+
+            <div class="form-group row offset-md-0">
+                <div class="form-group col-auto">
+                    <input className={classnames( "form-control", { "is-invalid": errors.mobilenumber })} type="text" name="mobilenumber" value={this.state.user[ "mobilenumber"]} onChange={this.onUserChange} placeholder="Customer mbole no." />
+                </div>
+
+                {errors.mobilenumber && (
+                <div className="invalid-feedback">{errors.mobilenumber} </div>
+                )}
+
+                <div class="form-group col-auto">
+                    <input className={classnames( "form-control", { "is-invalid": errors.username })} type="text" name="username" value={this.state.user[ "username"]} onChange={this.onUserChange} placeholder="Customer Name" />
+                </div>
             </div>
-          </div>
-        </div>
-      </Tux>
+            {errors.username && (
+            <div className="invalid-feedback">{errors.username} </div>
+            )}
+
+
+                <div class="form-group row offset-md-0">
+                    <div class="form-group col" style={{ width: "30%", margin: "35px auto" }}>
+
+                        <Orderrow updateValue={this.updateValue} addItem={this.addClothToOrder} removeItem={event=> { this.removeClothFromOrder(event); }} />
+                            <Link to="/initial" class="btn btn-outline-primary"><strong>Back</strong></Link>
+
+                    </div>
+                </div>
+            
+
+
+    </Tux>
     );
   }
 }
