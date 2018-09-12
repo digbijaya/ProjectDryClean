@@ -84,70 +84,72 @@ class OrderComponent extends Component {
   render() {
     return (
       <Tux>
-        <div>Item no.- {this.props.orderkey + 1}</div>
-        {Object.keys(this.props.clotheproperties).map(clothePropertyKey => {
-          let clothProp = this.props.clotheproperties[clothePropertyKey];
-          return (
-            <span>
-              <ClotheOptionsDropdown
-                updateValue={event => {
-                  this.props.updateValue(event);
-                  this.props.addToOrderArray(event, this.props.orderkey);
-                  this.isFilled(clothProp + "Selected");
-                }}
-                type={clothProp}
-                cleared={() => {
-                  this.isCleared(clothProp + "Selected");
-                }}
-              />
-            </span>
-          );
-        })}
-        <span>
-          <input
-            type="text"
-            placeholder="  quantity"
-            name="quantity"
-            onChange={event => {
-              if (event.target.value === "") {
-                event = null;
-              }
-              event
-                ? (this.isFilled("quantityFilled"),
-                  this.props.addToOrderArrayFromInput(
-                    event,
-                    this.props.orderkey
-                  ))
-                : this.isCleared("quantityFilled");
+        <div class="form-group row offset-md-0">
+         <div class="form-group col-auto">Item- {this.props.orderkey + 1}</div>
+         {Object.keys(this.props.clotheproperties).map(clothePropertyKey => {
+         let clothProp = this.props.clotheproperties[clothePropertyKey];
+         return (
+         <ClotheOptionsDropdown
+            updateValue={event =>
+         {
+         this.props.updateValue(event);
+         this.props.addToOrderArray(event, this.props.orderkey);
+         this.isFilled(clothProp + "Selected");
+         }}
+         type={clothProp}
+         cleared={() => {
+         this.isCleared(clothProp + "Selected");
+         }}
+         />
+         );
+         })}
+         <div class="form-group col-auto control-label">
+            <input class="btn btn-outline border h-99"
+               type="text"
+               placeholder="  quantity"
+               name="quantity"
+               onChange={event => {
+            if (event.target.value === "") {
+            event = null;
+            }
+            event
+            ? (this.isFilled("quantityFilled"),
+            this.props.addToOrderArrayFromInput(
+            event,
+            this.props.orderkey
+            ))
+            : this.isCleared("quantityFilled");
             }}
-          />
-          <input
-            type="text"
-            placeholder="  price"
-            name="price"
-            onChange={event => {
-              if (event.target.value === "") {
-                event = null;
-              }
-              event
-                ? (this.isFilled("priceFilled"),
-                  this.props.addToOrderArrayFromInput(
-                    event,
-                    this.props.orderkey
-                  ))
-                : this.isCleared("priceFilled");
+            />
+         </div>
+         <div class="form-group col-auto">
+            <input class="btn btn-outline border h-90"
+               type="text"
+               placeholder="  price"
+               name="price"
+               onChange={event => {
+            if (event.target.value === "") {
+            event = null;
+            }
+            event
+            ? (this.isFilled("priceFilled"),
+            this.props.addToOrderArrayFromInput(
+            event,
+            this.props.orderkey
+            ))
+            : this.isCleared("priceFilled");
             }}
-          />
-        </span>
-
-        <button
-          onClick={event => {
-            // this.props.removeItem(event);
-            this.props.remove(this.props.orderkey);
-          }}
-        >
-          Delete
-        </button>
+            />
+         </div>
+         <button class="form-group col-auto btn btn-outline-primary h-50"
+            onClick={event => {
+         // this.props.removeItem(event);
+         this.props.remove(this.props.orderkey);
+         }}
+         >
+         Delete
+         </button>
+      </div>
       </Tux>
     );
   }

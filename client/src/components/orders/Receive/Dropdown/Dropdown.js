@@ -48,7 +48,9 @@ export default class ClotheOptionsDropdown extends Component {
   render() {
     var options = CLOTHECATEGORIES[this.props.type.toLowerCase()];
     return (
-      <div className="section">
+
+
+      <div className="section btn dropdown form-group col">
         <Select
           placeholder={this.props.type + "..."}
           id="clothetype-select"
@@ -63,6 +65,8 @@ export default class ClotheOptionsDropdown extends Component {
           searchable={this.state.searchable}
         />
       </div>
+
+
     );
   }
 }
