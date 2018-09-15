@@ -3,6 +3,7 @@ var bodyparser = require("body-parser");
 const mongoose = require("mongoose");
 var nocache = require("nocache");
 const path = require("path");
+const passport = require("passport");
 
 const app = express();
 app.set("etag", false);
@@ -27,7 +28,10 @@ app.use(express.static(__dirname + "/views"));
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(bodyparser.json());
 app.use(nocache());
-
+//Passport middleware
+app.use(passport.initialize());
+//passport config
+require("./config/passport")(passport);
 //ROUTES
 app.use("/api/users", users);
 app.use("/api/orders", orders);

@@ -1,5 +1,9 @@
 const express = require("express");
 const router = express.Router();
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const keys = require("../../config/keys");
+const passport = require("passport");
 
 //Load input validation
 const validateReceiveInput = require("../../validation/receive");
@@ -8,6 +12,7 @@ const validateDeliverInput = require("../../validation/deliver");
 const User = require("../../models/user");
 const Cloth = require("../../models/clothes");
 const Orderid = require("../../models/orderid");
+const ShopLogin = require("../../models/shoplogin");
 
 //@route POST api/users/orderreceive
 //@desc Receive order from user
@@ -31,7 +36,6 @@ router.post("/orderreceive", (req, res) => {
     foundUser
   ) {
     if (err || foundUser === null) {
-      console.log("I AM HERE");
       User.create(user, function(err, newUser) {
         if (err) res.status(404).json(err);
         else {
@@ -86,8 +90,6 @@ router.post("/orderreceive", (req, res) => {
         }
       });
     } else {
-      console.log("I AM THERE");
-      console.log(typeof totalprice);
       Orderid.create({}, function(err, newOrderid) {
         if (err) res.status(404).json(err);
         else {
@@ -246,4 +248,75 @@ router.post("/changeorderidstatus", function(req, res) {
       }
     });
 });
+
+//@route POST api/users/register
+//@desc  Register useer
+//@access private
+router.post("/register", (req, res) => {
+  ShopLogin.findOne({ username: req.body.username }).then(user => {
+    if (user) {
+      return res.status(400).json({ name: "Name already exists" });
+    } else {
+      const newUser = new User({
+        username: req.body.username,
+        password: req.body.password
+      });
+
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(newUser.password, salt, (err, hash) => {
+          if (err) throw err;
+          newUser.password = hash;
+          newUser
+            .save()
+            .then(user => res.json(user))
+            .catch(err => console.log(err));
+        });
+      });
+    }
+  });
+});
+
+//@route POST api/users/login
+//@desc  Login user /Returning JWT token
+//@access public
+router.post("/login", () => {
+  const username = req.body.username;
+  const password = req.body.password;
+
+  //find user by username
+  ShopLogin.findOne({ username }).then(user => {
+    if (!user) {
+      res.status(404).json({ username: "Username not found" });
+    }
+    //chk password
+    bcrypt.compare(password, user.password).then(isMatch => {
+      if (isMatch) {
+        //User matched. Create jwt payload
+        const payload = { id: user.id, name: user.username };
+        //sign the token
+        jwt.sign(
+          payload,
+          keys.secretOrKey,
+          { expiresIn: 64800 },
+          (err, token) => {
+            res.json({ succes: true, token: "Breaer " + token });
+          }
+        );
+      } else {
+        return res.status(400).json({ password: "Password is incorrect" });
+      }
+    });
+  });
+});
+//@route GET api/users/current
+//@desc  Return current user
+//@access private
+router.get(
+  "/current",
+  passport.authenticate("jwt", { session: false }),
+  (req, response) => {
+    //res.json(req.user);
+    res.json({ id: req.user.id, shopname: req.user.name, date: req.user.date });
+  }
+);
 module.exports = router;
