@@ -55,5 +55,5 @@ export const logoutUser = () => dispatch => {
   //remove auth header for future requests
   setAuthToken(false);
   //set current user to {} which will set isAuthenticated to false
-  dispatch(setCurrentUser());
+  dispatch(setCurrentUser({}));
 };
