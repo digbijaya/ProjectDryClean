@@ -8,6 +8,7 @@ const passport = require("passport");
 //Load input validation
 const validateReceiveInput = require("../../validation/receive");
 const validateDeliverInput = require("../../validation/deliver");
+const validateAuthInput = require("../../validation/auth");
 //Load user and cloth model
 const User = require("../../models/user");
 const Cloth = require("../../models/clothes");
@@ -252,21 +253,23 @@ router.post("/changeorderidstatus", function(req, res) {
 //@route POST api/users/register
 //@desc  Register useer
 //@access private
-router.post("/register", (req, res) => {
-  ShopLogin.findOne({ username: req.body.username }).then(user => {
+//http://localhost:3001/api/users/register?username=admin&password=admin
+router.get("/register", (req, res) => {
+  ShopLogin.findOne({ username: req.query.username }).then(user => {
     if (user) {
       return res.status(400).json({ name: "Name already exists" });
     } else {
-      const newUser = new User({
-        username: req.body.username,
-        password: req.body.password
+      const newShop = new ShopLogin({
+        username: req.query.username,
+        password: req.query.password
       });
-
       bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(newUser.password, salt, (err, hash) => {
-          if (err) throw err;
-          newUser.password = hash;
-          newUser
+        bcrypt.hash(newShop.password, salt, (err, hash) => {
+          if (err) {
+            throw err;
+          }
+          newShop.password = hash;
+          newShop
             .save()
             .then(user => res.json(user))
             .catch(err => console.log(err));
@@ -279,14 +282,18 @@ router.post("/register", (req, res) => {
 //@route POST api/users/login
 //@desc  Login user /Returning JWT token
 //@access public
-router.post("/login", () => {
+router.post("/login", (req, res) => {
+  const { errors, isValid } = validateAuthInput(req.body);
+  //check validation
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
   const username = req.body.username;
   const password = req.body.password;
-
   //find user by username
   ShopLogin.findOne({ username }).then(user => {
     if (!user) {
-      res.status(404).json({ username: "Username not found" });
+      return res.status(404).json({ username: "Username not found" });
     }
     //chk password
     bcrypt.compare(password, user.password).then(isMatch => {
@@ -299,7 +306,7 @@ router.post("/login", () => {
           keys.secretOrKey,
           { expiresIn: 64800 },
           (err, token) => {
-            res.json({ succes: true, token: "Breaer " + token });
+            res.json({ succes: true, token: "Bearer " + token });
           }
         );
       } else {
@@ -311,12 +318,17 @@ router.post("/login", () => {
 //@route GET api/users/current
 //@desc  Return current user
 //@access private
+//http://localhost:3001/api/users/current
 router.get(
   "/current",
   passport.authenticate("jwt", { session: false }),
   (req, response) => {
     //res.json(req.user);
-    res.json({ id: req.user.id, shopname: req.user.name, date: req.user.date });
+    res.json({
+      id: req.user.id,
+      shopname: req.user.username,
+      date: req.user.date
+    });
   }
 );
 module.exports = router;

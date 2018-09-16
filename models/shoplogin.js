@@ -11,7 +11,7 @@ const ShopLoginSchema = new Schema({
     type: String,
     required: true
   },
-  dae: {
+  date: {
     type: Date,
     default: Date.now()
   }
