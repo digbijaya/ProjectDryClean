@@ -1,40 +1,40 @@
 {
-	"name": "Project clean as pwa",
-	"short_name": "Pro Clean",
-	"icons":[
-		{
-			"src": "/icons/icons8-washing-machine-48.png",
-			"type": "image/png",
-			"sizes": "48x48"
-		},
-		{
-			"src": "/icons/icons8-washing-machine-96.png",
-			"type": "image/png",
-			"sizes": "96x96"
-		},
-		{
-			"src": "/icons/app-icon-192x192.png",
-			"type": "image/png",
-			"sizes": "192x192"
-		},
-		{
-			"src": "/icons/icons8-washing-machine-480.png",
-			"type": "image/png",
-			"sizes": "480x480"
-		},
-		{
-			"src": "/icons/icons8-washing-machine-512.png",
-			"type": "image/png",
-			"sizes": "512x512"
-		}
-	],
-	"start_url":"/initial",
-	"scope": "../",
-	"display":"standalone",
-	"orientation":"any",
-	"background_color":"#fff",
-	"theme_color":"#3f51b5",
-	"description":"Simple dry clean description",
-	"dir":"ltr",
-	"lang":"en-US"
+  "name": "Project clean as pwa",
+  "short_name": "Pro Clean",
+  "icons": [
+    {
+      "src": "/icons/icons8-washing-machine-48.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "/icons/icons8-washing-machine-96.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "/icons/app-icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/icons/icons8-washing-machine-480.png",
+      "type": "image/png",
+      "sizes": "480x480"
+    },
+    {
+      "src": "/icons/icons8-washing-machine-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "scope": "../",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#fff",
+  "theme_color": "#3f51b5",
+  "description": "Simple dry clean description",
+  "dir": "ltr",
+  "lang": "en-US"
 }

@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Provider } from "react-redux";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
 import store from "./store";
 
+import PrivateRoute from "./components/common/PrivateRoute";
 import Header from "./components/layout/Header";
 import Landing from "./components/layout/Landing";
 import Footer from "./components/layout/Footer";
@@ -45,11 +46,19 @@ class App extends Component {
             <Header />
             <Route exact path="/" component={Landing} />
             <div className="container">
-              <Route exact path="/initial" component={Initial} />
+              <Switch>
+                <PrivateRoute exact path="/initial" component={Initial} />
+              </Switch>
               <Route exact path="/login" component={Login} />
-              <Route exact path="/orderreceive" component={Receive} />
-              <Route exact path="/orderdeliver" component={Deliver} />
-              <Route exact path="/reports" component={Reports} />
+              <Switch>
+                <PrivateRoute exact path="/orderreceive" component={Receive} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/orderdeliver" component={Deliver} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/reports" component={Reports} />
+              </Switch>
             </div>
             <Footer />
           </div>
