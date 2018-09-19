@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { logoutUser } from "../../actions/authActions";
+import SideDrawer from "./SideDrawer/SideDrawer";
+import Tux from "../hoc/Tux";
 
 class Landing extends Component {
   onLogoutClick(event) {
@@ -66,7 +68,12 @@ class Landing extends Component {
       </div>
     );
 
-    return <div>{isAuthenticated ? authLinks : guestLinks}</div>;
+    return (
+      <Tux>
+        <SideDrawer />
+        <div>{isAuthenticated ? authLinks : guestLinks}</div>
+      </Tux>
+    );
   }
 }
 
