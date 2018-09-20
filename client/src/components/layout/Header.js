@@ -26,11 +26,11 @@ class Header extends Component {
 
     return (
       <Tux>
-        <header className={classes.Landing}>
+        <header className={classes.Header}>
           <DrawerToggle clicked={this.sideDrawerOpenHandler} />
-
-          <Logo />
-
+          <div className={classes.Logo}>
+            <Logo />
+          </div>
           <nav className={classes.DesktopOnly}>
             <NavigationItems />
           </nav>

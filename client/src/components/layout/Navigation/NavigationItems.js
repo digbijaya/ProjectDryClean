@@ -7,7 +7,6 @@ import { logoutUser } from "../../../actions/authActions";
 
 class NavigationItems extends Component {
   onLogoutClick(event) {
-    console.log("********************** LOGOUT");
     event.preventDefault();
     this.props.logoutUser();
   }
@@ -28,16 +27,16 @@ class NavigationItems extends Component {
         <NavigationItem link="/reports" exact>
           REPORTS
         </NavigationItem>
-        <li onClick={this.onLogoutClick.bind(this)}>
-          <img
-            src=""
-            alt={user ? user.name : ""}
-            style={{ width: "25px", marginRight: "5px" }}
-          />
+        <img
+          src=""
+          alt={user ? user.name : ""}
+          style={{ width: "25px", marginRight: "5px" }}
+        />
+        <div onClick={this.onLogoutClick.bind(this)}>
           <NavigationItem link="/login" exact>
             LOGOUT
           </NavigationItem>
-        </li>
+        </div>
       </ul>
     );
     const guestLinks = (
