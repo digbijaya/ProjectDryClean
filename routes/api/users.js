@@ -26,11 +26,12 @@ router.post("/orderreceive", (req, res) => {
   }
   // var newClothName = req.body.clothname;
   // var newClothDescription = req.body.description;
-  var order = req.body.order;
-  var user = req.body.user;
-  var orderstatus = req.body.orderstatus;
-  var totalprice = req.body.totalprice;
-  var orderplaceddate = req.body.orderplaceddate;
+  let order = req.body.order;
+  let user = req.body.user;
+  let orderstatus = req.body.orderstatus;
+  let totalprice = req.body.totalprice;
+  let orderplaceddate = req.body.orderplaceddate;
+  let expecteddeliverydate = req.body.expecteddeliverydate;
 
   User.findOne({ mobilenumber: req.body.user.mobilenumber }, function(
     err,
@@ -76,7 +77,8 @@ router.post("/orderreceive", (req, res) => {
                 {
                   orderstatus: orderstatus,
                   totalprice: totalprice,
-                  orderplaceddate: orderplaceddate
+                  orderplaceddate: orderplaceddate,
+                  expecteddeliverydate: expecteddeliverydate
                 },
                 function(err, succ) {
                   if (err) console.log(err);
@@ -125,7 +127,8 @@ router.post("/orderreceive", (req, res) => {
             {
               orderstatus: orderstatus,
               totalprice: totalprice,
-              orderplaceddate: orderplaceddate
+              orderplaceddate: orderplaceddate,
+              expecteddeliverydate: expecteddeliverydate
             },
             function(err, succ) {
               if (err) console.log(err);

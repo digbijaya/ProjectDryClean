@@ -3,6 +3,7 @@ import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import moment from "moment";
 import classnames from "classnames";
 import validator from "validator";
 import { receiveorder, commitToDb } from "../../actions/receiveActions";
@@ -23,7 +24,10 @@ class Receive extends Component {
       orderstatus: "OPEN",
       totalPrice: 0,
       errors: {},
-      orderConfirmation: false
+      orderConfirmation: false,
+      expecteddeliverydate: moment()
+        .clone()
+        .add("day", 7)
     };
     this.onChange = this.onChange.bind(this);
     this.onUserChange = this.onUserChange.bind(this);
@@ -57,6 +61,10 @@ class Receive extends Component {
     cloth[event.category] = event.value;
     this.setState({ cloth });
   }
+
+  updateDeliveryDate = date => {
+    this.setState({ expecteddeliverydate: date });
+  };
 
   /* addOrderRow() {
     console.log("CALLED");
@@ -137,7 +145,8 @@ class Receive extends Component {
       order: this.state.order,
       orderstatus: this.state.orderstatus,
       totalprice: this.state.totalprice,
-      orderplaceddate: new Date()
+      orderplaceddate: new Date(),
+      expecteddeliverydate: this.state.expecteddeliverydate
     };
     console.log("NEW ENTRY", newEntry);
     this.props.commitToDb();
@@ -167,8 +176,10 @@ class Receive extends Component {
           cancelConfirmation={this.onConfirmationCancel}
           orderdetails={this.props.orderReceive.order}
           errors={errors}
+          expecteddeliverydate={this.state.expecteddeliverydate}
+          updateDeliveryDate={this.updateDeliveryDate}
         />
-        <div className="container">
+        <div className={"container"}>
           <input
             className={classnames("form-control", {
               "is-invalid": errors.mobilenumber

@@ -119,8 +119,8 @@ class Reports extends Component {
         <DateRangePicker
           key={
             this.state.startDate
-              ? this.state.startDate.format("DDMM")
-              : this.state.endDate.format("DDMM")
+              ? this.state.startDate.format("DD MMM YY")
+              : this.state.endDate.format("DD MMM YY")
           }
           startDateId="startDate"
           endDateId="endDate"
@@ -137,6 +137,11 @@ class Reports extends Component {
           isOutsideRange={day => !isInclusivelyBeforeDay(day, today)}
           renderCalendarInfo={this.renderDatePresets}
           initialVisibleMonth={() => today.clone().subtract(1, "month")}
+          displayFormat="DD MMM YY"
+          showDefaultInputIcon
+          inputIconPosition="after"
+          small
+          screenReaderInputMessage="Select from and to date"
         />
       </Tux>
     );
