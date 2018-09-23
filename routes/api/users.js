@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const moment = require("moment");
 const keys = require("../../config/keys");
 const passport = require("passport");
 
@@ -33,26 +34,16 @@ router.post("/orderreceive", (req, res) => {
   let totalprice = req.body.totalprice;
   let orderplaceddate = req.body.orderplaceddate;
   let expecteddeliverydate = req.body.expecteddeliverydate;
-  let shopid = req.body.shopid;
+  let shopid = req.body.loggedinshop;
 
   //Going to update shopdetails
-  let foundShopOrders, foundShopOrders_id;
-  ShopOrders.find({ shopid: shopid, date: Date.now() }, function(
-    err,
-    foundEntry
-  ) {
-    if (err || foundEntry === null) {
-      ShopOrders.create(shopid, function(err, newEntry) {
-        foundShopOrders = newEntry;
-        foundShopOrders_id = newEntry._id;
-      });
-    } else {
-      foundShopOrders = foundEntry;
-      foundShopOrders_id = foundEntry._id;
-    }
-  });
-  console.log("*************** foundShopOrders ", foundShopOrders);
-  console.log("*************** foundShopOrders_id ", foundShopOrders_id);
+  let shoporderentry;
+  let today = new Date(
+    moment()
+      .clone()
+      .format("DD-MMM-YYYY")
+  );
+  console.log(")))))))))))))))))))))) ", today);
   User.findOne({ mobilenumber: req.body.user.mobilenumber }, function(
     err,
     foundUser
@@ -64,6 +55,10 @@ router.post("/orderreceive", (req, res) => {
           Orderid.create({}, function(err, newOrderid) {
             if (err) res.status(404).json(err);
             else {
+              shoporderentry = {
+                shopid: shopid,
+                orderids: [newOrderid]
+              };
               order.map(cloth => {
                 Cloth.create(
                   {
@@ -105,6 +100,30 @@ router.post("/orderreceive", (req, res) => {
                   else console.log(succ);
                 }
               );
+              //Creating/updating shop orders table with new order created for logged in shop
+              ShopOrders.find({ shopid: shopid, date: today }, function(
+                err,
+                foundEntry
+              ) {
+                if (err || foundEntry.length < 1) {
+                  ShopOrders.create(shoporderentry, function(err, newEntry) {
+                    console.log("&&&&&&&&&&&&&&&&&& newEntry ", newEntry);
+                  });
+                } else {
+                  console.log("&&&&&&&&&&&&&&&&&& oldentry ", foundEntry);
+                  ShopOrders.update(
+                    { _id: foundEntry._id },
+                    {
+                      $push: { orderids: newOrderid }
+                    },
+                    function(err, succ) {
+                      if (err) console.log(err);
+                      else console.log(succ);
+                    }
+                  );
+                }
+              });
+              //
             }
             newUser.orderids.push(newOrderid);
             newUser.save();
@@ -116,6 +135,10 @@ router.post("/orderreceive", (req, res) => {
       Orderid.create({}, function(err, newOrderid) {
         if (err) res.status(404).json(err);
         else {
+          shoporderentry = {
+            shopid: shopid,
+            orderids: [newOrderid]
+          };
           order.map(cloth => {
             Cloth.create(
               {
@@ -155,6 +178,29 @@ router.post("/orderreceive", (req, res) => {
               else console.log(succ);
             }
           );
+          //Creating/updating shop orders table with new order created for logged in shop
+          ShopOrders.find({ shopid: shopid, date: today }, function(
+            err,
+            foundEntry
+          ) {
+            if (err || foundEntry.length < 1) {
+              ShopOrders.create(shoporderentry, function(err, newEntry) {
+                console.log("*************** newEntry ", newEntry);
+              });
+            } else {
+              console.log("******************** oldentry ", foundEntry);
+              ShopOrders.update(
+                { _id: foundEntry._id },
+                {
+                  $push: { orderids: newOrderid }
+                },
+                function(err, succ) {
+                  if (err) console.log(err);
+                  else console.log(succ);
+                }
+              );
+            }
+          });
         }
         foundUser.orderids.push(newOrderid);
         foundUser.save();

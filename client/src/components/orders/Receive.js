@@ -146,7 +146,8 @@ class Receive extends Component {
       orderstatus: this.state.orderstatus,
       totalprice: this.state.totalprice,
       orderplaceddate: new Date(),
-      expecteddeliverydate: this.state.expecteddeliverydate
+      expecteddeliverydate: this.state.expecteddeliverydate,
+      loggedinshop: this.props.auth.user.name
     };
     console.log("NEW ENTRY", newEntry);
     this.props.commitToDb();
@@ -163,6 +164,7 @@ class Receive extends Component {
   }
   render() {
     const { errors } = this.state;
+    const { user } = this.props.auth;
     console.log("ORDERRECEIVE ORDER RES", this.props.orderReceive.order);
     return (
       <Tux>
@@ -231,11 +233,13 @@ class Receive extends Component {
 Receive.propTypes = {
   receiveorder: PropTypes.func.isRequired,
   orderReceive: PropTypes.object.isRequired,
+  auth: PropTypes.object,
   errors: PropTypes.object.isRequired
 };
 const mapStateToProps = state => ({
   orderReceive: state.orderReceive,
-  errors: state.errors
+  errors: state.errors,
+  auth: state.auth
 });
 
 export default connect(

@@ -1,10 +1,11 @@
 var mongoose = require("mongoose");
+const moment = require("moment");
 const Schema = mongoose.Schema;
 
 const ShopOrdersSchema = new Schema({
   date: {
     type: Date,
-    default: Date.now()
+    default: new Date(moment().format("DD-MMM-YYYY"))
   },
   shopid: {
     type: String,
@@ -18,4 +19,4 @@ const ShopOrdersSchema = new Schema({
   ]
 });
 
-module.exports = mongoose.model("shopdetails", ShopOrdersSchema);
+module.exports = mongoose.model("shoporders", ShopOrdersSchema);
