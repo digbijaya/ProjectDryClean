@@ -14,6 +14,7 @@ const User = require("../../models/user");
 const Cloth = require("../../models/clothes");
 const Orderid = require("../../models/orderid");
 const ShopLogin = require("../../models/shoplogin");
+const ShopOrders = require("../../models/shoporders");
 
 //@route POST api/users/orderreceive
 //@desc Receive order from user
@@ -32,7 +33,26 @@ router.post("/orderreceive", (req, res) => {
   let totalprice = req.body.totalprice;
   let orderplaceddate = req.body.orderplaceddate;
   let expecteddeliverydate = req.body.expecteddeliverydate;
+  let shopid = req.body.shopid;
 
+  //Going to update shopdetails
+  let foundShopOrders, foundShopOrders_id;
+  ShopOrders.find({ shopid: shopid, date: Date.now() }, function(
+    err,
+    foundEntry
+  ) {
+    if (err || foundEntry === null) {
+      ShopOrders.create(shopid, function(err, newEntry) {
+        foundShopOrders = newEntry;
+        foundShopOrders_id = newEntry._id;
+      });
+    } else {
+      foundShopOrders = foundEntry;
+      foundShopOrders_id = foundEntry._id;
+    }
+  });
+  console.log("*************** foundShopOrders ", foundShopOrders);
+  console.log("*************** foundShopOrders_id ", foundShopOrders_id);
   User.findOne({ mobilenumber: req.body.user.mobilenumber }, function(
     err,
     foundUser
