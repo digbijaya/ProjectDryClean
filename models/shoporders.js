@@ -13,7 +13,7 @@ const ShopOrdersSchema = new Schema({
   },
   orderids: [
     {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "orderid"
     }
   ]

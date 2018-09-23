@@ -38,12 +38,9 @@ router.post("/orderreceive", (req, res) => {
 
   //Going to update shopdetails
   let shoporderentry;
-  let today = new Date(
-    moment()
-      .clone()
-      .format("DD-MMM-YYYY")
-  );
-  console.log(")))))))))))))))))))))) ", today);
+  let today = moment()
+    .clone()
+    .format("DD-MMM-YYYY");
   User.findOne({ mobilenumber: req.body.user.mobilenumber }, function(
     err,
     foundUser
@@ -80,7 +77,8 @@ router.post("/orderreceive", (req, res) => {
                         },
                         function(err, succ) {
                           if (err) console.log(err);
-                          else console.log(succ);
+                          else
+                            console.log("Orderid updated with clothes ", succ);
                         }
                       );
                     }
@@ -97,7 +95,8 @@ router.post("/orderreceive", (req, res) => {
                 },
                 function(err, succ) {
                   if (err) console.log(err);
-                  else console.log(succ);
+                  else
+                    console.log("Orderid updated with stat,price,dates ", succ);
                 }
               );
               //Creating/updating shop orders table with new order created for logged in shop
@@ -106,19 +105,16 @@ router.post("/orderreceive", (req, res) => {
                 foundEntry
               ) {
                 if (err || foundEntry.length < 1) {
-                  ShopOrders.create(shoporderentry, function(err, newEntry) {
-                    console.log("&&&&&&&&&&&&&&&&&& newEntry ", newEntry);
-                  });
+                  ShopOrders.create(shoporderentry, function(err, newEntry) {});
                 } else {
-                  console.log("&&&&&&&&&&&&&&&&&& oldentry ", foundEntry);
                   ShopOrders.update(
-                    { _id: foundEntry._id },
+                    { _id: foundEntry[0]._id },
                     {
                       $push: { orderids: newOrderid }
                     },
                     function(err, succ) {
                       if (err) console.log(err);
-                      else console.log(succ);
+                      else console.log("Shop updated with new orderid ", succ);
                     }
                   );
                 }
@@ -158,7 +154,7 @@ router.post("/orderreceive", (req, res) => {
                     { $push: { clothes: newCloth } },
                     function(err, succ) {
                       if (err) console.log(err);
-                      else console.log(succ);
+                      else console.log("Orderid updated with clothes ", succ);
                     }
                   );
                 }
@@ -175,7 +171,7 @@ router.post("/orderreceive", (req, res) => {
             },
             function(err, succ) {
               if (err) console.log(err);
-              else console.log(succ);
+              else console.log("Orderid updated with stat,price,dates ", succ);
             }
           );
           //Creating/updating shop orders table with new order created for logged in shop
@@ -184,19 +180,16 @@ router.post("/orderreceive", (req, res) => {
             foundEntry
           ) {
             if (err || foundEntry.length < 1) {
-              ShopOrders.create(shoporderentry, function(err, newEntry) {
-                console.log("*************** newEntry ", newEntry);
-              });
+              ShopOrders.create(shoporderentry, function(err, newEntry) {});
             } else {
-              console.log("******************** oldentry ", foundEntry);
               ShopOrders.update(
-                { _id: foundEntry._id },
+                { _id: foundEntry[0]._id },
                 {
                   $push: { orderids: newOrderid }
                 },
                 function(err, succ) {
-                  if (err) console.log(err);
-                  else console.log(succ);
+                  if (err) console.log("err ", err);
+                  else console.log("Shop updated with new orderid ", succ);
                 }
               );
             }
