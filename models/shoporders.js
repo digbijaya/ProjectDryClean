@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const ShopOrdersSchema = new Schema({
   date: {
     type: Date,
-    default: new Date(moment().format("DD-MMM-YYYY"))
+    default: new Date()
   },
   shopid: {
     type: String,
