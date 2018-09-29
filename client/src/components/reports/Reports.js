@@ -47,7 +47,7 @@ class Reports extends Component {
       searchable: true,
       selectedShop: "",
       startDate: today.clone().startOf("day"),
-      endDate: today.clone(),
+      endDate: today.clone().endOf("day"),
       focusedInput: null
     };
     this.renderDatePresets = this.renderDatePresets.bind(this);
@@ -113,6 +113,7 @@ class Reports extends Component {
 
   render() {
     var options = SHOPNAMES["shopnames"];
+    const { salestats } = this.props.fetchedreport;
     return (
       <Tux>
         <div className="section" style={{ width: "30%", margin: "35px auto" }}>
@@ -157,6 +158,7 @@ class Reports extends Component {
           screenReaderInputMessage="Select from and to date"
         />
         <button onClick={this.onfetch}>Fetch</button>
+        <div>{salestats ? salestats[0].orderids[1].orderstatus : null}</div>
       </Tux>
     );
   }

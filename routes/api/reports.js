@@ -11,12 +11,7 @@ router.post("/fetchreport", (req, res) => {
   let shopname = req.body.selectedshop;
   let startdate = req.body.startdate;
   let enddate = req.body.enddate;
-  console.log(
-    "&&&&&&&&&&&&&&&& ",
-    moment(new Date())
-      .utcOffset("+05:30")
-      .format()
-  );
+
   ShopOrders.find({
     shopid: shopname,
     date: {
@@ -32,7 +27,7 @@ router.post("/fetchreport", (req, res) => {
       if (err) {
         console.log("************* err", err);
       } else {
-        console.log("*************** found orders ", foundorders);
+        res.json(foundorders);
       }
     });
 });
