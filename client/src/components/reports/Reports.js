@@ -1,8 +1,10 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import "react-dates/initialize";
 import "./_datepicker.css?external";
 import presetclass from "./presetdatepicker.css";
 import { DateRangePicker, isInclusivelyBeforeDay } from "react-dates";
+import { fetchReport } from "../../actions/reportActions";
 import isSameDay from "./isSameDay";
 import moment from "moment";
 import Select from "react-select";
@@ -43,7 +45,8 @@ class Reports extends Component {
     this.state = {
       clearable: true,
       searchable: true,
-      startDate: today.clone(),
+      selectedShop: "",
+      startDate: today.clone().startOf("day"),
       endDate: today.clone(),
       focusedInput: null
     };
@@ -57,10 +60,10 @@ class Reports extends Component {
 
   setNewValue = event => {
     if (event) {
-      this.setState({ selectValue: event.value });
+      this.setState({ selectedShop: event.value });
       // this.props.updateValue(event);
     } else {
-      this.setState({ selectValue: "" });
+      this.setState({ selectedShop: "" });
       // this.props.cleared();
     }
   };
@@ -82,8 +85,9 @@ class Reports extends Component {
               key={text}
               className={
                 (presetclass.PresetDateRangePicker_button,
-                isSelected &&
-                  presetclass.PresetDateRangePicker_button__selected)
+                isSelected
+                  ? presetclass.PresetDateRangePicker_button__selected
+                  : null)
               }
               type="button"
               onClick={() =>
@@ -98,6 +102,15 @@ class Reports extends Component {
     );
   }
 
+  onfetch = event => {
+    const reportparams = {
+      startdate: this.state.startDate.startOf("day"),
+      enddate: this.state.endDate.endOf("day"),
+      selectedshop: this.state.selectedShop
+    };
+    this.props.fetchReport(reportparams);
+  };
+
   render() {
     var options = SHOPNAMES["shopnames"];
     return (
@@ -109,7 +122,7 @@ class Reports extends Component {
             options={options}
             clearable={this.state.clearable}
             disabled={this.state.disabled}
-            value={this.state.selectValue}
+            value={this.state.selectedShop}
             searchable={this.state.searchable}
             onChange={event => {
               this.setNewValue(event);
@@ -143,13 +156,22 @@ class Reports extends Component {
           small
           screenReaderInputMessage="Select from and to date"
         />
+        <button onClick={this.onfetch}>Fetch</button>
       </Tux>
     );
   }
 }
 
 Reports.propTypes = {
-  searchable: PropTypes.bool
+  searchable: PropTypes.bool,
+  fetchReport: PropTypes.func.isRequired
 };
 
-export default Reports;
+const mapStateToProps = state => ({
+  fetchedreport: state.report
+});
+
+export default connect(
+  mapStateToProps,
+  { fetchReport }
+)(Reports);

@@ -180,6 +180,9 @@ router.post("/orderreceive", (req, res) => {
             foundEntry
           ) {
             if (err || foundEntry.length < 1) {
+              console.log("&&&&&&&&&&&&&&&&&&&&&&& ", foundEntry);
+              console.log("&&&&&&&&&&&&&&&&&&&&&&& ", shopid);
+              console.log("&&&&&&&&&&&&&&&&&&&&&&& ", today);
               ShopOrders.create(shoporderentry, function(err, newEntry) {});
             } else {
               ShopOrders.update(

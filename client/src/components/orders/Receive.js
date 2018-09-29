@@ -92,9 +92,9 @@ class Receive extends Component {
         price: orders.price
       });
     });
-    console.log("ORDER", JSON.stringify(order));
+
     const userfields_validation = this.checkUserFields();
-    console.log("**************************** ", userfields_validation);
+
     userfields_validation
       ? this.setState({ order, totalprice, orderConfirmation: true }, () => {
           // this.onSubmit();

@@ -1,13 +1,13 @@
 exports.shopnames = [
   {
-    value: "Shop 1",
-    label: "Shop 1",
+    value: "admin",
+    label: "admin",
     category: "shop",
     className: "shop-loc"
   },
   {
-    value: "Shop 2",
-    label: "Shop 2",
+    value: "shop1",
+    label: "shop1",
     category: "shop",
     className: "shop-loc"
   },

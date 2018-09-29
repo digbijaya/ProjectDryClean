@@ -18,6 +18,7 @@ mongoose
 
 const users = require("./routes/api/users");
 const orders = require("./routes/api/orders");
+const reports = require("./routes/api/reports");
 
 // var Cloth = require("./models/Clothes");
 // var User = require("./models/User");
@@ -35,6 +36,7 @@ require("./config/passport")(passport);
 //ROUTES
 app.use("/api/users", users);
 app.use("/api/orders", orders);
+app.use("/api/reports", reports);
 
 //Server static assets if in production
 if (process.env.NODE_ENV === "production") {
