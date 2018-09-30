@@ -11,9 +11,6 @@ router.post("/fetchreport", (req, res) => {
   let shopname = req.body.selectedshop;
   let startdate = req.body.startdate;
   let enddate = req.body.enddate;
-  console.log("&&&&&&&&&&&&&&&&&&&&& shopname", shopname);
-  console.log("&&&&&&&&&&&&&&&&&&&&& startdate", startdate);
-  console.log("&&&&&&&&&&&&&&&&&&&&& enddate", enddate);
   if (shopname === "All") {
     ShopOrders.find({
       // shopid: shopname,

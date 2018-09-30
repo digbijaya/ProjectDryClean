@@ -11,9 +11,11 @@ import Select from "react-select";
 import PropTypes from "prop-types";
 import Tux from "../hoc/Tux";
 import "./react-select.css?external";
+import Saleslist from "./Saleslist";
 import { withStyles, css } from "react-with-styles";
 const SHOPNAMES = require("../../data/shopnames");
 
+let total;
 const today = moment();
 const yesterday = moment().subtract(1, "day");
 const presets = [
@@ -48,6 +50,7 @@ const presets = [
 class Reports extends Component {
   constructor() {
     super();
+
     this.state = {
       clearable: false,
       searchable: false,
@@ -58,6 +61,36 @@ class Reports extends Component {
     };
     this.renderDatePresets = this.renderDatePresets.bind(this);
     this.onDatesChange = this.onDatesChange.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    let salelist = [];
+    let map = new Map();
+    if (nextProps.salestats) {
+      let stats = nextProps.salestats;
+      stats.map(daydetails => {
+        let date = moment(daydetails.date).format("DD/MMM/YYYY");
+        console.log("&&&&&&&&&&&&&&&&&&&&&& ", date);
+        if (map.has(date)) {
+          let salelistclone = map.get(date).slice(0);
+          console.log("^^^^^^^^^^^^^^^^ ", JSON.stringify(salelistclone));
+        } else {
+          daydetails.orderids.map(orderid => {
+            total = total + Math.trunc(orderid.totalprice);
+          });
+          salelist[daydetails.shopid] = total;
+          map.set(date, salelist);
+          console.log("&&&&&&&&&&&&&&&&&&&&&& ", JSON.stringify(salelist));
+        }
+        /* salelist.push({ saleid: new Date().getTime() });
+        salelist.push({ shopid: daydetails.shopid });
+        salelist.push({ date: daydetails.date });
+        daydetails.orderids.map(orderid => {
+          total = total + Math.trunc(orderid.totalprice);
+        });
+        salelist.push({ push: daydetails.date }); */
+      });
+    }
   }
 
   clearValue = event => {
@@ -111,6 +144,7 @@ class Reports extends Component {
   onfetch = event => {
     const start = this.state.startDate.startOf("day");
     const end = this.state.endDate.endOf("day");
+    total = 0;
     const reportparams = {
       startdate: start,
       enddate: end,
@@ -122,6 +156,7 @@ class Reports extends Component {
   render() {
     var options = SHOPNAMES["shopnames"];
     const { salestats } = this.props.fetchedreport;
+
     return (
       <Tux>
         <div className="section" style={{ width: "30%", margin: "35px auto" }}>
@@ -166,7 +201,7 @@ class Reports extends Component {
           screenReaderInputMessage="Select from and to date"
         />
         <button onClick={this.onfetch}>Fetch</button>
-        <div>{salestats ? salestats[0].orderids[1].orderstatus : null}</div>
+        <div>{salestats ? salestats[0].shopid : null}</div>
       </Tux>
     );
   }
@@ -174,11 +209,13 @@ class Reports extends Component {
 
 Reports.propTypes = {
   searchable: PropTypes.bool,
-  fetchReport: PropTypes.func.isRequired
+  fetchReport: PropTypes.func.isRequired,
+  salestats: PropTypes.object
 };
 
 const mapStateToProps = state => ({
-  fetchedreport: state.report
+  fetchedreport: state.report,
+  salestats: state.report.salestats
 });
 
 export default connect(
