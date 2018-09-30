@@ -19,23 +19,29 @@ const yesterday = moment().subtract(1, "day");
 const presets = [
   {
     text: "Today",
-    start: today,
-    end: today
+    start: today.startOf("day"),
+    end: today.endOf("day")
   },
   {
     text: "Yesterday",
-    start: yesterday,
-    end: yesterday
+    start: yesterday.startOf("day"),
+    end: yesterday.endOf("day")
   },
   {
     text: "Last Week",
-    start: today,
-    end: today.clone().subtract(1, "week")
+    start: today
+      .clone()
+      .subtract(1, "week")
+      .startOf("day"),
+    end: today.endOf("day")
   },
   {
     text: "Last Month",
-    start: today,
-    end: today.clone().subtract(1, "month")
+    start: today
+      .clone()
+      .subtract(1, "month")
+      .startOf("day"),
+    end: today.endOf("day")
   }
 ];
 
@@ -43,9 +49,9 @@ class Reports extends Component {
   constructor() {
     super();
     this.state = {
-      clearable: true,
-      searchable: true,
-      selectedShop: "",
+      clearable: false,
+      searchable: false,
+      selectedShop: "All",
       startDate: today.clone().startOf("day"),
       endDate: today.clone().endOf("day"),
       focusedInput: null
@@ -103,9 +109,11 @@ class Reports extends Component {
   }
 
   onfetch = event => {
+    const start = this.state.startDate.startOf("day");
+    const end = this.state.endDate.endOf("day");
     const reportparams = {
-      startdate: this.state.startDate.startOf("day"),
-      enddate: this.state.endDate.endOf("day"),
+      startdate: start,
+      enddate: end,
       selectedshop: this.state.selectedShop
     };
     this.props.fetchReport(reportparams);
@@ -118,8 +126,8 @@ class Reports extends Component {
       <Tux>
         <div className="section" style={{ width: "30%", margin: "35px auto" }}>
           <Select
-            placeholder="Shopname"
             id={"selected-shop"}
+            placeholder={"Shopname"}
             options={options}
             clearable={this.state.clearable}
             disabled={this.state.disabled}

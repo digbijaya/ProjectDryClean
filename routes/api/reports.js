@@ -11,24 +11,50 @@ router.post("/fetchreport", (req, res) => {
   let shopname = req.body.selectedshop;
   let startdate = req.body.startdate;
   let enddate = req.body.enddate;
-
-  ShopOrders.find({
-    shopid: shopname,
-    date: {
-      $gte: startdate,
-      $lte: enddate
-    }
-  })
-    .populate({
-      path: "orderids",
-      model: "orderid"
-    })
-    .exec(function(err, foundorders) {
-      if (err) {
-        console.log("************* err", err);
-      } else {
-        res.json(foundorders);
+  console.log("&&&&&&&&&&&&&&&&&&&&& shopname", shopname);
+  console.log("&&&&&&&&&&&&&&&&&&&&& startdate", startdate);
+  console.log("&&&&&&&&&&&&&&&&&&&&& enddate", enddate);
+  if (shopname === "All") {
+    ShopOrders.find({
+      // shopid: shopname,
+      // shopid: { $in: ["shop1", "admin"] },
+      date: {
+        $gte: startdate,
+        $lte: enddate
       }
-    });
+    })
+      .populate({
+        path: "orderids",
+        model: "orderid"
+      })
+      .exec(function(err, foundorders) {
+        if (err) {
+          console.log("************* err", err);
+        } else {
+          console.log("&&&&&&&&&&&&&&&&&&&&& foundorders", foundorders);
+          res.json(foundorders);
+        }
+      });
+  } else {
+    ShopOrders.find({
+      shopid: shopname,
+      date: {
+        $gte: startdate,
+        $lte: enddate
+      }
+    })
+      .populate({
+        path: "orderids",
+        model: "orderid"
+      })
+      .exec(function(err, foundorders) {
+        if (err) {
+          console.log("************* err", err);
+        } else {
+          console.log("&&&&&&&&&&&&&&&&&&&&& foundorders", foundorders);
+          res.json(foundorders);
+        }
+      });
+  }
 });
 module.exports = router;

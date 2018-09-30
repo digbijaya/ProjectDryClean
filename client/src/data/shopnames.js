@@ -1,5 +1,11 @@
 exports.shopnames = [
   {
+    value: "All",
+    label: "All",
+    category: "shop",
+    className: "shop-loc"
+  },
+  {
     value: "admin",
     label: "admin",
     category: "shop",
