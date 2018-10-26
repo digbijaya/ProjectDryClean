@@ -15,7 +15,8 @@ class OrderRow extends Component {
       clothetype: "Clothetype",
       clothequality: "Clothequality",
       allInputFilled: true,
-      orderrows: []
+      orderrows: [],
+      errors: {}
     };
   }
 
@@ -90,7 +91,9 @@ class OrderRow extends Component {
         />
         <button class="btn btn-outline-primary"
           disabled={!this.state.allInputFilled}
-          onClick={this.addOrderRow}
+          onClick={event => {
+            this.addOrderRow();
+          }}
         >
           <strong>Add New</strong>
         </button>

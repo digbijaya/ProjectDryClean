@@ -10,6 +10,20 @@
   transition: all 0.3s ease-out;
 }
 
+.SingleDatePickerInput_calendarIcon {
+  background: 0 0;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  line-height: normal;
+  overflow: visible;
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: middle;
+  padding: 2px;
+  margin: 0 2px 0 2px;
+}
+
 @media (min-width: 600px) {
   .Confirmation {
     width: 900px;
