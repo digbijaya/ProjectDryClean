@@ -53,7 +53,9 @@ export default class ClotheOptionsDropdown extends Component {
     var options = CLOTHECATEGORIES[this.props.type.toLowerCase()];
     const { errors } = this.state;
     return (
-      <div className="section">
+
+
+      <div className="section btn dropdown form-group col">
         <Select
           placeholder={this.props.type + "..."}
           id="clothetype-select"
@@ -71,6 +73,8 @@ export default class ClotheOptionsDropdown extends Component {
           <div className="alert alert-danger">{errors.blankfieldmessage}</div>
         )}
       </div>
+
+
     );
   }
 }

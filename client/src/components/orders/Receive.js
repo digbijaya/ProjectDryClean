@@ -168,6 +168,7 @@ class Receive extends Component {
     console.log("ORDERRECEIVE ORDER RES", this.props.orderReceive.order);
     return (
       <Tux>
+
         <Modal show={this.props.orderReceive.committing} />
         <Confirmation
           show={this.state.orderConfirmation}
@@ -181,7 +182,8 @@ class Receive extends Component {
           expecteddeliverydate={this.state.expecteddeliverydate}
           updateDeliveryDate={this.updateDeliveryDate}
         />
-        <div className={"container"}>
+        <div class="form-group row offset-md-0">
+            <div class="form-group col-auto">
           <input
             className={classnames("form-control", {
               "is-invalid": errors.mobilenumber
@@ -195,7 +197,9 @@ class Receive extends Component {
           {errors.mobilenumber && (
             <div className="invalid-feedback">{errors.mobilenumber} </div>
           )}
+          </div>
           {/* <FormInlineMessage content={errors.mobilenumber} type="error" /> */}
+            <div class="form-group col-auto">
           <input
             className={classnames("form-control", {
               "is-invalid": errors.username
@@ -209,6 +213,7 @@ class Receive extends Component {
           {errors.username && (
             <div className="invalid-feedback">{errors.username} </div>
           )}
+          </div>
 
           <div className="row">
             <h1 style={{ textAlign: "center" }}>Add new order</h1>
@@ -223,9 +228,20 @@ class Receive extends Component {
               />
               <Link to="/">Back</Link>
             </div>
-          </div>
-        </div>
-      </Tux>
+            {errors.username && (
+            <div className="invalid-feedback">{errors.username} </div>
+            )}
+
+
+                <div class="form-group row offset-md-0">
+                    <div class="form-group col" style={{ width: "30%", margin: "35px auto" }}>
+
+                        <Orderrow updateValue={this.updateValue} addItem={this.addClothToOrder} removeItem={event=> { this.removeClothFromOrder(event); }} />
+                            <Link to="/initial" class="btn btn-outline-primary"><strong>Back</strong></Link>
+
+                    </div>
+                </div>
+    </Tux>
     );
   }
 }

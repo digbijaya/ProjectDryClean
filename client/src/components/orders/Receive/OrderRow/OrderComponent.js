@@ -100,11 +100,11 @@ class OrderComponent extends Component {
     let { errors } = this.state;
     return (
       <Tux>
-        <div>Item no.- {this.props.orderkey + 1}</div>
+        <div class="form-group row offset-md-0">
+        <div class="form-group col-auto">Item no.- {this.props.orderkey + 1}</div>
         {Object.keys(this.props.clotheproperties).map(clothePropertyKey => {
           let clothProp = this.props.clotheproperties[clothePropertyKey];
-          return (
-            <span>
+          return (            
               <ClotheOptionsDropdown
                 updateValue={event => {
                   this.props.updateValue(event);
@@ -116,11 +116,10 @@ class OrderComponent extends Component {
                   this.isCleared(clothProp + "Selected");
                 }}
               />
-            </span>
           );
         })}
-        <span>
-          <input
+        <div class="form-group col-auto control-label">
+            <input class="btn btn-outline border h-99"
             type="text"
             placeholder="  quantity"
             name="quantity"
@@ -131,8 +130,10 @@ class OrderComponent extends Component {
           {errors.quantityFilled && (
             <div className="alert alert-danger">{errors.quantityFilled}</div>
           )}
+          </div>
 
-          <input
+          <div class="form-group col-auto control-label">
+            <input class="btn btn-outline border h-99"
             type="text"
             placeholder="  price"
             name="price"
@@ -143,9 +144,10 @@ class OrderComponent extends Component {
           {errors.priceFilled && (
             <div className="alert alert-danger">{errors.priceFilled}</div>
           )}
-        </span>
+          </div>
+        
 
-        <button
+        <button class="form-group col-auto btn btn-outline-primary h-50"
           onClick={event => {
             // this.props.removeItem(event);
             this.props.remove(this.props.orderkey);
@@ -153,6 +155,7 @@ class OrderComponent extends Component {
         >
           Delete
         </button>
+</div>
       </Tux>
     );
   }
