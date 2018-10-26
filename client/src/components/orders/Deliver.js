@@ -48,7 +48,7 @@ class Deliver extends Component {
   clearOrdersStore = event => {
     event.preventDefault();
     this.props.clearOrders();
-    this.props.history.push("/initial");
+    this.props.history.push("/");
   };
 
   populateSelectedOrderid(orderid, showOrderDetails, currentpage) {

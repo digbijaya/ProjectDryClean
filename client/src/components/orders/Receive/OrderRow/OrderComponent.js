@@ -15,22 +15,36 @@ class OrderComponent extends Component {
         colorSelected: false,
         quantityFilled: false,
         priceFilled: false
-      }
+      },
+      errors: {}
     };
-    this.typeCleared = this.typeCleared.bind(this);
+    // this.typeCleared = this.typeCleared.bind(this);
     this.qualityCleared = this.qualityCleared.bind(this);
     this.isTypeFilled = this.isTypeFilled.bind(this);
     this.isQualityFilled = this.isQualityFilled.bind(this);
     this.isFilled = this.isFilled.bind(this);
   }
 
-  typeCleared() {
+  /* typeCleared() {
     this.setState({ clothetypeSelected: false }, () => {
       this.props.allFieldsPopulated(
         this.state.clothequalitySelected && this.state.clothetypeSelected
       );
     });
-  }
+  } */
+
+  handleChangeInputBoxes = (event, inputboxFilledVar, props) => {
+    const errors = { ...this.state.errors };
+    if (event.target.value.trim() === "") {
+      event = null;
+      errors[inputboxFilledVar] = "Can't be empty";
+      this.setState({ errors });
+    }
+    event
+      ? (this.isFilled(inputboxFilledVar),
+        props.addToOrderArrayFromInput(event, props.orderkey))
+      : this.isCleared(inputboxFilledVar);
+  };
 
   isCleared(clothProp) {
     let clothprops = this.state.clothprops;
@@ -69,10 +83,11 @@ class OrderComponent extends Component {
   }
 
   isFilled(clothProp) {
-    console.log("IS FILLED");
+    const errors = { ...this.state.errors };
+    errors[clothProp] = null;
     let clothprops = this.state.clothprops;
     clothprops[clothProp] = true;
-    this.setState({ clothprops }, () => {
+    this.setState({ clothprops, errors }, () => {
       let allFilled = true;
       for (let entry of Object.entries(clothprops)) {
         allFilled = allFilled && entry[1];
@@ -82,74 +97,65 @@ class OrderComponent extends Component {
   }
 
   render() {
+    let { errors } = this.state;
     return (
       <Tux>
         <div class="form-group row offset-md-0">
-         <div class="form-group col-auto">Item- {this.props.orderkey + 1}</div>
-         {Object.keys(this.props.clotheproperties).map(clothePropertyKey => {
-         let clothProp = this.props.clotheproperties[clothePropertyKey];
-         return (
-         <ClotheOptionsDropdown
-            updateValue={event =>
-         {
-         this.props.updateValue(event);
-         this.props.addToOrderArray(event, this.props.orderkey);
-         this.isFilled(clothProp + "Selected");
-         }}
-         type={clothProp}
-         cleared={() => {
-         this.isCleared(clothProp + "Selected");
-         }}
-         />
-         );
-         })}
-         <div class="form-group col-auto control-label">
+        <div class="form-group col-auto">Item no.- {this.props.orderkey + 1}</div>
+        {Object.keys(this.props.clotheproperties).map(clothePropertyKey => {
+          let clothProp = this.props.clotheproperties[clothePropertyKey];
+          return (            
+              <ClotheOptionsDropdown
+                updateValue={event => {
+                  this.props.updateValue(event);
+                  this.props.addToOrderArray(event, this.props.orderkey);
+                  this.isFilled(clothProp + "Selected");
+                }}
+                type={clothProp}
+                cleared={() => {
+                  this.isCleared(clothProp + "Selected");
+                }}
+              />
+          );
+        })}
+        <div class="form-group col-auto control-label">
             <input class="btn btn-outline border h-99"
-               type="text"
-               placeholder="  quantity"
-               name="quantity"
-               onChange={event => {
-            if (event.target.value === "") {
-            event = null;
+            type="text"
+            placeholder="  quantity"
+            name="quantity"
+            onChange={event =>
+              this.handleChangeInputBoxes(event, "quantityFilled", this.props)
             }
-            event
-            ? (this.isFilled("quantityFilled"),
-            this.props.addToOrderArrayFromInput(
-            event,
-            this.props.orderkey
-            ))
-            : this.isCleared("quantityFilled");
-            }}
-            />
-         </div>
-         <div class="form-group col-auto">
-            <input class="btn btn-outline border h-90"
-               type="text"
-               placeholder="  price"
-               name="price"
-               onChange={event => {
-            if (event.target.value === "") {
-            event = null;
+          />
+          {errors.quantityFilled && (
+            <div className="alert alert-danger">{errors.quantityFilled}</div>
+          )}
+          </div>
+
+          <div class="form-group col-auto control-label">
+            <input class="btn btn-outline border h-99"
+            type="text"
+            placeholder="  price"
+            name="price"
+            onChange={event =>
+              this.handleChangeInputBoxes(event, "priceFilled", this.props)
             }
-            event
-            ? (this.isFilled("priceFilled"),
-            this.props.addToOrderArrayFromInput(
-            event,
-            this.props.orderkey
-            ))
-            : this.isCleared("priceFilled");
-            }}
-            />
-         </div>
-         <button class="form-group col-auto btn btn-outline-primary h-50"
-            onClick={event => {
-         // this.props.removeItem(event);
-         this.props.remove(this.props.orderkey);
-         }}
-         >
-         Delete
-         </button>
-      </div>
+          />
+          {errors.priceFilled && (
+            <div className="alert alert-danger">{errors.priceFilled}</div>
+          )}
+          </div>
+        
+
+        <button class="form-group col-auto btn btn-outline-primary h-50"
+          onClick={event => {
+            // this.props.removeItem(event);
+            this.props.remove(this.props.orderkey);
+          }}
+        >
+          Delete
+        </button>
+</div>
       </Tux>
     );
   }

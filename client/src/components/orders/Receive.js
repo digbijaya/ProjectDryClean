@@ -3,12 +3,15 @@ import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import moment from "moment";
 import classnames from "classnames";
+import validator from "validator";
 import { receiveorder, commitToDb } from "../../actions/receiveActions";
 import Tux from "../hoc/Tux";
 import Modal from "../ui/Modal/Modal";
 import Confirmation from "./Receive/ConfirmationModal/Confirmation";
 import Orderrow from "./Receive/OrderRow/OrderRow";
+import FormInlineMessage from "../common/FormInlineMessage";
 
 class Receive extends Component {
   constructor() {
@@ -21,7 +24,10 @@ class Receive extends Component {
       orderstatus: "OPEN",
       totalPrice: 0,
       errors: {},
-      orderConfirmation: false
+      orderConfirmation: false,
+      expecteddeliverydate: moment()
+        .clone()
+        .add("day", 7)
     };
     this.onChange = this.onChange.bind(this);
     this.onUserChange = this.onUserChange.bind(this);
@@ -46,6 +52,7 @@ class Receive extends Component {
   onUserChange(event) {
     let user = this.state.user;
     user[event.target.name] = event.target.value;
+    // this.checkUserFields();
     this.setState({ user });
   }
 
@@ -54,6 +61,10 @@ class Receive extends Component {
     cloth[event.category] = event.value;
     this.setState({ cloth });
   }
+
+  updateDeliveryDate = date => {
+    this.setState({ expecteddeliverydate: date });
+  };
 
   /* addOrderRow() {
     console.log("CALLED");
@@ -81,11 +92,50 @@ class Receive extends Component {
         price: orders.price
       });
     });
-    console.log("ORDER", JSON.stringify(order));
-    this.setState({ order, totalprice, orderConfirmation: true }, () => {
-      // this.onSubmit();
-    });
+
+    const userfields_validation = this.checkUserFields();
+
+    userfields_validation
+      ? this.setState({ order, totalprice, orderConfirmation: true }, () => {
+          // this.onSubmit();
+        })
+      : null;
   }
+
+  validate(data) {
+    const errors = {};
+    if (!data.username) errors.username = "Username can't be blank";
+    if (!data.mobilenumber)
+      errors.mobilenumber = "Mobile number can't be blank";
+    return errors;
+    // if (price <= 0) errors.price = "too cheap";
+  }
+
+  checkUserFields = () => {
+    const mobile = this.state.user["mobilenumber"];
+    const user = this.state.user["username"];
+    const errors = {};
+    let flag = true;
+    if (!validator.isLength(user, { min: 3, max: 50 })) {
+      errors.username =
+        "User name should be between 3 and 50 characters. Boundaries inclusive";
+      flag = false;
+    }
+    if (validator.isEmpty(user)) {
+      errors.username = "User name is required";
+      flag = false;
+    }
+    if (!validator.isLength(mobile, { min: 3, max: 10 })) {
+      errors.mobilenumber = "Mobile number need to be atleast 10 digits";
+      flag = false;
+    }
+    if (validator.isEmpty(mobile)) {
+      errors.mobilenumber = "Mobile number is required";
+      flag = false;
+    }
+    flag ? "" : this.setState({ errors });
+    return flag;
+  };
 
   removeClothFromOrder(event) {}
 
@@ -95,13 +145,18 @@ class Receive extends Component {
       order: this.state.order,
       orderstatus: this.state.orderstatus,
       totalprice: this.state.totalprice,
-      orderplaceddate: new Date()
+      orderplaceddate: new Date(),
+      expecteddeliverydate: this.state.expecteddeliverydate,
+      loggedinshop: this.props.auth.user.name
     };
     console.log("NEW ENTRY", newEntry);
     this.props.commitToDb();
     console.log("COMMITTING SATTE", this.props.orderReceive.committing);
     this.props.receiveorder(newEntry, this.props.history);
     console.log("COMMITTING SATTE", this.props.orderReceive.committing);
+
+    // const errors = this.validate(this.state.user);
+    // this.setState({ errors });
   }
 
   onConfirmationCancel() {
@@ -109,26 +164,69 @@ class Receive extends Component {
   }
   render() {
     const { errors } = this.state;
+    const { user } = this.props.auth;
     console.log("ORDERRECEIVE ORDER RES", this.props.orderReceive.order);
     return (
       <Tux>
 
         <Modal show={this.props.orderReceive.committing} />
-        <Confirmation show={this.state.orderConfirmation} orders={this.state.order} totalprice={this.state.totalprice} user={this.state.user} submit={this.onSubmit} cancelConfirmation={this.onConfirmationCancel} orderdetails={this.props.orderReceive.order} />
+        <Confirmation
+          show={this.state.orderConfirmation}
+          orders={this.state.order}
+          totalprice={this.state.totalprice}
+          user={this.state.user}
+          submit={this.onSubmit}
+          cancelConfirmation={this.onConfirmationCancel}
+          orderdetails={this.props.orderReceive.order}
+          errors={errors}
+          expecteddeliverydate={this.state.expecteddeliverydate}
+          updateDeliveryDate={this.updateDeliveryDate}
+        />
+        <div class="form-group row offset-md-0">
+            <div class="form-group col-auto">
+          <input
+            className={classnames("form-control", {
+              "is-invalid": errors.mobilenumber
+            })}
+            type="text"
+            name="mobilenumber"
+            value={this.state.user["mobilenumber"]}
+            onChange={this.onUserChange}
+            placeholder="Customer mbole no."
+          />
+          {errors.mobilenumber && (
+            <div className="invalid-feedback">{errors.mobilenumber} </div>
+          )}
+          </div>
+          {/* <FormInlineMessage content={errors.mobilenumber} type="error" /> */}
+            <div class="form-group col-auto">
+          <input
+            className={classnames("form-control", {
+              "is-invalid": errors.username
+            })}
+            type="text"
+            name="username"
+            value={this.state.user["username"]}
+            onChange={this.onUserChange}
+            placeholder="Customer Name"
+          />
+          {errors.username && (
+            <div className="invalid-feedback">{errors.username} </div>
+          )}
+          </div>
 
-
-            <div class="form-group row offset-md-0">
-                <div class="form-group col-auto">
-                    <input className={classnames( "form-control", { "is-invalid": errors.mobilenumber })} type="text" name="mobilenumber" value={this.state.user[ "mobilenumber"]} onChange={this.onUserChange} placeholder="Customer mbole no." />
-                </div>
-
-                {errors.mobilenumber && (
-                <div className="invalid-feedback">{errors.mobilenumber} </div>
-                )}
-
-                <div class="form-group col-auto">
-                    <input className={classnames( "form-control", { "is-invalid": errors.username })} type="text" name="username" value={this.state.user[ "username"]} onChange={this.onUserChange} placeholder="Customer Name" />
-                </div>
+          <div className="row">
+            <h1 style={{ textAlign: "center" }}>Add new order</h1>
+            <div style={{ width: "30%", margin: "35px auto" }}>
+              <Orderrow
+                updateValue={this.updateValue}
+                addItem={this.addClothToOrder}
+                checkUserFields={this.checkUserFields}
+                removeItem={event => {
+                  this.removeClothFromOrder(event);
+                }}
+              />
+              <Link to="/">Back</Link>
             </div>
             {errors.username && (
             <div className="invalid-feedback">{errors.username} </div>
@@ -143,9 +241,6 @@ class Receive extends Component {
 
                     </div>
                 </div>
-            
-
-
     </Tux>
     );
   }
@@ -154,11 +249,13 @@ class Receive extends Component {
 Receive.propTypes = {
   receiveorder: PropTypes.func.isRequired,
   orderReceive: PropTypes.object.isRequired,
+  auth: PropTypes.object,
   errors: PropTypes.object.isRequired
 };
 const mapStateToProps = state => ({
   orderReceive: state.orderReceive,
-  errors: state.errors
+  errors: state.errors,
+  auth: state.auth
 });
 
 export default connect(

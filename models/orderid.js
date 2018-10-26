@@ -9,7 +9,8 @@ var orderidSchema = new mongoose.Schema({
   ],
   orderstatus: String,
   totalprice: String,
-  orderplaceddate: Date
+  orderplaceddate: Date,
+  expecteddeliverydate: Date
 });
 
 module.exports = mongoose.model("orderid", orderidSchema);

@@ -1,59 +1,96 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import "react-dates/initialize";
 import "./_datepicker.css?external";
 import presetclass from "./presetdatepicker.css";
-import {
-  DateRangePicker,
-  SingleDatePicker,
-  DayPickerRangeController,
-  isInclusivelyBeforeDay
-} from "react-dates";
+import { DateRangePicker, isInclusivelyBeforeDay } from "react-dates";
+import { fetchReport } from "../../actions/reportActions";
 import isSameDay from "./isSameDay";
 import moment from "moment";
 import Select from "react-select";
 import PropTypes from "prop-types";
 import Tux from "../hoc/Tux";
 import "./react-select.css?external";
+import Saleslist from "./Saleslist";
 import { withStyles, css } from "react-with-styles";
 const SHOPNAMES = require("../../data/shopnames");
 
+let total;
 const today = moment();
 const yesterday = moment().subtract(1, "day");
 const presets = [
   {
     text: "Today",
-    start: today,
-    end: today
+    start: today.startOf("day"),
+    end: today.endOf("day")
   },
   {
     text: "Yesterday",
-    start: yesterday,
-    end: yesterday
+    start: yesterday.startOf("day"),
+    end: yesterday.endOf("day")
   },
   {
     text: "Last Week",
-    start: today,
-    end: today.clone().subtract(1, "week")
+    start: today
+      .clone()
+      .subtract(1, "week")
+      .startOf("day"),
+    end: today.endOf("day")
   },
   {
     text: "Last Month",
-    start: today,
-    end: today.clone().subtract(1, "month")
+    start: today
+      .clone()
+      .subtract(1, "month")
+      .startOf("day"),
+    end: today.endOf("day")
   }
 ];
 
 class Reports extends Component {
   constructor() {
     super();
+
     this.state = {
-      clearable: true,
-      searchable: true,
-      startDate: today.clone(),
-      endDate: today.clone(),
+      clearable: false,
+      searchable: false,
+      selectedShop: "All",
+      startDate: today.clone().startOf("day"),
+      endDate: today.clone().endOf("day"),
       focusedInput: null
     };
     this.renderDatePresets = this.renderDatePresets.bind(this);
     this.onDatesChange = this.onDatesChange.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    let salelist = [];
+    let map = new Map();
+    if (nextProps.salestats) {
+      let stats = nextProps.salestats;
+      stats.map(daydetails => {
+        let date = moment(daydetails.date).format("DD/MMM/YYYY");
+        console.log("&&&&&&&&&&&&&&&&&&&&&& ", date);
+        if (map.has(date)) {
+          let salelistclone = map.get(date).slice(0);
+          console.log("^^^^^^^^^^^^^^^^ ", JSON.stringify(salelistclone));
+        } else {
+          daydetails.orderids.map(orderid => {
+            total = total + Math.trunc(orderid.totalprice);
+          });
+          salelist[daydetails.shopid] = total;
+          map.set(date, salelist);
+          console.log("&&&&&&&&&&&&&&&&&&&&&& ", JSON.stringify(salelist));
+        }
+        /* salelist.push({ saleid: new Date().getTime() });
+        salelist.push({ shopid: daydetails.shopid });
+        salelist.push({ date: daydetails.date });
+        daydetails.orderids.map(orderid => {
+          total = total + Math.trunc(orderid.totalprice);
+        });
+        salelist.push({ push: daydetails.date }); */
+      });
+    }
   }
 
   clearValue = event => {
@@ -62,10 +99,10 @@ class Reports extends Component {
 
   setNewValue = event => {
     if (event) {
-      this.setState({ selectValue: event.value });
+      this.setState({ selectedShop: event.value });
       // this.props.updateValue(event);
     } else {
-      this.setState({ selectValue: "" });
+      this.setState({ selectedShop: "" });
       // this.props.cleared();
     }
   };
@@ -75,7 +112,6 @@ class Reports extends Component {
   }
 
   renderDatePresets() {
-    const { styles } = this.props;
     const { startDate, endDate } = this.state;
 
     return (
@@ -88,8 +124,9 @@ class Reports extends Component {
               key={text}
               className={
                 (presetclass.PresetDateRangePicker_button,
-                isSelected &&
-                  presetclass.PresetDateRangePicker_button__selected)
+                isSelected
+                  ? presetclass.PresetDateRangePicker_button__selected
+                  : null)
               }
               type="button"
               onClick={() =>
@@ -104,18 +141,32 @@ class Reports extends Component {
     );
   }
 
+  onfetch = event => {
+    const start = this.state.startDate.startOf("day");
+    const end = this.state.endDate.endOf("day");
+    total = 0;
+    const reportparams = {
+      startdate: start,
+      enddate: end,
+      selectedshop: this.state.selectedShop
+    };
+    this.props.fetchReport(reportparams);
+  };
+
   render() {
     var options = SHOPNAMES["shopnames"];
+    const { salestats } = this.props.fetchedreport;
+
     return (
       <Tux>
         <div className="section" style={{ width: "30%", margin: "35px auto" }}>
           <Select
-            placeholder="Shopname"
             id={"selected-shop"}
+            placeholder={"Shopname"}
             options={options}
             clearable={this.state.clearable}
             disabled={this.state.disabled}
-            value={this.state.selectValue}
+            value={this.state.selectedShop}
             searchable={this.state.searchable}
             onChange={event => {
               this.setNewValue(event);
@@ -125,8 +176,8 @@ class Reports extends Component {
         <DateRangePicker
           key={
             this.state.startDate
-              ? this.state.startDate.format("DDMM")
-              : this.state.endDate.format("DDMM")
+              ? this.state.startDate.format("DD MMM YY")
+              : this.state.endDate.format("DD MMM YY")
           }
           startDateId="startDate"
           endDateId="endDate"
@@ -143,14 +194,31 @@ class Reports extends Component {
           isOutsideRange={day => !isInclusivelyBeforeDay(day, today)}
           renderCalendarInfo={this.renderDatePresets}
           initialVisibleMonth={() => today.clone().subtract(1, "month")}
+          displayFormat="DD MMM YY"
+          showDefaultInputIcon
+          inputIconPosition="after"
+          small
+          screenReaderInputMessage="Select from and to date"
         />
+        <button onClick={this.onfetch}>Fetch</button>
+        <div>{salestats ? salestats[0].shopid : null}</div>
       </Tux>
     );
   }
 }
 
 Reports.propTypes = {
-  searchable: PropTypes.bool
+  searchable: PropTypes.bool,
+  fetchReport: PropTypes.func.isRequired,
+  salestats: PropTypes.object
 };
 
-export default Reports;
+const mapStateToProps = state => ({
+  fetchedreport: state.report,
+  salestats: state.report.salestats
+});
+
+export default connect(
+  mapStateToProps,
+  { fetchReport }
+)(Reports);

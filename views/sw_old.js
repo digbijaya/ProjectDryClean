@@ -1,37 +1,35 @@
 // importScripts('/js/idb.js');
 
 var deferredPrompt;
-var CACHE_STATIC_NAME='static-v3'+new Date().getUTCHours()+'.'+new Date().getUTCMinutes();
-var CACHE_DYNAMIC_NAME='dynamic-v2';
-var PRO_STORE='pro-store';
+var CACHE_STATIC_NAME =
+  "static-v3" + new Date().getUTCHours() + "." + new Date().getUTCMinutes();
+var CACHE_DYNAMIC_NAME = "dynamic-v2";
+var PRO_STORE = "pro-store";
 
-self.addEventListener('install',function(event){
-	// console.log("[service worker] installing service worker..", event);
-	/*if (event.request.cache === 'only-if-cached' && event.request.mode !== 'same-origin') {
+self.addEventListener("install", function(event) {
+  // console.log("[service worker] installing service worker..", event);
+  /*if (event.request.cache === 'only-if-cached' && event.request.mode !== 'same-origin') {
   		reurn;
   	}*/
-  	event.waitUntil(
-  		caches.open(CACHE_STATIC_NAME)
-  		.then(function(cache){
-  			console.log('[Service worker install] Precaching app shell');
-  			cache.addAll([
-  				'/',
-  				'/offline',
-  				'/initial',
-  				'/orderreceive',
-  				'/orderdeliver',
-  				'/js/idb.js',
-  				'/js/collect.js',
-  				'/js/application.js',
-  				'/js/collection.js',
-  				'/js/fetch.js',
-  				'/js/promise.js',
-  				'https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css'
-  			]);
-  		})
-  	);
+  event.waitUntil(
+    caches.open(CACHE_STATIC_NAME).then(function(cache) {
+      console.log("[Service worker install] Precaching app shell");
+      cache.addAll([
+        "/",
+        "/offline",
+        "/orderreceive",
+        "/orderdeliver",
+        "/js/idb.js",
+        "/js/collect.js",
+        "/js/application.js",
+        "/js/collection.js",
+        "/js/fetch.js",
+        "/js/promise.js",
+        "https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+      ]);
+    })
+  );
 });
-
 
 /*var dbPromise=idb.open(PRO_STORE, 1, function(db){
 	if(!db.objectStoreNames.contains('users')){
@@ -40,28 +38,33 @@ self.addEventListener('install',function(event){
 	
 });*/
 
-self.addEventListener('activate',function(event){
-	// console.log("[service worker] activating service worker..", event);
-	event.waitUntil(
-		caches.keys().then(function(keyList){
-			return Promise.all(keyList.map(function(key){
-				if(key!==CACHE_STATIC_NAME && key!==CACHE_DYNAMIC_NAME){
-					console.log('[Service worker] Remvoving old cache', key);
-					return caches.delete(key);
-				}
-			}));
-		})
-	);
-	return self.clients.claim();
+self.addEventListener("activate", function(event) {
+  // console.log("[service worker] activating service worker..", event);
+  event.waitUntil(
+    caches.keys().then(function(keyList) {
+      return Promise.all(
+        keyList.map(function(key) {
+          if (key !== CACHE_STATIC_NAME && key !== CACHE_DYNAMIC_NAME) {
+            console.log("[Service worker] Remvoving old cache", key);
+            return caches.delete(key);
+          }
+        })
+      );
+    })
+  );
+  return self.clients.claim();
 });
 
 //cache first then network fallbak strategy
-self.addEventListener('fetch',function(event){
-	// console.log("[service worker] fetching asset service worker..", event);
-	if (event.request.cache === 'only-if-cached' && event.request.mode !== 'same-origin') {
-  		return;
-  	}
-/*  	var url='/orderdeliver';
+self.addEventListener("fetch", function(event) {
+  // console.log("[service worker] fetching asset service worker..", event);
+  if (
+    event.request.cache === "only-if-cached" &&
+    event.request.mode !== "same-origin"
+  ) {
+    return;
+  }
+  /*  	var url='/orderdeliver';
   	if(event.request.url.indexOf(url) > -1 && event.request.method.includes('POST')){
   		event.respondWith(
   			fetch(event.request)
@@ -86,35 +89,33 @@ self.addEventListener('fetch',function(event){
   				})
   		);
   	}else{*/
-  		// event.respondWith(fetch(event.request));
-	event.respondWith(
-		caches.match(event.request)
-		.then(function(response){
-			if(response){
-				return response;
-			}else{
-				console.log('[Service worker fetch] fetching dynamic content');
-				console.log(event.request);
-				return fetch(event.request)
-				.then(function(res){
-					console.log(res.clone());
-					return caches.open(CACHE_DYNAMIC_NAME)
-						.then(function(cache){
-							// trimCache(CACHE_DYNAMIC_NAME, 3);
-							cache.put(event.request.url, res.clone());
-							return res;
-						})
-				}).catch(function(err){
-					console.log(err);
-					return caches.open(CACHE_STATIC_NAME)
-						.then(function(cache){
-							return cache.match('/offline');
-						})
-				});
-			} 
-		})
-	);
-  	// }	
+  // event.respondWith(fetch(event.request));
+  event.respondWith(
+    caches.match(event.request).then(function(response) {
+      if (response) {
+        return response;
+      } else {
+        console.log("[Service worker fetch] fetching dynamic content");
+        console.log(event.request);
+        return fetch(event.request)
+          .then(function(res) {
+            console.log(res.clone());
+            return caches.open(CACHE_DYNAMIC_NAME).then(function(cache) {
+              // trimCache(CACHE_DYNAMIC_NAME, 3);
+              cache.put(event.request.url, res.clone());
+              return res;
+            });
+          })
+          .catch(function(err) {
+            console.log(err);
+            return caches.open(CACHE_STATIC_NAME).then(function(cache) {
+              return cache.match("/offline");
+            });
+          });
+      }
+    })
+  );
+  // }
 });
 
 //network first then caches strategy
