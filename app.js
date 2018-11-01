@@ -11,7 +11,10 @@ app.set("etag", false);
 //DBCONFIG
 const db = require("./config/keys").mongoURI;
 mongoose
-  .connect(db)
+  .connect(
+    db,
+    { useNewUrlParser: true }
+  )
   .then(() => console.log("Mongodb connected"))
   .catch(err => console.log(error));
 //mongoose.connect("mongodb://braj:braj@ds219130.mlab.com:19130/dryclean");
