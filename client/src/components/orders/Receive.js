@@ -216,21 +216,6 @@ class Receive extends Component {
 
           <div className="row">
             <h1 style={{ textAlign: "center" }}>Add new order</h1>
-            <div style={{ width: "30%", margin: "35px auto" }}>
-              <Orderrow
-                updateValue={this.updateValue}
-                addItem={this.addClothToOrder}
-                checkUserFields={this.checkUserFields}
-                removeItem={event => {
-                  this.removeClothFromOrder(event);
-                }}
-              />
-              <Link to="/">Back</Link>
-            </div>
-            {errors.username && (
-              <div className="invalid-feedback">{errors.username} </div>
-            )}
-
             <div class="form-group row offset-md-0">
               <div
                 class="form-group col"
