@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const moment = require("moment-timezone");
 //Load models
 const ShopOrders = require("../../models/shoporders");
 
