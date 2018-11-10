@@ -4,13 +4,14 @@
   position: relative;
   top: 0;
   left: 0;
-  background-color: #007bff;
+  background-color: Gray;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
   box-sizing: border-box;
   z-index: 90;
+  margin-bottom: 20px;
 }
 
 .Header nav {
