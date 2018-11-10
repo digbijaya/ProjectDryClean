@@ -16,16 +16,16 @@ class NavigationItems extends Component {
     const authLinks = (
       <ul className={classes.NavigationItems}>
         <NavigationItem link="/" exact>
-          HOME
+          <strong>HOME</strong>
         </NavigationItem>
         <NavigationItem link="/orderreceive" exact>
-          RECEIVE
+          <strong>RECEIVE</strong>
         </NavigationItem>
         <NavigationItem link="/orderdeliver" exact>
-          DELIVER
+          <strong>DELIVER</strong>
         </NavigationItem>
         <NavigationItem link="/reports" exact>
-          REPORTS
+          <strong>REPORTS</strong>
         </NavigationItem>
         <img
           src=""
@@ -34,7 +34,7 @@ class NavigationItems extends Component {
         />
         <div onClick={this.onLogoutClick.bind(this)}>
           <NavigationItem link="/login" exact>
-            LOGOUT
+            <strong>LOGOUT</strong>
           </NavigationItem>
         </div>
       </ul>
@@ -42,7 +42,7 @@ class NavigationItems extends Component {
     const guestLinks = (
       <ul className={classes.NavigationItems}>
         <NavigationItem link="/login" exact>
-          LOGIN
+          <strong>LOGIN</strong>
         </NavigationItem>
       </ul>
     );
@@ -52,7 +52,7 @@ class NavigationItems extends Component {
 const navigationItems = props => (
   <ul className={classes.NavigationItems}>
     <NavigationItem link="/" exact>
-      HOME
+      <strong>HOME</strong>
     </NavigationItem>
     <NavigationItem link="/orderreceive">Place Order</NavigationItem>
   </ul>

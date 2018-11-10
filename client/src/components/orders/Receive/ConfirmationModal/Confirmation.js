@@ -19,47 +19,50 @@ class Confirmation extends Component {
     return (
       <Tux>
         <Backdrop show={this.props.show} />
-        <div
-          className={classes.Confirmation}
-          style={{
-            transform: this.props.show ? "translateY(0)" : "translateY(-100vh)",
-            opacity: this.props.show ? "1" : "0"
-          }}
-        >
-          <Clothelist
-            clothes={this.props.orders}
-            totalprice={this.props.totalprice}
-            user={this.props.user}
-            orderdetails={this.props.orderdetails}
-          />
-          {this.props.errors.order && (
-            <div className="alert alert-danger">{this.props.errors.order} </div>
-          )}
-          <p>Expected Delivery Date</p>
-          <SingleDatePicker
-            date={this.state.deliverydate}
-            onDateChange={deliverydate => {
-              this.setState({ deliverydate });
-              this.props.updateDeliveryDate(deliverydate);
+
+          <div
+            className={classes.Confirmation}
+            style={{
+              transform: this.props.show ? "translateY(0)" : "translateY(-100vh)",
+              opacity: this.props.show ? "1" : "0"
             }}
-            focused={this.state.focused}
-            onFocusChange={({ focused }) => this.setState({ focused })}
-            id="singledatepicker"
-            displayFormat="DD MMM YY"
-            showDefaultInputIcon
-            inputIconPosition="after"
-            small
-            screenReaderInputMessage="Select expected delivery date"
-          />
-          {this.props.orderdetails ? (
-            <button onClick={this.props.cancelConfirmation}>Done</button>
-          ) : (
-            <div>
-              <button onClick={this.props.submit}>Submit</button>
-              <button onClick={this.props.cancelConfirmation}>Cancel</button>
-            </div>
-          )}
-        </div>
+          >
+            <Clothelist
+              clothes={this.props.orders}
+              totalprice={this.props.totalprice}
+              user={this.props.user}
+              orderdetails={this.props.orderdetails}
+            />
+            {this.props.errors.order && (
+              <div className="alert alert-danger">{this.props.errors.order} </div>
+            )}
+            <p><strong>Expected Delivery Date</strong></p>
+            <SingleDatePicker
+              date={this.state.deliverydate}
+              onDateChange={deliverydate => {
+                this.setState({ deliverydate });
+                this.props.updateDeliveryDate(deliverydate);
+              }}
+              focused={this.state.focused}
+              onFocusChange={({ focused }) => this.setState({ focused })}
+              id="singledatepicker"
+              displayFormat="DD MMM YY"
+              showDefaultInputIcon
+              inputIconPosition="after"
+              small
+              screenReaderInputMessage="Select expected delivery date"
+            />
+            {this.props.orderdetails ? (
+              <button onClick={this.props.cancelConfirmation}>Done</button>
+            ) : (
+              <div>
+                <button onClick={this.props.submit}>Submit</button>
+                <button onClick={this.props.cancelConfirmation}>Cancel</button>
+              </div>
+            )}
+          </div>
+
+
       </Tux>
     );
   }

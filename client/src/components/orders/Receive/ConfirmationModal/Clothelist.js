@@ -12,10 +12,10 @@ const clothelist = props => (
     </div>
     <div className="container">
       <hr />
-      <div style={{ width: "30%", margin: "35px auto" }}>
+      <div style={{ width: "50%", margin: "35px auto" }}>
         <div>
-          <table className="table table-hover">
-            <thead>
+          <table className="table table-bordered">
+            <thead class="thead-dark">
               <tr>
                 <th>Cloth Type</th>
                 <th>Quality</th>
@@ -37,12 +37,12 @@ const clothelist = props => (
                 </tr>
               ))}
               <tr>
-                <td>Total Price</td>
+                <td><strong>Total Price</strong></td>
                 <td />
                 <td />
                 <td />
                 <td />
-                <td>{props.totalprice}</td>
+                <td><strong>{props.totalprice}</strong></td>
               </tr>
             </tbody>
           </table>
