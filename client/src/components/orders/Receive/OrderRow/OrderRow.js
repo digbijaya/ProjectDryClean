@@ -89,7 +89,7 @@ class OrderRow extends Component {
           addToOrderArray={this.addToOrderArray}
           addToOrderArrayFromInput={this.addToOrderArrayFromInput}
         />
-        <button class="btn btn-outline-primary"
+        <button class="btn btn-outline-primary mb-2 mr-1"
           disabled={!this.state.allInputFilled}
           onClick={event => {
             this.addOrderRow();
@@ -97,7 +97,7 @@ class OrderRow extends Component {
         >
           <strong>Add New</strong>
         </button>
-        <button class="btn btn-outline-primary" onClick={() => this.props.addItem(this.state.orderrows)}>
+        <button class="btn btn-outline-primary mb-2 mr-1" onClick={() => this.props.addItem(this.state.orderrows)}>
           <strong>Submit</strong>
         </button>
       </Tux>
