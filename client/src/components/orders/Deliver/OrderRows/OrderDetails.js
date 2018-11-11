@@ -16,7 +16,7 @@ const orderDetails = props => {
       >
         <Clothelist fullUser={props.fullUser} orderid={props.orderid} />
         <button onClick={props.closeOrderDetails}>DONE</button>
-        <div>CHANGE ORDER STATUS</div>
+        <div><strong>CHANGE ORDER STATUS</strong></div>
         {props.orderid.orderstatus === "OPEN" ? (
           <button
             onClick={() => {
