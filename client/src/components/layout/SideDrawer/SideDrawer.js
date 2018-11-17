@@ -9,6 +9,7 @@ const sideDrawer = props => {
   if (props.status) {
     attachedClasses = [classes.SideDrawer, classes.Open];
   }
+
   return (
     <Tux>
       <Backdrop show={props.status} clicked={props.close} />
@@ -18,7 +19,7 @@ const sideDrawer = props => {
         </div>
 
         <nav>
-          <NavigationItems />
+          <NavigationItems closebackdrop={props.close} />
         </nav>
       </div>
     </Tux>

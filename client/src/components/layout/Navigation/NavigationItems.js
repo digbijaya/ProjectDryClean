@@ -6,25 +6,41 @@ import NavigationItem from "./NavigationItem/NavigationItem";
 import { logoutUser } from "../../../actions/authActions";
 
 class NavigationItems extends Component {
+  constructor(props) {
+    super();
+  }
   onLogoutClick(event) {
     event.preventDefault();
     this.props.logoutUser();
   }
+
   render() {
     const { isAuthenticated, user } = this.props.auth;
 
     const authLinks = (
       <ul className={classes.NavigationItems}>
-        <NavigationItem link="/" exact>
+        <NavigationItem link="/" handleclick={this.props.closebackdrop} exact>
           <strong>HOME</strong>
         </NavigationItem>
-        <NavigationItem link="/orderreceive" exact>
+        <NavigationItem
+          link="/orderreceive"
+          handleclick={this.props.closebackdrop}
+          exact
+        >
           <strong>RECEIVE</strong>
         </NavigationItem>
-        <NavigationItem link="/orderdeliver" exact>
+        <NavigationItem
+          link="/orderdeliver"
+          handleclick={this.props.closebackdrop}
+          exact
+        >
           <strong>DELIVER</strong>
         </NavigationItem>
-        <NavigationItem link="/reports" exact>
+        <NavigationItem
+          link="/reports"
+          handleclick={this.props.closebackdrop}
+          exact
+        >
           <strong>REPORTS</strong>
         </NavigationItem>
         <img
@@ -33,7 +49,11 @@ class NavigationItems extends Component {
           style={{ width: "25px", marginRight: "5px" }}
         />
         <div onClick={this.onLogoutClick.bind(this)}>
-          <NavigationItem link="/login" exact>
+          <NavigationItem
+            link="/login"
+            handleclick={this.props.closebackdrop}
+            exact
+          >
             <strong>LOGOUT</strong>
           </NavigationItem>
         </div>
@@ -41,7 +61,11 @@ class NavigationItems extends Component {
     );
     const guestLinks = (
       <ul className={classes.NavigationItems}>
-        <NavigationItem link="/login" exact>
+        <NavigationItem
+          link="/login"
+          handleclick={this.props.closebackdrop}
+          exact
+        >
           <strong>LOGIN</strong>
         </NavigationItem>
       </ul>
