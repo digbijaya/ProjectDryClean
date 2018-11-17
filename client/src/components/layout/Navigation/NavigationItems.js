@@ -43,11 +43,6 @@ class NavigationItems extends Component {
         >
           <strong>REPORTS</strong>
         </NavigationItem>
-        <img
-          src=""
-          alt={user ? user.name : ""}
-          style={{ width: "25px", marginRight: "5px" }}
-        />
         <div onClick={this.onLogoutClick.bind(this)}>
           <NavigationItem
             link="/login"

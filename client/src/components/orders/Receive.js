@@ -228,7 +228,7 @@ class Receive extends Component {
                     this.removeClothFromOrder(event);
                   }}
                 />
-                <Link to="/initial" class="btn btn-outline-primary mb-2">
+                <Link to="/" class="btn btn-outline-primary mb-2">
                   <strong>Back</strong>
                 </Link>
               </div>

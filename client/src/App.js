@@ -10,7 +10,6 @@ import PrivateRoute from "./components/common/PrivateRoute";
 import Header from "./components/layout/Header";
 import Landing from "./components/layout/Landing";
 import Footer from "./components/layout/Footer";
-import Initial from "./components/layout/Initial";
 import Receive from "./components/orders/Receive";
 import Deliver from "./components/orders/Deliver";
 import Reports from "./components/reports/Reports";
@@ -46,9 +45,6 @@ class App extends Component {
             <Header />
             <Route exact path="/" component={Landing} />
             <div className="container">
-              <Switch>
-                <PrivateRoute exact path="/initial" component={Initial} />
-              </Switch>
               <Route exact path="/login" component={Login} />
               <Switch>
                 <PrivateRoute exact path="/orderreceive" component={Receive} />
