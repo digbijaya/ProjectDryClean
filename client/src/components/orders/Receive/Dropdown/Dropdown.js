@@ -10,7 +10,7 @@ export default class ClotheOptionsDropdown extends Component {
     this.state = {
       // selectValue: "Saree",
       clearable: true,
-      searchable: true,
+      searchable: false,
       errors: {}
     };
     this.setNewValue = this.setNewValue.bind(this);
@@ -53,8 +53,6 @@ export default class ClotheOptionsDropdown extends Component {
     var options = CLOTHECATEGORIES[this.props.type.toLowerCase()];
     const { errors } = this.state;
     return (
-
-
       <div className="section btn dropdown form-group col">
         <Select
           placeholder={this.props.type + "..."}
@@ -73,8 +71,6 @@ export default class ClotheOptionsDropdown extends Component {
           <div className="alert alert-danger">{errors.blankfieldmessage}</div>
         )}
       </div>
-
-
     );
   }
 }

@@ -11,7 +11,7 @@ import Select from "react-select";
 import PropTypes from "prop-types";
 import Tux from "../hoc/Tux";
 import "./react-select.css?external";
-import Saleslist from "./Saleslist";
+import SalesListTable from "./SalesListTable";
 import { withStyles, css } from "react-with-styles";
 const SHOPNAMES = require("../../data/shopnames");
 
@@ -201,7 +201,8 @@ class Reports extends Component {
           screenReaderInputMessage="Select from and to date"
         />
         <button onClick={this.onfetch}>Fetch</button>
-        <div>{salestats ? salestats[0].shopid : null}</div>
+        {/* <div>{salestats ? salestats[0].shopid : null}</div> */}
+        {salestats ? <SalesListTable salestats={salestats} /> : null}
       </Tux>
     );
   }

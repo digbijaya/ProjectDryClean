@@ -187,7 +187,7 @@ class Receive extends Component {
               className={classnames("form-control", {
                 "is-invalid": errors.mobilenumber
               })}
-              type="text"
+              type="number"
               name="mobilenumber"
               value={this.state.user["mobilenumber"]}
               onChange={this.onUserChange}

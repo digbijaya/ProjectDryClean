@@ -1,5 +1,6 @@
 import React from "react";
 import Tux from "../hoc/Tux";
+import ReactTable from "react-table";
 
 const saleslist = props => (
   <Tux>
@@ -15,7 +16,7 @@ const saleslist = props => (
                 <th>{props.salestats[1] ? props.salestats[1].shopid : null}</th>
               </tr>
             </thead>
-            <tbody>
+            {/* <tbody>
               {props.salestats
                 ? props.salestats.map(daydetails => (
                     <tr key={daydetails._id}>
@@ -28,6 +29,24 @@ const saleslist = props => (
                     </tr>
                   ))
                 : null}
+            </tbody> */}
+            <tbody>
+              {Object.keys(props.salestats).map(daydetails => {
+                let total;
+                return (
+                  <tr key={daydetails._id}>
+                    <td>{daydetails.shopid}</td>
+                    <td>{daydetails.orderids}</td>
+                    {/* {Object.keys(daydetails.orderids).map(orderid => {
+                      total = total + Math.trunc(orderid.totalprice);
+                    })} */}
+                    {/* {daydetails.orderids.map(orderid => {
+                      total = total + Math.trunc(orderid.totalprice);
+                    })} */}
+                    {/* <td>{props.total}</td> */}
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
